@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Bookshelf</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">My books</string>
+    <string name="title_dashboard">Reading list</string>
+    <string name="title_notifications">Libraries</string>
 </resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kirjahylly</string>
+    <string name="title_dashboard">Lukulista</string>
+    <string name="title_home">Kirjat</string>
+    <string name="title_notifications">Kirjastot</string>
+</resources>
