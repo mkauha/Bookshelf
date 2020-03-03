@@ -1,27 +1,24 @@
-package fi.mkauha.bookshelf.ui.home;
+package fi.mkauha.bookshelf.ui.books;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import fi.mkauha.bookshelf.R;
 
-public class HomeFragment extends Fragment {
+public class BooksFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private BooksViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+                ViewModelProviders.of(this).get(BooksViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 /*        final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(this, new Observer<String>() {
