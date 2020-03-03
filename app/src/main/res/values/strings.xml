@@ -3,4 +3,5 @@
     <string name="title_home">My books</string>
     <string name="title_dashboard">Reading list</string>
     <string name="title_notifications">Libraries</string>
+    <string name="cover_description">Cover image</string>
 </resources>
