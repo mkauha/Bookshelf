@@ -1,15 +1,17 @@
 package fi.mkauha.bookshelf.items;
 
-public class BookItem {
+import java.io.Serializable;
+
+public class BookItem implements Serializable {
     private int bookID;
-    private String name;
+    private String title;
     private String author;
     private String genre;
     private String tag;
 
     public BookItem(int bookID, String name, String author, String genre, String tag) {
         this.bookID = bookID;
-        this.name = name;
+        this.title = name;
         this.author = author;
         this.genre = genre;
         this.tag = tag;
@@ -24,11 +26,11 @@ public class BookItem {
     }
 
     public String getName() {
-        return name;
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {
@@ -57,6 +59,6 @@ public class BookItem {
 
     @Override
     public String toString() {
-        return name;
+        return title;
     }
 }
