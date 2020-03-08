@@ -23,12 +23,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
 
-        public TextView textView;
+        public TextView bookTitle;
+        public TextView bookAuthor;
         public ImageView imageView;
 
         public MyViewHolder(View v) {
             super(v);
-            textView = (TextView) v.findViewById(R.id.book_name);
+            bookTitle = (TextView) v.findViewById(R.id.book_name);
+            bookAuthor = (TextView) v.findViewById(R.id.book_author);
             imageView = (ImageView) v.findViewById(R.id.book_cover);
         }
     }
@@ -57,7 +59,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         // - replace the contents of the view with that element
         Resources res = holder.itemView.getContext().getResources();
         BookItem bookItem = moviesList.get(position);
-        holder.textView.setText(bookItem.getName());
+        holder.bookTitle.setText(bookItem.getName());
+        holder.bookAuthor.setText(bookItem.getAuthor());
         //holder.imageView.setImageDrawable(res.getDrawable(bookItem.getBookID()));
 
     }
