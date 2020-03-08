@@ -4,4 +4,5 @@
     <string name="title_dashboard">Reading list</string>
     <string name="title_notifications">Libraries</string>
     <string name="cover_description">Cover image</string>
+    <string name="add_book">Add</string>
 </resources>
