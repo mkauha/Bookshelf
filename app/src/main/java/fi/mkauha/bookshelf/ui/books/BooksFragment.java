@@ -1,5 +1,6 @@
 package fi.mkauha.bookshelf.ui.books;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.items.BookItem;
+import fi.mkauha.bookshelf.ui.dialogs.AddBookActivity;
 
 public class BooksFragment extends Fragment {
 
@@ -89,8 +91,9 @@ public class BooksFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if(item.getItemId() == R.id.add_book) {
-            Toast.makeText(getActivity(), "Add book", Toast.LENGTH_LONG).show();
-            // TODO call book add activity
+            //Toast.makeText(getActivity(), "Add book", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getActivity(), AddBookActivity.class);
+            startActivity(intent);
         }
         return false;
     }
