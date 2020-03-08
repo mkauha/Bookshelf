@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import fi.mkauha.bookshelf.R;
@@ -61,8 +63,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         BookItem bookItem = moviesList.get(position);
         holder.bookTitle.setText(bookItem.getName());
         holder.bookAuthor.setText(bookItem.getAuthor());
-        //holder.imageView.setImageDrawable(res.getDrawable(bookItem.getBookID()));
 
+        //TODO correct placeholder images
+        Picasso.get()
+                .load(bookItem.getImageID())
+                .resize(500, 700)
+                .centerCrop()
+                .placeholder(R.drawable.temp_cover_1)
+                .into(holder.imageView);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
