@@ -2,8 +2,12 @@ package fi.mkauha.bookshelf.ui.books;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -46,13 +50,22 @@ public class BooksFragment extends Fragment {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-
+        setHasOptionsMenu(true);
         // this is data fro recycler view
         List itemsArray = new ArrayList();
         itemsArray.add(new BookItem(R.drawable.temp_cover_1, "Book Cover", "none", "none", "none"));
         itemsArray.add(new BookItem(R.drawable.temp_cover_2, "1984", "none", "none", "none"));
         itemsArray.add(new BookItem(R.drawable.temp_cover_3, "The Jungle Book", "none", "none", "none"));
         itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "none", "none", "none"));
+        itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "none", "none", "none"));
+        itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "none", "none", "none"));
+        itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "none", "none", "none"));
+        itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "none", "none", "none"));
+        itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "none", "none", "none"));
+        itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "none", "none", "none"));
+        itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "none", "none", "none"));
+        itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "none", "none", "none"));
+
 
         // specify an adapter (see also next example)
         mAdapter = new BooksAdapter(itemsArray);
@@ -60,4 +73,26 @@ public class BooksFragment extends Fragment {
 
         return root;
     }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem m1 = menu.findItem(R.id.add_book);
+        m1.setEnabled(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.top_main_menu, menu);
+    }
+    // When menu item is selected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.add_book) {
+            Toast.makeText(getActivity(), "Add book", Toast.LENGTH_LONG).show();
+            // TODO call book add activity
+        }
+        return false;
+    }
+
 }
