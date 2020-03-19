@@ -17,7 +17,7 @@ import fi.mkauha.bookshelf.items.BookItem;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder> {
 
-    private List<BookItem> moviesList;
+    private List<BookItem> booksList;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -38,8 +38,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public BooksAdapter(List<BookItem> moviesList) {
-        this.moviesList = moviesList;
+    public BooksAdapter(List<BookItem> booksList) {
+        this.booksList = booksList;
+    }
+
+    public void setBooksList(List<BookItem> booksList) {
+        this.booksList = booksList;
     }
 
     // Create new views (invoked by the layout manager)
@@ -60,13 +64,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Resources res = holder.itemView.getContext().getResources();
-        BookItem bookItem = moviesList.get(position);
+        BookItem bookItem = booksList.get(position);
         holder.bookTitle.setText(bookItem.getName());
         holder.bookAuthor.setText(bookItem.getAuthor());
 
         //TODO correct placeholder images
         Picasso.get()
-                .load(bookItem.getImageID())
+                .load(bookItem.getImgURL())
                 .resize(500, 700)
                 .centerCrop()
                 .placeholder(R.drawable.temp_cover_1)
@@ -76,6 +80,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return moviesList.size();
+        return booksList.size();
     }
 }
