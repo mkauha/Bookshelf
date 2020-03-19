@@ -17,11 +17,12 @@ public class AddBookActivity extends AppCompatActivity {
     private String title = "-";
     private String author = "-";
     private String genre = "-";
-    private String tag = "-";
+    private String imgURL = "-";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.add_book);
         setContentView(R.layout.activity_add_book);
     }
 
@@ -29,16 +30,16 @@ public class AddBookActivity extends AppCompatActivity {
         EditText etTitle = findViewById(R.id.et_book_title);
         EditText etAuthor = findViewById(R.id.et_book_author);
         EditText etGenre = findViewById(R.id.et_book_genre);
-        EditText etTag = findViewById(R.id.et_book_tag);
+        EditText etImageURL = findViewById(R.id.et_book_imgURL);
 
         title = etTitle.getText().toString();
         author = etAuthor.getText().toString();
         genre = etGenre.getText().toString();
-        tag = etTag.getText().toString();
+        imgURL = etImageURL.getText().toString();
 
         // TODO unique id generation
         // TODO don't allow empty title and author
-        BookItem bookItem = new BookItem(1, title, author, genre, tag);
+        BookItem bookItem = new BookItem(1, title, author, genre, imgURL);
 
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
         Intent intentUpdate = new Intent("AddBookActivity");
