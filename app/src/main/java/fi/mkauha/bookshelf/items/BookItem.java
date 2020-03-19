@@ -8,7 +8,7 @@ public class BookItem implements Serializable {
     private String title;
     private String author;
     private String genre;
-    private String tag;
+    private String imgURL;
 
     public BookItem(int imageID, String title, String author) {
         //this.bookID = bookID;
@@ -20,9 +20,9 @@ public class BookItem implements Serializable {
         this(imageID, title, author);
         this.genre = genre;
     }
-    public BookItem(int imageID, String title, String author, String genre, String tag) {
+    public BookItem(int imageID, String title, String author, String genre, String imgURL) {
         this(imageID, title, author, genre);
-        this.tag = tag;
+        this.imgURL = imgURL;
     }
 
 
@@ -74,12 +74,12 @@ public class BookItem implements Serializable {
         this.genre = genre;
     }
 
-    public String getTag() {
-        return tag;
+    public String getImgURL() {
+        return imgURL;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
     @Override

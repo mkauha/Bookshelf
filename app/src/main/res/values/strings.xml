@@ -4,9 +4,9 @@
     <string name="title_dashboard">Reading list</string>
     <string name="title_notifications">Libraries</string>
     <string name="cover_description">Cover image</string>
-    <string name="add_book">Add</string>
+    <string name="add_book">Add a book</string>
     <string name="book_title">Title</string>
     <string name="book_author">Author</string>
     <string name="book_genre">Genre</string>
-    <string name="book_tag">Tag</string>
+    <string name="book_img_url">Image URL</string>
 </resources>
