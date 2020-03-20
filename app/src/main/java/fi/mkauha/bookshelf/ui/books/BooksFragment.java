@@ -5,16 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,45 +37,53 @@ public class BooksFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    List itemsArray;
+    private List<BookItem> bookList;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(BooksViewModel.class);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        homeViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
+
+        // this is data for recycler view
+        //TODO get items from file
+        bookList = new ArrayList<>();
+        if(bookList.isEmpty()) {
+            bookList.add(new BookItem(R.drawable.temp_cover_1, "Book Title", "John McWriter", "none", "R.drawable.temp_cover_1"));
+            bookList.add(new BookItem(R.drawable.temp_cover_2, "1984", "George Orwell", "none", "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg"));
+            bookList.add(new BookItem(R.drawable.temp_cover_3, "The Jungle Book", "Rudyard Kipling", "none", "https://i.pinimg.com/736x/d8/10/eb/d810eb142803834fa37e3ec84353ab49--the-jungle-book-book-cover-jungle-book-poster.jpg"));
+            bookList.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "Kyril Bonfiglioli", "none", "https://i1.wp.com/www.casualoptimist.com/wp-content/uploads/2014/06/9780241970270.jpg"));
+            homeViewModel.setBookList(bookList);
+        }
+
+
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_books, container, false);
-/*        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
+
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver, new IntentFilter("AddBookActivity"));
+
         recyclerView = (RecyclerView) root.findViewById(R.id.books_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         setHasOptionsMenu(true);
-        // this is data fro recycler view
-
-        //TODO get items from file
-        itemsArray = new ArrayList();
-        itemsArray.add(new BookItem(R.drawable.temp_cover_1, "Book Title", "John McWriter", "none", "none"));
-        itemsArray.add(new BookItem(R.drawable.temp_cover_2, "1984", "George Orwell", "none", "none"));
-        itemsArray.add(new BookItem(R.drawable.temp_cover_3, "The Jungle Book", "Rudyard Kipling", "none", "none"));
-        itemsArray.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "Kyril Bonfiglioli", "none", "none"));
-
 
         // specify an adapter (see also next example)
-        mAdapter = new BooksAdapter(itemsArray);
+        mAdapter = new BooksAdapter(bookList);
         recyclerView.setAdapter(mAdapter);
+
+        homeViewModel.getBookList().observe(getViewLifecycleOwner(),
+            list -> {
+                this.bookList = list;
+                mAdapter.notifyItemInserted(mAdapter.getItemCount());
+                mAdapter.notifyDataSetChanged();
+            // https://stackoverflow.com/questions/26635841/recyclerview-change-data-set
+            //mAdapter.notifyDataSetChanged();
+            //recyclerView.setAdapter(mAdapter); }
+                Log.d("homeViewModel", "fetch"); }
+        );
 
         return root;
     }
@@ -83,17 +94,19 @@ public class BooksFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d("BooksFragment", "onReceive");
             Bundle bundle = intent.getExtras();
             BookItem item = (BookItem) bundle.getSerializable("BOOK_ITEM");
             addListItem(item);
+            homeViewModel.setBookList(bookList);
             recyclerView.smoothScrollToPosition(recyclerView.getAdapter().getItemCount() -1);
         }
     };
 
     private void addListItem(BookItem item) {
         //TODO add to file and read file
-        itemsArray.add(item);
-
+        bookList.add(item);
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
