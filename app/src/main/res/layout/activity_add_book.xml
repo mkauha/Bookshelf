@@ -4,7 +4,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/editDialog_bookTitle"
+        android:id="@+id/addDialog_bookTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
@@ -16,7 +16,7 @@
         android:importantForAutofill="no" />
 
     <EditText
-        android:id="@+id/editDialog_bookAuthor"
+        android:id="@+id/addDialog_bookAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
@@ -29,7 +29,7 @@
         android:importantForAutofill="no" />
 
     <EditText
-        android:id="@+id/editDialog_bookGenre"
+        android:id="@+id/addDialog_bookGenre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
@@ -42,7 +42,7 @@
         android:importantForAutofill="no" />
 
     <EditText
-        android:id="@+id/editDialog_imgURL"
+        android:id="@+id/addDialog_bookImgURL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"

@@ -27,10 +27,10 @@ public class AddBookActivity extends AppCompatActivity {
     }
 
     public void onClickAdd(View view) {
-        EditText etTitle = findViewById(R.id.et_book_title);
-        EditText etAuthor = findViewById(R.id.et_book_author);
-        EditText etGenre = findViewById(R.id.et_book_genre);
-        EditText etImageURL = findViewById(R.id.et_book_imgURL);
+        EditText etTitle = findViewById(R.id.addDialog_bookTitle);
+        EditText etAuthor = findViewById(R.id.addDialog_bookAuthor);
+        EditText etGenre = findViewById(R.id.addDialog_bookGenre);
+        EditText etImageURL = findViewById(R.id.addDialog_bookImgURL);
 
         title = etTitle.getText().toString();
         author = etAuthor.getText().toString();
