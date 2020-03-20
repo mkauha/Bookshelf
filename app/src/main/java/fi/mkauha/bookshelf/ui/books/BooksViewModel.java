@@ -1,19 +1,27 @@
 package fi.mkauha.bookshelf.ui.books;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
+import fi.mkauha.bookshelf.items.BookItem;
+
 public class BooksViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<List<BookItem>> bookList = new MutableLiveData<>();
 
-    public BooksViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+    public void setBookList(List bookList) {
+        Log.d("BooksViewModel", "setBookList");
+        this.bookList.setValue(bookList);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<BookItem>> getBookList() {
+        Log.d("BooksViewModel", "getBookList");
+        return bookList;
     }
+
 }
