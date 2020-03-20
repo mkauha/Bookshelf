@@ -1,5 +1,7 @@
 package fi.mkauha.bookshelf.ui.books;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -16,6 +20,7 @@ import java.util.List;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.items.BookItem;
+import fi.mkauha.bookshelf.ui.dialogs.EditBookActivity;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder> {
 
@@ -31,7 +36,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_book, parent, false);
-
         MyViewHolder viewHolder = new MyViewHolder(view);
         return viewHolder;
     }
@@ -56,11 +60,19 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         public TextView bookAuthor;
         public ImageView imageView;
 
-        public MyViewHolder(View v) {
-            super(v);
-            bookTitle = (TextView) v.findViewById(R.id.book_name);
-            bookAuthor = (TextView) v.findViewById(R.id.book_author);
-            imageView = (ImageView) v.findViewById(R.id.book_cover);
+        public MyViewHolder(View view) {
+            super(view);
+            bookTitle = (TextView) view.findViewById(R.id.book_name);
+            bookAuthor = (TextView) view.findViewById(R.id.book_author);
+            imageView = (ImageView) view.findViewById(R.id.book_cover);
+
+            view.setOnClickListener(v -> {
+                int pos = getAdapterPosition();
+                Context context = view.getContext();
+                //Toast.makeText(context,"Pos: " + pos,Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, EditBookActivity.class);
+                context.startActivity(intent);
+            });
         }
         public void bindBookItem(BookItem bookItem) {
             Log.d("BookAdapter", "bindBookItem");
