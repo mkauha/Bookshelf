@@ -29,6 +29,7 @@ import java.util.List;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.items.BookItem;
 import fi.mkauha.bookshelf.ui.dialogs.AddBookActivity;
+import fi.mkauha.bookshelf.ui.dialogs.EditBookActivity;
 
 public class BooksFragment extends Fragment {
 
@@ -126,7 +127,8 @@ public class BooksFragment extends Fragment {
         super.onOptionsItemSelected(item);
         if(item.getItemId() == R.id.add_book) {
             //Toast.makeText(getActivity(), "Add book", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getActivity(), AddBookActivity.class);
+            Intent intent = new Intent(getActivity(), EditBookActivity.class);
+            intent.putExtra("Action", "ADD");
             startActivity(intent);
         }
         return false;

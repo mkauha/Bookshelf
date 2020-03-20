@@ -71,6 +71,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
                 Context context = view.getContext();
                 //Toast.makeText(context,"Pos: " + pos,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, EditBookActivity.class);
+                intent.putExtra("Action", "EDIT");
                 context.startActivity(intent);
             });
         }
