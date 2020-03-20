@@ -16,9 +16,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +26,6 @@ import java.util.List;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.items.BookItem;
-import fi.mkauha.bookshelf.ui.dialogs.AddBookActivity;
 import fi.mkauha.bookshelf.ui.dialogs.EditBookActivity;
 
 public class BooksFragment extends Fragment {

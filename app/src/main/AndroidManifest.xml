@@ -20,10 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ui.dialogs.AddBookActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
         <activity android:name=".ui.dialogs.EditBookActivity"
             android:theme="@style/Theme.NoTitleActivityDialog" />
     </application>
