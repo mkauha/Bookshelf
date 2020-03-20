@@ -35,6 +35,6 @@
         android:contentDescription="@string/cover_description"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        app:srcCompat="@drawable/temp_cover_4" />
+        app:srcCompat="@drawable/temp_cover_1" />
 
 </RelativeLayout>
