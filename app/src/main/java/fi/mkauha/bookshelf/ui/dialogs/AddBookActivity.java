@@ -37,8 +37,13 @@ public class AddBookActivity extends AppCompatActivity {
         genre = etGenre.getText().toString();
         imgURL = etImageURL.getText().toString();
 
+
+
         // TODO unique id generation
         // TODO don't allow empty title and author
+          if(imgURL == null || imgURL.equals("")) {
+              imgURL = "placeholder";
+          }
         BookItem bookItem = new BookItem(1, title, author, genre, imgURL);
 
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
