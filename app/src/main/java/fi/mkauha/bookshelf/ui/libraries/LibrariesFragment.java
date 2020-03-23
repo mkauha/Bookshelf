@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.ui.home;
+package fi.mkauha.bookshelf.ui.libraries;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import fi.mkauha.bookshelf.R;
 
-public class HomeFragment extends Fragment {
+public class LibrariesFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private LibrariesViewModel notificationsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
+        notificationsViewModel =
+                ViewModelProviders.of(this).get(LibrariesViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_libraries, container, false);
+        final TextView textView = root.findViewById(R.id.text_notifications);
+        notificationsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
