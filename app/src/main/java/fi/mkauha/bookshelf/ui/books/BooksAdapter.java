@@ -2,15 +2,14 @@ package fi.mkauha.bookshelf.ui.books;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -22,29 +21,38 @@ import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.items.BookItem;
 import fi.mkauha.bookshelf.ui.dialogs.EditBookActivity;
 
-public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder> {
+public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> {
 
-    private List<BookItem> booksList;
+    private List<BookItem> booksList =  new ArrayList<>();
 
-    public BooksAdapter(List<BookItem> booksList) {
+
+/*    public BooksAdapter(List<BookItem> booksList) {
         this.booksList = booksList;
-    }
+    }*/
 
     // Create new views (invoked by the layout manager)
     @Override
-    public BooksAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_book, parent, false);
-        MyViewHolder viewHolder = new MyViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(BooksAdapter.MyViewHolder holder, int position) {
-        holder.bindBookItem(booksList.get(position));
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        BookItem currentBook = booksList.get(position);
+        holder.bookTitle.setText(currentBook.getTitle());
+        holder.bookAuthor.setText(currentBook.getTitle());
+        //holder.bookGenre.setText(currentBook.getTitle());
+        Picasso.get()
+                .load(currentBook.getImgURL())
+                .resize(500, 700)
+                .centerCrop()
+                .placeholder(R.drawable.temp_cover_1)
+                .into(holder.bookImageView);
     }
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
@@ -52,20 +60,23 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         return booksList.size();
     }
 
+    public void setBooksList(List<BookItem> booksList) {
+        this.booksList = booksList;
+        notifyDataSetChanged();
+    }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
 
-        public TextView bookTitle;
-        public TextView bookAuthor;
-        public ImageView imageView;
+        public TextView bookTitle, bookAuthor, bookGenre;
+        public ImageView bookImageView;
 
-        public MyViewHolder(View view) {
+        public ViewHolder(View view) {
             super(view);
             bookTitle = (TextView) view.findViewById(R.id.book_name);
             bookAuthor = (TextView) view.findViewById(R.id.book_author);
-            imageView = (ImageView) view.findViewById(R.id.book_cover);
-
+            //bookGenre  = (TextView) view.findViewById(R.id.book_genre);
+            bookImageView = (ImageView) view.findViewById(R.id.book_cover);
             view.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 Context context = view.getContext();
@@ -78,18 +89,11 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.MyViewHolder
         public void bindBookItem(BookItem bookItem) {
             Log.d("BookAdapter", "bindBookItem");
             //bookItem = booksList.get(position);
-            bookTitle.setText(bookItem.getName());
+            bookTitle.setText(bookItem.getTitle());
             bookAuthor.setText(bookItem.getAuthor());
-
-            //TODO correct placeholder images
-            Picasso.get()
-                    .load(bookItem.getImgURL())
-                    .resize(500, 700)
-                    .centerCrop()
-                    .placeholder(R.drawable.temp_cover_1)
-                    .into(imageView);
         }
-
+        public interface OnItemClickListener {
+            void onItemClick(View view, ViewModel viewModel);
+        }
     }
-
 }
