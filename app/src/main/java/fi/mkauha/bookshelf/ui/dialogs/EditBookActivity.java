@@ -25,6 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.items.BookItem;
+import fi.mkauha.bookshelf.ui.books.BooksViewModel;
 
 public class EditBookActivity extends AppCompatActivity {
 
@@ -110,17 +111,11 @@ public class EditBookActivity extends AppCompatActivity {
         finish();
     }
     public void addNewBook(View view) {
-/*        EditText etTitle = findViewById(R.id.addDialog_bookTitle);
-        EditText etAuthor = findViewById(R.id.addDialog_bookAuthor);
-        EditText etGenre = findViewById(R.id.addDialog_bookGenre);
-        EditText etImageURL = findViewById(R.id.addDialog_bookImgURL);*/
-
+        Log.d("EditBookActivity", "addNewBook");
         title = etTitle.getText().toString();
         author = etAuthor.getText().toString();
         genre = etGenre.getText().toString();
         imgURL = etImgURL.getText().toString();
-
-
 
         // TODO unique id generation
         // TODO don't allow empty title and author
@@ -135,12 +130,10 @@ public class EditBookActivity extends AppCompatActivity {
         bundle.putSerializable("BOOK_ITEM", bookItem);
         intentUpdate.putExtras(bundle);
         manager.sendBroadcast(intentUpdate);
-
-        finish();
     }
 
     public void onClickEdit(View view) {
-        Log.d("onClickEdit", "clicked");
+        Log.d("EditBookActivity", "onClickEdit");
         if (editable) {
             disableEditing();
         } else {
@@ -193,8 +186,6 @@ public class EditBookActivity extends AppCompatActivity {
     }
 
 }
-
-
 
 enum Action {
     EDIT, ADD
