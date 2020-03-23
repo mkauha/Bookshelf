@@ -1,5 +1,8 @@
 package fi.mkauha.bookshelf.items;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 public class BookItem implements Serializable {
@@ -24,8 +27,6 @@ public class BookItem implements Serializable {
         this(imageID, title, author, genre);
         this.imgURL = imgURL;
     }
-
-
     public int getBookID() {
         return bookID;
     }
@@ -47,14 +48,6 @@ public class BookItem implements Serializable {
     }
 
     public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getName() {
-        return title;
-    }
-
-    public void setName(String title) {
         this.title = title;
     }
 
