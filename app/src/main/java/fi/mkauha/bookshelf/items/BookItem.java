@@ -13,18 +13,17 @@ public class BookItem implements Serializable {
     private String genre;
     private String imgURL;
 
-    public BookItem(int imageID, String title, String author) {
-        //this.bookID = bookID;
-        this.imageID = imageID;
+    public BookItem(int bookID, String title, String author) {
+        this.bookID = bookID;
         this.title = title;
         this.author = author;
     }
-    public BookItem(int imageID, String title, String author, String genre) {
-        this(imageID, title, author);
+    public BookItem(int bookID, String title, String author, String genre) {
+        this(bookID, title, author);
         this.genre = genre;
     }
-    public BookItem(int imageID, String title, String author, String genre, String imgURL) {
-        this(imageID, title, author, genre);
+    public BookItem(int bookID, String title, String author, String genre, String imgURL) {
+        this(bookID, title, author, genre);
         this.imgURL = imgURL;
     }
     public int getBookID() {
