@@ -33,6 +33,9 @@ import static fi.mkauha.bookshelf.ui.books.BooksFragment.SHARED_PREFS;
 
 public class EditBookActivity extends AppCompatActivity {
 
+    SharedPreferences prefs;
+    PreferencesUtilities prefsUtils;
+
     private Action currentAction;
 
     private boolean editable;
@@ -47,6 +50,9 @@ public class EditBookActivity extends AppCompatActivity {
     ColorFilter defaultColorFilter;
     Drawable defaultBackground;
 
+    BookItem bookItemInEdit;
+
+    private int id;
     private String title = "-";
     private String author = "-";
     private String genre = "-";
@@ -58,6 +64,9 @@ public class EditBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        prefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        prefsUtils = new PreferencesUtilities(prefs);
+
         if(getIntent().getStringExtra("Action").equals("ADD")) {
             setTitle(R.string.add_book);
             currentAction = Action.ADD;
@@ -65,9 +74,7 @@ public class EditBookActivity extends AppCompatActivity {
             setTitle(R.string.edit_book);
             currentAction = Action.EDIT;
             Intent intent = getIntent();
-            title = intent.getStringExtra("Title");
-            author = intent.getStringExtra("Author");
-            imgURL = intent.getStringExtra("ImgURL");
+            id = intent.getIntExtra("ID", -1);
             position = intent.getIntExtra("Position", 0);
         }
 
@@ -91,11 +98,13 @@ public class EditBookActivity extends AppCompatActivity {
             okButton.setText(R.string.add_book);
         } else {
             disableEditing();
-            etTitle.setText(title);
-            etAuthor.setText(author);
-            etImgURL.setText(imgURL);
+            bookItemInEdit = prefsUtils.getOne(MY_BOOKS_KEY, this.id);
+            etTitle.setText(bookItemInEdit.getTitle());
+            etAuthor.setText(bookItemInEdit.getAuthor());
+            etGenre.setText(bookItemInEdit.getGenre());
+            etImgURL.setText(bookItemInEdit.getImgURL());
             Picasso.get()
-                    .load(imgURL)
+                    .load(bookItemInEdit.getImgURL())
                     .resize(500, 700)
                     .centerCrop()
                     .placeholder(R.drawable.temp_cover_1)
@@ -122,34 +131,47 @@ public class EditBookActivity extends AppCompatActivity {
 
     public void onClickOK(View view) {
         // TODO save changes
-        addNewBook(view);
-/*        if(currentAction == Action.ADD) {
-            addNewBook(view);
+        //addNewBook(view);
+        if(currentAction == Action.ADD) {
+            addNewBook();
         } else {
-            //updateBook(view) {
-        }*/
+            updateBook();
+        }
         finish();
     }
-    public void addNewBook(View view) {
+    public void addNewBook() {
         Log.d("EditBookActivity", "addNewBook");
         title = etTitle.getText().toString();
         author = etAuthor.getText().toString();
         genre = etGenre.getText().toString();
         imgURL = etImgURL.getText().toString();
 
-        // TODO unique id generation
         // TODO don't allow empty title and author
         if(imgURL == null || imgURL.equals("")) {
             imgURL = "placeholder";
         }
         BookItem bookItem = new BookItem(IDGenerator.generate(), title, author, genre, imgURL);
-        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        PreferencesUtilities prefsUtils = new PreferencesUtilities(prefs);
         prefsUtils.putOne(MY_BOOKS_KEY, bookItem);
     }
 
     public void updateBook() {
+        Log.d("EditBookActivity", "updateBook");
+        title = etTitle.getText().toString();
+        author = etAuthor.getText().toString();
+        genre = etGenre.getText().toString();
+        imgURL = etImgURL.getText().toString();
 
+        // TODO don't allow empty title and author
+        if(imgURL == null || imgURL.equals("")) {
+            imgURL = "placeholder";
+        }
+        bookItemInEdit.setTitle(title);
+        bookItemInEdit.setAuthor(author);
+        bookItemInEdit.setGenre(genre);
+        bookItemInEdit.setImgURL(imgURL);
+
+        boolean updated = prefsUtils.updateOne(MY_BOOKS_KEY, bookItemInEdit);
+        Log.d("EditBookActivity", "updateBook: " + updated);
     }
 
     public void onClickEdit(View view) {
