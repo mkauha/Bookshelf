@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class BookItem implements Serializable {
     private int bookID;
     private int imageID;
-    private int bookmark;
+    private String bookmark;
     private String title;
     private String author;
     private String genre;
@@ -43,11 +43,11 @@ public class BookItem implements Serializable {
         this.imageID = imageID;
     }
 
-    public int getBookmark() {
+    public String getBookmark() {
         return bookmark;
     }
 
-    public void setBookmark(int bookmark) {
+    public void setBookmark(String bookmark) {
         this.bookmark = bookmark;
     }
 

@@ -20,6 +20,7 @@
         android:layout_alignBottom="@id/editDialog_imageView"
         android:layout_alignParentEnd="false"
         android:layout_toEndOf="@id/editDialog_imageView"
+        android:cursorVisible="false"
         android:drawableStart="@drawable/ic_bookmark"
         android:inputType="number"
         android:paddingLeft="10dp"

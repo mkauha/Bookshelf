@@ -45,6 +45,7 @@ public class EditBookActivity extends AppCompatActivity {
     EditText etAuthor;
     EditText etGenre;
     EditText etImgURL;
+    EditText etBookmark;
     ImageButton editButton;
     Button okButton;
     ColorFilter defaultColorFilter;
@@ -53,6 +54,7 @@ public class EditBookActivity extends AppCompatActivity {
     BookItem bookItemInEdit;
 
     private int id;
+    private String bookmark;
     private String title = "-";
     private String author = "-";
     private String genre = "-";
@@ -86,6 +88,7 @@ public class EditBookActivity extends AppCompatActivity {
         etGenre = findViewById(R.id.editDialog_bookGenre);
         etGenre = findViewById(R.id.editDialog_bookGenre);
         etImgURL = findViewById(R.id.editDialog_bookImageURL);
+        etBookmark = findViewById(R.id.editDialog_bookmark);
         editButton = findViewById(R.id.editDialog_editBookButton);
         okButton = findViewById(R.id.editDialog_okButton);
 
@@ -103,6 +106,7 @@ public class EditBookActivity extends AppCompatActivity {
             etAuthor.setText(bookItemInEdit.getAuthor());
             etGenre.setText(bookItemInEdit.getGenre());
             etImgURL.setText(bookItemInEdit.getImgURL());
+            etBookmark.setText(bookItemInEdit.getBookmark());
             Picasso.get()
                     .load(bookItemInEdit.getImgURL())
                     .resize(500, 700)
@@ -160,6 +164,7 @@ public class EditBookActivity extends AppCompatActivity {
         author = etAuthor.getText().toString();
         genre = etGenre.getText().toString();
         imgURL = etImgURL.getText().toString();
+        bookmark = etBookmark.getText().toString();
 
         // TODO don't allow empty title and author
         if(imgURL == null || imgURL.equals("")) {
@@ -169,6 +174,7 @@ public class EditBookActivity extends AppCompatActivity {
         bookItemInEdit.setAuthor(author);
         bookItemInEdit.setGenre(genre);
         bookItemInEdit.setImgURL(imgURL);
+        bookItemInEdit.setBookmark(bookmark);
 
         boolean updated = prefsUtils.updateOne(MY_BOOKS_KEY, bookItemInEdit);
         Log.d("EditBookActivity", "updateBook: " + updated);
@@ -200,6 +206,11 @@ public class EditBookActivity extends AppCompatActivity {
         etGenre.setEnabled(true);
         etGenre.setBackground(defaultBackground);
 
+        etBookmark.setFocusableInTouchMode(true);
+        etBookmark.setFocusable(true);
+        etBookmark.setEnabled(true);
+        etBookmark.setBackground(defaultBackground);
+
         etImgURL.setVisibility(View.VISIBLE);
 
         editable = true;
@@ -223,6 +234,11 @@ public class EditBookActivity extends AppCompatActivity {
         etGenre.setBackground(null);
 
         etImgURL.setVisibility(View.GONE);
+
+        etBookmark.setFocusableInTouchMode(false);
+        etBookmark.setFocusable(false);
+        etBookmark.setEnabled(false);
+        etBookmark.setBackground(null);
 
         editable = false;
     }
