@@ -20,13 +20,12 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.squareup.picasso.Picasso;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.items.BookItem;
-import fi.mkauha.bookshelf.ui.books.BooksViewModel;
+import fi.mkauha.bookshelf.util.IDGenerator;
 import fi.mkauha.bookshelf.util.PreferencesUtilities;
 
 import static fi.mkauha.bookshelf.ui.books.BooksFragment.MY_BOOKS_KEY;
@@ -143,7 +142,7 @@ public class EditBookActivity extends AppCompatActivity {
         if(imgURL == null || imgURL.equals("")) {
             imgURL = "placeholder";
         }
-        BookItem bookItem = new BookItem(1, title, author, genre, imgURL);
+        BookItem bookItem = new BookItem(IDGenerator.generate(), title, author, genre, imgURL);
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         PreferencesUtilities prefsUtils = new PreferencesUtilities(prefs);
         prefsUtils.putOne(MY_BOOKS_KEY, bookItem);

@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.items.BookItem;
+import fi.mkauha.bookshelf.util.IDGenerator;
 import fi.mkauha.bookshelf.util.PreferencesUtilities;
 
 import static fi.mkauha.bookshelf.ui.books.BooksFragment.MY_BOOKS_KEY;
@@ -55,10 +55,10 @@ public class BooksViewModel extends ViewModel implements SharedPreferences.OnSha
     public void loadDummyBooks() {
         Log.d("BooksViewModel", "loadBooks");
         if(repository.isEmpty()) {
-            repository.add(new BookItem(R.drawable.temp_cover_1, "Book Title", "John McWriter", "none", "R.drawable.temp_cover_1"));
-            repository.add(new BookItem(R.drawable.temp_cover_2, "1984", "George Orwell", "none", "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg"));
-            repository.add(new BookItem(R.drawable.temp_cover_3, "The Jungle Book", "Rudyard Kipling", "none", "https://i.pinimg.com/736x/d8/10/eb/d810eb142803834fa37e3ec84353ab49--the-jungle-book-book-cover-jungle-book-poster.jpg"));
-            repository.add(new BookItem(R.drawable.temp_cover_4, "Something Nasty In The Woodshed", "Kyril Bonfiglioli", "none", "https://i1.wp.com/www.casualoptimist.com/wp-content/uploads/2014/06/9780241970270.jpg"));
+            repository.add(new BookItem(IDGenerator.generate(), "Book Title", "John McWriter", "none", "R.drawable.temp_cover_1"));
+            repository.add(new BookItem(IDGenerator.generate(), "1984", "George Orwell", "none", "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg"));
+            repository.add(new BookItem(IDGenerator.generate(), "The Jungle Book", "Rudyard Kipling", "none", "https://i.pinimg.com/736x/d8/10/eb/d810eb142803834fa37e3ec84353ab49--the-jungle-book-book-cover-jungle-book-poster.jpg"));
+            repository.add(new BookItem(IDGenerator.generate(), "Something Nasty In The Woodshed", "Kyril Bonfiglioli", "none", "https://i1.wp.com/www.casualoptimist.com/wp-content/uploads/2014/06/9780241970270.jpg"));
         }
         myBooksLiveData.setValue(repository);
         Log.d("BooksViewModel", "loadBooks " + repository.size());
