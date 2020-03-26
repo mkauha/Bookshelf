@@ -1,6 +1,8 @@
 package fi.mkauha.bookshelf.ui.dialogs;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
@@ -14,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -26,6 +27,10 @@ import com.squareup.picasso.Picasso;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.items.BookItem;
 import fi.mkauha.bookshelf.ui.books.BooksViewModel;
+import fi.mkauha.bookshelf.util.PreferencesUtilities;
+
+import static fi.mkauha.bookshelf.ui.books.BooksFragment.MY_BOOKS_KEY;
+import static fi.mkauha.bookshelf.ui.books.BooksFragment.SHARED_PREFS;
 
 public class EditBookActivity extends AppCompatActivity {
 
@@ -47,6 +52,7 @@ public class EditBookActivity extends AppCompatActivity {
     private String author = "-";
     private String genre = "-";
     private String imgURL = "-";
+    private int position;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +65,11 @@ public class EditBookActivity extends AppCompatActivity {
         } else {
             setTitle(R.string.edit_book);
             currentAction = Action.EDIT;
+            Intent intent = getIntent();
+            title = intent.getStringExtra("Title");
+            author = intent.getStringExtra("Author");
+            imgURL = intent.getStringExtra("ImgURL");
+            position = intent.getIntExtra("Position", 0);
         }
 
         setContentView(R.layout.activity_edit_book);
@@ -81,6 +92,15 @@ public class EditBookActivity extends AppCompatActivity {
             okButton.setText(R.string.add_book);
         } else {
             disableEditing();
+            etTitle.setText(title);
+            etAuthor.setText(author);
+            etImgURL.setText(imgURL);
+            Picasso.get()
+                    .load(imgURL)
+                    .resize(500, 700)
+                    .centerCrop()
+                    .placeholder(R.drawable.temp_cover_1)
+                    .into(etImageView);
         }
 
         etImgURL.setOnEditorActionListener((v, actionId, event) -> {
@@ -103,11 +123,12 @@ public class EditBookActivity extends AppCompatActivity {
 
     public void onClickOK(View view) {
         // TODO save changes
-        if(currentAction == Action.ADD) {
+        addNewBook(view);
+/*        if(currentAction == Action.ADD) {
             addNewBook(view);
         } else {
             //updateBook(view) {
-        }
+        }*/
         finish();
     }
     public void addNewBook(View view) {
@@ -123,13 +144,13 @@ public class EditBookActivity extends AppCompatActivity {
             imgURL = "placeholder";
         }
         BookItem bookItem = new BookItem(1, title, author, genre, imgURL);
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        PreferencesUtilities prefsUtils = new PreferencesUtilities(prefs);
+        prefsUtils.putOne(MY_BOOKS_KEY, bookItem);
+    }
 
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
-        Intent intentUpdate = new Intent("AddBookActivity");
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("BOOK_ITEM", bookItem);
-        intentUpdate.putExtras(bundle);
-        manager.sendBroadcast(intentUpdate);
+    public void updateBook() {
+
     }
 
     public void onClickEdit(View view) {
