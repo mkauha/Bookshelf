@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -48,6 +47,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
         holder.bookAuthor.setText(currentBook.getAuthor());
         //holder.bookGenre.setText(currentBook.getTitle());
         holder.bookImageURL = currentBook.getImgURL();
+        holder.bookBookMarkText.setText(currentBook.getBookmark());
+        if(!currentBook.getBookmark().equals("")) {
+            holder.bookBookMarkIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.bookBookMarkIcon.setVisibility(View.INVISIBLE);
+        }
         Picasso.get()
                 .load(currentBook.getImgURL())
                 .resize(500, 700)
@@ -71,16 +76,18 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
     static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         int bookID;
-        public TextView bookTitle, bookAuthor, bookGenre;
-        public ImageView bookImageView;
+        public TextView bookTitle, bookAuthor, bookGenre, bookBookMarkText;
+        public ImageView bookImageView, bookBookMarkIcon;
         public String bookImageURL;
         int pos = getAdapterPosition();
 
         ViewHolder(View view) {
             super(view);
-            bookTitle = (TextView) view.findViewById(R.id.book_name);
-            bookAuthor = (TextView) view.findViewById(R.id.book_author);
-            bookImageView = (ImageView) view.findViewById(R.id.book_cover);
+            bookTitle = (TextView) view.findViewById(R.id.itemView_book_name);
+            bookAuthor = (TextView) view.findViewById(R.id.itemView_book_author);
+            bookImageView = (ImageView) view.findViewById(R.id.itemView_book_image);
+            bookBookMarkIcon = (ImageView) view.findViewById(R.id.itemView_book_bookmark_icon);
+            bookBookMarkText = (TextView) view.findViewById(R.id.itemView_book_bookmark_text);
             //bookGenre  = (TextView) view.findViewById(R.id.book_genre);
             view.setOnClickListener(v -> {
                 Context context = view.getContext();
