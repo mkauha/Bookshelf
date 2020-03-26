@@ -1,11 +1,9 @@
 package fi.mkauha.bookshelf.ui.books;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,32 +16,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.items.BookItem;
 import fi.mkauha.bookshelf.ui.dialogs.EditBookActivity;
 
 public class BooksFragment extends Fragment {
 
-    private BooksViewModel booksViewModel;
+    public static final String SHARED_PREFS = "bookshelf_preferences";
+    public static final String MY_BOOKS_KEY = "my_books";
+
     private RecyclerView recyclerView;
     private BooksAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
-    private List<BookItem> bookList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("BooksFragment", "onCreate " + this);
         super.onCreate(savedInstanceState);
         layoutManager = new LinearLayoutManager(getActivity());
-      //TODO get items from file
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,40 +43,28 @@ public class BooksFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_books, container, false);
         setHasOptionsMenu(true);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver, new IntentFilter("AddBookActivity"));
 
         recyclerView = (RecyclerView) root.findViewById(R.id.books_recycler_view);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
+        BooksViewModel booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
+        SharedPreferences prefs = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        booksViewModel.init(prefs);
 
         mAdapter = new BooksAdapter();
         recyclerView.setAdapter(mAdapter);
 
-
-        booksViewModel.getAllBooks().observe(getViewLifecycleOwner(),
+        booksViewModel.getMyBooksLiveData().observe(getViewLifecycleOwner(),
             list -> {
                 mAdapter.setBooksList(list);
                 mAdapter.notifyDataSetChanged();
-            // https://stackoverflow.com/questions/26635841/recyclerview-change-data-set
-                Log.d("observer", "Changed"); }
+                recyclerView.smoothScrollToPosition(mAdapter.getItemCount() -1);
+                Log.d("BooksFragment", "Observer changed"); }
         );
 
         return root;
     }
-
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d("BooksFragment", "onReceive " + this);
-            Bundle bundle = intent.getExtras();
-            BookItem bookItem = (BookItem) bundle.getSerializable("BOOK_ITEM");
-            //addListItem(item);
-            booksViewModel.insert(bookItem);
-            recyclerView.smoothScrollToPosition(recyclerView.getAdapter().getItemCount() -1);
-        }
-    };
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -110,4 +90,21 @@ public class BooksFragment extends Fragment {
         return false;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        //
+    }
+
+    @Override
+    public void onStop() {
+        Log.d("BooksFragment", "onPause");
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.d("BooksFragment", "onDestroyView");
+        super.onDestroyView();
+    }
 }
