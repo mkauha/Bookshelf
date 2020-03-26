@@ -43,8 +43,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         BookItem currentBook = booksList.get(position);
         holder.bookTitle.setText(currentBook.getTitle());
-        holder.bookAuthor.setText(currentBook.getTitle());
+        holder.bookAuthor.setText(currentBook.getAuthor());
         //holder.bookGenre.setText(currentBook.getTitle());
+        holder.bookImageURL = currentBook.getImgURL();
         Picasso.get()
                 .load(currentBook.getImgURL())
                 .resize(500, 700)
@@ -61,6 +62,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
     }
 
     public void setBooksList(List<BookItem> booksList) {
+        Log.d("BookAdapter", "setBooksList " + booksList.size());
         this.booksList = booksList;
         notifyDataSetChanged();
     }
@@ -70,30 +72,28 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
 
         public TextView bookTitle, bookAuthor, bookGenre;
         public ImageView bookImageView;
+        public String bookImageURL;
+        int pos = getAdapterPosition();
 
         public ViewHolder(View view) {
             super(view);
             bookTitle = (TextView) view.findViewById(R.id.book_name);
             bookAuthor = (TextView) view.findViewById(R.id.book_author);
-            //bookGenre  = (TextView) view.findViewById(R.id.book_genre);
             bookImageView = (ImageView) view.findViewById(R.id.book_cover);
+            //bookGenre  = (TextView) view.findViewById(R.id.book_genre);
             view.setOnClickListener(v -> {
-                int pos = getAdapterPosition();
+
                 Context context = view.getContext();
                 //Toast.makeText(context,"Pos: " + pos,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, EditBookActivity.class);
                 intent.putExtra("Action", "EDIT");
+                intent.putExtra("Title", bookTitle.getText());
+                intent.putExtra("Author", bookAuthor.getText());
+                intent.putExtra("ImgURL", bookImageURL);
+                intent.putExtra("Position", pos);
+                Log.d("BookAdapter", "onClick position " + pos);
                 context.startActivity(intent);
             });
-        }
-        public void bindBookItem(BookItem bookItem) {
-            Log.d("BookAdapter", "bindBookItem");
-            //bookItem = booksList.get(position);
-            bookTitle.setText(bookItem.getTitle());
-            bookAuthor.setText(bookItem.getAuthor());
-        }
-        public interface OnItemClickListener {
-            void onItemClick(View view, ViewModel viewModel);
         }
     }
 }
