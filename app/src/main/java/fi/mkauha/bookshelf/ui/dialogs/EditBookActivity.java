@@ -220,24 +220,24 @@ public class EditBookActivity extends AppCompatActivity {
         editButton.setColorFilter(defaultColorFilter);
         etTitle.setFocusableInTouchMode(false);
         etTitle.setFocusable(false);
-        etTitle.setEnabled(false);
+        //etTitle.setEnabled(false);
         etTitle.setBackground(null);
 
         etAuthor.setFocusableInTouchMode(false);
         etAuthor.setFocusable(false);
-        etAuthor.setEnabled(false);
+        //etAuthor.setEnabled(false);
         etAuthor.setBackground(null);
 
         etGenre.setFocusableInTouchMode(false);
         etGenre.setFocusable(false);
-        etGenre.setEnabled(false);
+        //etGenre.setEnabled(false);
         etGenre.setBackground(null);
 
         etImgURL.setVisibility(View.GONE);
 
         etBookmark.setFocusableInTouchMode(false);
         etBookmark.setFocusable(false);
-        etBookmark.setEnabled(false);
+        //etBookmark.setEnabled(false);
         etBookmark.setBackground(null);
 
         editable = false;
