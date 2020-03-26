@@ -18,6 +18,7 @@ public class BookItem implements Serializable {
         this.bookID = bookID;
         this.title = title;
         this.author = author;
+        this.bookmark = "";
     }
     public BookItem(int bookID, String title, String author, String genre) {
         this(bookID, title, author);
