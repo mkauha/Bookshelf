@@ -42,18 +42,47 @@ public class PreferencesUtilities {
         editor.apply();
     }
 
+    public BookItem getOne(String key, int id) {
+        BookItem rBook = null;
+        ArrayList<BookItem> bookItems = getAll(key);
+        for(BookItem book : bookItems) {
+            if(book.getBookID() == id) {
+                rBook = book;
+                break;
+            }
+        }
+        return rBook;
+    }
+
     public ArrayList<BookItem> getAll(String key) {
         ArrayList<BookItem> list = new ArrayList<>();
-        String json = "";
+        String json;
         Type listType = new TypeToken<ArrayList<BookItem>>(){}.getType();
-        Log.d("PreferencesUtilities", "getAll prefs: " + prefs.getAll().toString());
+        //Log.d("PreferencesUtilities", "getAll prefs: " + prefs.getAll().toString());
 
         if(prefs.contains(key)) {
             json = prefs.getString(key, "");
             list = gson.fromJson(json, listType);
-            //bookItem = gson.fromJson(json, BookItem.class);
             Log.d("PreferencesUtilities", "getAll key: " + key + " value: " + json);
         }
         return list;
+    }
+
+    public boolean updateOne(String key, BookItem updatedBookItem) {
+        boolean rBool = false;
+        ArrayList<BookItem> bookItems = getAll(key);
+
+        int i = 0;
+        for(BookItem book : bookItems) {
+            if(book.getBookID() == updatedBookItem.getBookID()) {
+                bookItems.set(i, updatedBookItem);
+                Log.d("PreferencesUtilities", "updateOne key: " + key + " value: " + updatedBookItem);
+                putAll(key, bookItems);
+                rBool = true;
+                break;
+            }
+            i++;
+        }
+        return rBool;
     }
 }
