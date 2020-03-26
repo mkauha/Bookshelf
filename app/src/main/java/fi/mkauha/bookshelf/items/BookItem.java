@@ -76,6 +76,6 @@ public class BookItem implements Serializable {
 
     @Override
     public String toString() {
-        return title;
+        return "ID: " + bookID + " Title: " + title;
     }
 }
