@@ -11,10 +11,12 @@
     <ImageView
         android:id="@+id/editDialog_imageView"
         android:layout_width="0dp"
-        android:layout_height="370dp"
+        android:layout_height="0dp"
         android:background="#222222"
         android:foregroundGravity="center"
+        android:maxHeight="350dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/temp_cover_1" />
@@ -50,7 +52,6 @@
         android:id="@+id/editDialog_bookTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:hint="@string/book_title"
         android:importantForAutofill="no"
@@ -58,7 +59,8 @@
         android:lines="1"
         android:scrollHorizontally="true"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editDialog_imageView" />
 
@@ -66,14 +68,14 @@
         android:id="@+id/editDialog_bookAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:fontFamily="sans-serif"
         android:hint="@string/book_author"
         android:importantForAutofill="no"
         android:inputType="textNoSuggestions|textPersonName|textCapSentences"
         android:singleLine="true"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editDialog_bookTitle" />
 
@@ -81,14 +83,14 @@
         android:id="@+id/editDialog_bookGenre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:fontFamily="sans-serif"
         android:hint="@string/book_genre"
         android:importantForAutofill="no"
         android:inputType="text|textCapSentences"
         android:singleLine="true"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editDialog_bookAuthor" />
 
@@ -96,13 +98,13 @@
         android:id="@+id/editDialog_bookImageURL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:fontFamily="sans-serif"
         android:hint="@string/book_img_url"
         android:importantForAutofill="no"
         android:inputType="textUri"
         android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editDialog_bookGenre" />
 
