@@ -25,17 +25,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
 
     private List<BookItem> booksList =  new ArrayList<>();
 
-
-/*    public BooksAdapter(List<BookItem> booksList) {
-        this.booksList = booksList;
-    }*/
-
     // Create new views (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_book, parent, false);
+                .inflate(R.layout.item_book_grid, parent, false);
         return new ViewHolder(view);
     }
 
@@ -44,7 +39,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
         BookItem currentBook = booksList.get(position);
         holder.bookID = currentBook.getBookID();
         holder.bookTitle.setText(currentBook.getTitle());
-        holder.bookAuthor.setText(currentBook.getAuthor());
+        //holder.bookAuthor.setText(currentBook.getAuthor());
         //holder.bookGenre.setText(currentBook.getTitle());
         holder.bookImageURL = currentBook.getImgURL();
         holder.bookBookMarkText.setText(currentBook.getBookmark());
@@ -83,8 +78,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
 
         ViewHolder(View view) {
             super(view);
-            bookTitle = (TextView) view.findViewById(R.id.itemView_book_name);
-            bookAuthor = (TextView) view.findViewById(R.id.itemView_book_author);
+            bookTitle = (TextView) view.findViewById(R.id.itemView_book_title);
+            //bookAuthor = (TextView) view.findViewById(R.id.itemView_book_author);
             bookImageView = (ImageView) view.findViewById(R.id.itemView_book_image);
             bookBookMarkIcon = (ImageView) view.findViewById(R.id.itemView_book_bookmark_icon);
             bookBookMarkText = (TextView) view.findViewById(R.id.itemView_book_bookmark_text);
