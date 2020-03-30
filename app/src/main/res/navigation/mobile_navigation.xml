@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="fi.mkauha.bookshelf.ui.readinglist.ReadingListFragment"
+        android:name="fi.mkauha.bookshelf.ui.wishlist.WishListFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_readinglist" />
+        tools:layout="@layout/fragment_wishlist" />
 
     <fragment
         android:id="@+id/navigation_notifications"

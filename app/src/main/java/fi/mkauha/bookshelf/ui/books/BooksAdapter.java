@@ -62,7 +62,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
         return booksList.size();
     }
 
-    void setBooksList(List<BookItem> booksList) {
+    public void setBooksList(List<BookItem> booksList) {
         Log.d("BookAdapter", "setBooksList " + booksList.size());
         this.booksList = booksList;
         notifyDataSetChanged();
