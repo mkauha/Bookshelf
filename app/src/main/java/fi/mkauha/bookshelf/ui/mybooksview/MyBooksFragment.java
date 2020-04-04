@@ -1,7 +1,6 @@
 package fi.mkauha.bookshelf.ui.mybooksview;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,21 +18,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 public class MyBooksFragment extends Fragment {
-
-    public static final String SHARED_PREFS = "bookshelf_preferences";
-    public static final String MY_BOOKS_KEY = "my_books";
-
     private RecyclerView recyclerView;
-    private BooksAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private BooksViewModel booksViewModel;
-    private SharedPreferences prefs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,20 +44,15 @@ public class MyBooksFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        mAdapter = new BooksAdapter();
-        recyclerView.setAdapter(mAdapter);
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
+        booksViewModel.setCurrentKey(BooksViewModel.MY_BOOKS_KEY);
 
-/*        if(savedInstanceState == null) {
-            booksViewModel.initMyBooks(MY_BOOKS_KEY);
-        }*/
+        recyclerView.setAdapter(booksViewModel.getAdapter());
 
         booksViewModel.getMyBooksLiveData().observe(this,
             list -> {
-                Log.d("BooksFragment", "Observer changed");
-                mAdapter.setBooksList(list);
-                mAdapter.notifyDataSetChanged();
-               //recyclerView.smoothScrollToPosition(mAdapter.getItemCount() -1);
+                booksViewModel.setBooksInAdapter(list);
+                recyclerView.smoothScrollToPosition(booksViewModel.getAdapter().getItemCount());
                 }
         );
 
@@ -91,6 +78,7 @@ public class MyBooksFragment extends Fragment {
             //Toast.makeText(getActivity(), "Add book", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getActivity(), DetailsActivity.class);
             intent.putExtra("Action", "ADD");
+            intent.putExtra("ViewModel_Key", booksViewModel.getCurrentKey());
             startActivity(intent);
         }
         return false;

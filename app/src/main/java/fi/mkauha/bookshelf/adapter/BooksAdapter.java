@@ -20,10 +20,17 @@ import java.util.List;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.model.BookItem;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
+import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> {
 
+    BooksViewModel booksViewModel;
     private List<BookItem> booksList =  new ArrayList<>();
+    private String prefsKey;
+
+    public BooksAdapter(BooksViewModel booksViewModel) {
+        this.booksViewModel = booksViewModel;
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -38,6 +45,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.d("BooksAdapter", " onBindViewHolder pos:" + position);
         BookItem currentBook = booksList.get(position);
+        holder.prefsKey = booksViewModel.getCurrentKey();
         holder.bookID = currentBook.getBookID();
         holder.bookTitle.setText(currentBook.getTitle());
         //holder.bookAuthor.setText(currentBook.getAuthor());
@@ -71,6 +79,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
+        String prefsKey;
         int bookID;
         public TextView bookTitle, bookAuthor, bookGenre, bookBookMarkText;
         public ImageView bookImageView, bookBookMarkIcon;
@@ -89,9 +98,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
             view.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 Context context = view.getContext();
-                Toast.makeText(context,"Pos: " + position,Toast.LENGTH_LONG).show();
+                //Toast.makeText(context,"Pos: " + position,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra("Action", "EDIT");
+                intent.putExtra("ViewModel_Key", prefsKey);
                 intent.putExtra("ID", bookID);
                 intent.putExtra("Position", position);
                 Log.d("BookAdapter", "onClick position " + position);

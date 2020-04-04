@@ -1,8 +1,6 @@
 package fi.mkauha.bookshelf.ui.details;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
@@ -20,22 +18,18 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.squareup.picasso.Picasso;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.model.BookItem;
 import fi.mkauha.bookshelf.util.IDGenerator;
-import fi.mkauha.bookshelf.util.PreferencesUtilities;
-
-import static fi.mkauha.bookshelf.ui.mybooksview.MyBooksFragment.MY_BOOKS_KEY;
-import static fi.mkauha.bookshelf.ui.mybooksview.MyBooksFragment.SHARED_PREFS;
+import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 
 public class DetailsActivity extends AppCompatActivity {
-
-    SharedPreferences prefs;
-    PreferencesUtilities prefsUtils;
-
+    BooksViewModel booksViewModel;
     private Action currentAction;
 
     private boolean editable;
@@ -54,6 +48,7 @@ public class DetailsActivity extends AppCompatActivity {
     BookItem bookItemInEdit;
 
     private int id;
+    private String prefsKey;
     private String bookmark;
     private String title = "-";
     private String author = "-";
@@ -65,18 +60,21 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getApplication())).get(BooksViewModel.class);
+        Intent intent = getIntent();
 
-        prefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        prefsUtils = new PreferencesUtilities(prefs);
-
-        if(getIntent().getStringExtra("Action").equals("ADD")) {
+        if(intent.getStringExtra("Action").equals("ADD")) {
             setTitle(R.string.add_book);
             currentAction = Action.ADD;
+            prefsKey = intent.getStringExtra("ViewModel_Key");
+            Log.d("DetailsActivity","key :" + prefsKey);
         } else {
             setTitle(R.string.edit_book);
             currentAction = Action.EDIT;
-            Intent intent = getIntent();
+            prefsKey = intent.getStringExtra("ViewModel_Key");
+
             id = intent.getIntExtra("ID", -1);
+            Log.d("DetailsActivity","ID :" + id);
             position = intent.getIntExtra("Position", 0);
         }
 
@@ -101,7 +99,8 @@ public class DetailsActivity extends AppCompatActivity {
             okButton.setText(R.string.add_book);
         } else {
             disableEditing();
-            bookItemInEdit = prefsUtils.getOne(MY_BOOKS_KEY, this.id);
+            Log.d("DetailsActivity","key :" + prefsKey);
+            bookItemInEdit = booksViewModel.getOne(prefsKey, this.id);
             etTitle.setText(bookItemInEdit.getTitle());
             etAuthor.setText(bookItemInEdit.getAuthor());
             etGenre.setText(bookItemInEdit.getGenre());
@@ -134,8 +133,6 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void onClickOK(View view) {
-        // TODO save changes
-        //addNewBook(view);
         if(currentAction == Action.ADD) {
             addNewBook();
         } else {
@@ -155,7 +152,7 @@ public class DetailsActivity extends AppCompatActivity {
             imgURL = "placeholder";
         }
         BookItem bookItem = new BookItem(IDGenerator.generate(), title, author, genre, imgURL);
-        prefsUtils.putOne(MY_BOOKS_KEY, bookItem);
+        booksViewModel.putOne(prefsKey, bookItem);
     }
 
     public void updateBook() {
@@ -176,7 +173,7 @@ public class DetailsActivity extends AppCompatActivity {
         bookItemInEdit.setImgURL(imgURL);
         bookItemInEdit.setBookmark(bookmark);
 
-        boolean updated = prefsUtils.updateOne(MY_BOOKS_KEY, bookItemInEdit);
+        boolean updated = booksViewModel.updateOne(prefsKey, bookItemInEdit);
         Log.d("EditBookActivity", "updateBook: " + updated);
     }
 

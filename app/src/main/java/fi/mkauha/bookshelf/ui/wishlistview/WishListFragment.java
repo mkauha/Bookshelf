@@ -1,7 +1,6 @@
 package fi.mkauha.bookshelf.ui.wishlistview;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,27 +19,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
-import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 public class WishListFragment extends Fragment {
-
-    public static final String SHARED_PREFS = "bookshelf_preferences";
-    public static final String WISHLIST_BOOKS_KEY = "wishlist_books";
-
     private RecyclerView recyclerView;
-    private BooksAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private BooksViewModel booksViewModel;
-    private SharedPreferences prefs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("WishListFragment", "onCreate " + this);
         super.onCreate(savedInstanceState);
         layoutManager = new GridLayoutManager(getActivity(),3);
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,19 +44,13 @@ public class WishListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
+        booksViewModel.setCurrentKey(BooksViewModel.WISHLIST_BOOKS_KEY);
 
-/*        if(savedInstanceState == null) {
-            booksViewModel.initWishList(WISHLIST_BOOKS_KEY);
-        }*/
-
-        mAdapter = new BooksAdapter();
-        recyclerView.setAdapter(mAdapter);
-
+        recyclerView.setAdapter(booksViewModel.getAdapter());
 
         booksViewModel.getWishListLiveData().observe(this,
                 list -> {
-                    mAdapter.setBooksList(list);
-                    mAdapter.notifyDataSetChanged();
+                    booksViewModel.setBooksInAdapter(list);
                     //recyclerView.smoothScrollToPosition(mAdapter.getItemCount() -1);
                     Log.d("WishListFragment", "Observer changed"); }
         );
@@ -92,6 +77,7 @@ public class WishListFragment extends Fragment {
             //Toast.makeText(getActivity(), "Add book", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getActivity(), DetailsActivity.class);
             intent.putExtra("Action", "ADD");
+            intent.putExtra("ViewModel_Key", booksViewModel.getCurrentKey());
             startActivity(intent);
         }
         return false;

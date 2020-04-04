@@ -12,32 +12,34 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
+import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.model.BookItem;
 import fi.mkauha.bookshelf.util.IDGenerator;
 import fi.mkauha.bookshelf.util.PreferencesUtilities;
 
-import static fi.mkauha.bookshelf.ui.mybooksview.MyBooksFragment.MY_BOOKS_KEY;
-import static fi.mkauha.bookshelf.ui.wishlistview.WishListFragment.WISHLIST_BOOKS_KEY;
-
 public class BooksViewModel extends AndroidViewModel implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String SHARED_PREFS = "bookshelf_preferences";
+    public static final String MY_BOOKS_KEY = "my_books";
+    public static final String WISHLIST_BOOKS_KEY = "wishlist_books";
 
+    private String currentKey;
 
     private SharedPreferences prefs;
-    PreferencesUtilities prefUtils;
+    PreferencesUtilities prefsUtils;
     private List<BookItem> myBooksRepository;
     private List<BookItem> wishListRepository;
     private MutableLiveData<List<BookItem>> myBooksLiveData;
     private MutableLiveData<List<BookItem>> wishListLiveData;
-    private Application application;
+    private BooksAdapter mAdapter;
 
     public BooksViewModel(Application application) {
         super(application);
-        this.application = application;
         prefs = application.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         prefs.registerOnSharedPreferenceChangeListener(this);
-        prefUtils = new PreferencesUtilities(prefs);
+        prefsUtils = new PreferencesUtilities(prefs);
+
+        mAdapter = new BooksAdapter(this);
 
         if(myBooksLiveData == null) {
             initMyBooks(MY_BOOKS_KEY);
@@ -56,9 +58,9 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
 
         if(!prefs.contains(prefsKey)) {
             loadDummyMyBooks();
-            prefUtils.putAll(prefsKey, myBooksRepository);
+            prefsUtils.putAll(prefsKey, myBooksRepository);
         } else {
-            ArrayList<BookItem> booksList =  prefUtils.getAll(prefsKey);
+            ArrayList<BookItem> booksList =  prefsUtils.getAll(prefsKey);
             myBooksLiveData.setValue(booksList);
         }
     }
@@ -70,9 +72,9 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
 
         if(!prefs.contains(prefsKey)) {
             loadDummyWishList();
-            prefUtils.putAll(prefsKey, wishListRepository);
+            prefsUtils.putAll(prefsKey, wishListRepository);
         } else {
-            ArrayList<BookItem> booksList =  prefUtils.getAll(prefsKey);
+            ArrayList<BookItem> booksList =  prefsUtils.getAll(prefsKey);
             wishListLiveData.setValue(booksList);
         }
     }
@@ -112,14 +114,17 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
         wishListLiveData.setValue(wishListRepository);
     }
 
-    public void insert(BookItem book) {
-        Log.d("BooksViewModel", "insert "  + this);
-        myBooksRepository.add(book);
-        myBooksLiveData.setValue(myBooksRepository);
+    public void putOne(String key, BookItem book) {
+        Log.d("BooksViewModel", "putOne " + key + ", " + book.toString());
+        prefsUtils.putOne(key, book);
     }
 
-    public void update(BookItem book, int position) {
+    public BookItem getOne(String key, int id) {
+        return prefsUtils.getOne(key, id);
+    }
 
+    public boolean updateOne(String key, BookItem book ) {
+        return prefsUtils.updateOne(key, book);
     }
 
     public void delete(BookItem book) {
@@ -128,6 +133,23 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
 
     public void deleteAll() {
         myBooksRepository.clear();
+    }
+
+    public BooksAdapter getAdapter() {
+        return mAdapter;
+    }
+
+    public void setBooksInAdapter(List<BookItem> booksList) {
+        this.mAdapter.setBooksList(booksList);
+        this.mAdapter.notifyDataSetChanged();
+    }
+
+    public void setCurrentKey(String key) {
+        this.currentKey = key;
+    }
+
+    public String getCurrentKey() {
+        return this.currentKey;
     }
 
     @Override
