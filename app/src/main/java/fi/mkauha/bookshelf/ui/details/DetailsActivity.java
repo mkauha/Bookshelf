@@ -78,7 +78,7 @@ public class DetailsActivity extends AppCompatActivity {
             position = intent.getIntExtra("Position", 0);
         }
 
-        setContentView(R.layout.activity_edit_book);
+        setContentView(R.layout.activity_details);
 
         etImageView = findViewById(R.id.editDialog_imageView);
         etTitle = findViewById(R.id.editDialog_bookTitle);

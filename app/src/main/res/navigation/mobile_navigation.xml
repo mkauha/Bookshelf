@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="fi.mkauha.bookshelf.ui.mybooksview.MyBooksFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_books" />
+        tools:layout="@layout/fragment_mybooks" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

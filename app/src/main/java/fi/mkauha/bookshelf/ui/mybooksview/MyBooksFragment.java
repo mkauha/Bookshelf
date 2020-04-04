@@ -37,7 +37,7 @@ public class MyBooksFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("BooksFragment", "onCreateView " + this);
 
-        View root = inflater.inflate(R.layout.fragment_books, container, false);
+        View root = inflater.inflate(R.layout.fragment_mybooks, container, false);
         setHasOptionsMenu(true);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.books_recycler_view);
