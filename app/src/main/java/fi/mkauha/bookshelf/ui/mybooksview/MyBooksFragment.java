@@ -1,6 +1,5 @@
-package fi.mkauha.bookshelf.ui.books;
+package fi.mkauha.bookshelf.ui.mybooksview;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,15 +14,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.ui.dialogs.EditBookActivity;
+import fi.mkauha.bookshelf.adapter.BooksAdapter;
+import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
+import fi.mkauha.bookshelf.ui.details.EditBookActivity;
 
-public class BooksFragment extends Fragment {
+public class MyBooksFragment extends Fragment {
 
     public static final String SHARED_PREFS = "bookshelf_preferences";
     public static final String MY_BOOKS_KEY = "my_books";
@@ -31,12 +32,13 @@ public class BooksFragment extends Fragment {
     private RecyclerView recyclerView;
     private BooksAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private BooksViewModel booksViewModel;
+    private SharedPreferences prefs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("BooksFragment", "onCreate " + this);
         super.onCreate(savedInstanceState);
-        //layoutManager = new LinearLayoutManager(getActivity());
         layoutManager = new GridLayoutManager(getActivity(),3);
     }
 
@@ -50,19 +52,21 @@ public class BooksFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        BooksViewModel booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
-        SharedPreferences prefs = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        booksViewModel.init(prefs);
-
         mAdapter = new BooksAdapter();
         recyclerView.setAdapter(mAdapter);
+        booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
 
-        booksViewModel.getMyBooksLiveData().observe(getViewLifecycleOwner(),
+/*        if(savedInstanceState == null) {
+            booksViewModel.initMyBooks(MY_BOOKS_KEY);
+        }*/
+
+        booksViewModel.getMyBooksLiveData().observe(this,
             list -> {
+                Log.d("BooksFragment", "Observer changed");
                 mAdapter.setBooksList(list);
                 mAdapter.notifyDataSetChanged();
-                recyclerView.smoothScrollToPosition(mAdapter.getItemCount() -1);
-                Log.d("BooksFragment", "Observer changed"); }
+               //recyclerView.smoothScrollToPosition(mAdapter.getItemCount() -1);
+                }
         );
 
         return root;
@@ -93,15 +97,9 @@ public class BooksFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        //
-    }
-
-    @Override
-    public void onStop() {
+    public void onPause() {
         Log.d("BooksFragment", "onPause");
-        super.onStop();
+        super.onPause();
     }
 
     @Override

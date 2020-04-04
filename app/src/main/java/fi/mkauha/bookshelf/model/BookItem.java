@@ -1,7 +1,4 @@
-package fi.mkauha.bookshelf.items;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package fi.mkauha.bookshelf.model;
 
 import java.io.Serializable;
 

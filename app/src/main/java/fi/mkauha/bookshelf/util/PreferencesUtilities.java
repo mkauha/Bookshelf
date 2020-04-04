@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import fi.mkauha.bookshelf.items.BookItem;
+import fi.mkauha.bookshelf.model.BookItem;
 
 public class PreferencesUtilities {
 
@@ -31,7 +31,7 @@ public class PreferencesUtilities {
 
     public void putAll(String key, Collection<BookItem> bookItems) {
         SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
+        //editor.clear();
         try {
             String values = gson.toJson(bookItems);
             editor.putString(key,  values);
@@ -51,6 +51,7 @@ public class PreferencesUtilities {
                 break;
             }
         }
+        Log.d("PreferencesUtilities", "getOne key: " + key + " " + id + ": " + rBook);
         return rBook;
     }
 

@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.ui.dialogs;
+package fi.mkauha.bookshelf.ui.details;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,12 +24,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.squareup.picasso.Picasso;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.items.BookItem;
+import fi.mkauha.bookshelf.model.BookItem;
 import fi.mkauha.bookshelf.util.IDGenerator;
 import fi.mkauha.bookshelf.util.PreferencesUtilities;
 
-import static fi.mkauha.bookshelf.ui.books.BooksFragment.MY_BOOKS_KEY;
-import static fi.mkauha.bookshelf.ui.books.BooksFragment.SHARED_PREFS;
+import static fi.mkauha.bookshelf.ui.mybooksview.MyBooksFragment.MY_BOOKS_KEY;
+import static fi.mkauha.bookshelf.ui.mybooksview.MyBooksFragment.SHARED_PREFS;
 
 public class EditBookActivity extends AppCompatActivity {
 

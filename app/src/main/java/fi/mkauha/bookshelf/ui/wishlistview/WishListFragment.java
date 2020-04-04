@@ -1,6 +1,5 @@
-package fi.mkauha.bookshelf.ui.wishlist;
+package fi.mkauha.bookshelf.ui.wishlistview;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,13 +14,15 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.ui.books.BooksAdapter;
-import fi.mkauha.bookshelf.ui.dialogs.EditBookActivity;
+import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
+import fi.mkauha.bookshelf.adapter.BooksAdapter;
+import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+import fi.mkauha.bookshelf.ui.details.EditBookActivity;
 
 public class WishListFragment extends Fragment {
 
@@ -31,16 +32,19 @@ public class WishListFragment extends Fragment {
     private RecyclerView recyclerView;
     private BooksAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private BooksViewModel booksViewModel;
+    private SharedPreferences prefs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d("ReadingListFragment", "onCreate " + this);
+        Log.d("WishListFragment", "onCreate " + this);
         super.onCreate(savedInstanceState);
         layoutManager = new GridLayoutManager(getActivity(),3);
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("ReadingListFragment", "onCreateView " + this);
+        Log.d("WishListFragment", "onCreateView " + this);
         View root = inflater.inflate(R.layout.fragment_wishlist, container, false);
         setHasOptionsMenu(true);
 
@@ -48,19 +52,22 @@ public class WishListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        WishListViewModel wishListViewModel = new ViewModelProvider(getActivity()).get(WishListViewModel.class);
-        SharedPreferences prefs = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        wishListViewModel.init(prefs);
+        booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
+
+/*        if(savedInstanceState == null) {
+            booksViewModel.initWishList(WISHLIST_BOOKS_KEY);
+        }*/
 
         mAdapter = new BooksAdapter();
         recyclerView.setAdapter(mAdapter);
 
-        wishListViewModel.getWishListLiveData().observe(getViewLifecycleOwner(),
+
+        booksViewModel.getWishListLiveData().observe(this,
                 list -> {
                     mAdapter.setBooksList(list);
                     mAdapter.notifyDataSetChanged();
-                    recyclerView.smoothScrollToPosition(mAdapter.getItemCount() -1);
-                    Log.d("BooksFragment", "Observer changed"); }
+                    //recyclerView.smoothScrollToPosition(mAdapter.getItemCount() -1);
+                    Log.d("WishListFragment", "Observer changed"); }
         );
 
         return root;
@@ -88,5 +95,11 @@ public class WishListFragment extends Fragment {
             startActivity(intent);
         }
         return false;
+    }
+
+    @Override
+    public void onPause() {
+        Log.d("WishListFragment", "onPause");
+        super.onPause();
     }
 }

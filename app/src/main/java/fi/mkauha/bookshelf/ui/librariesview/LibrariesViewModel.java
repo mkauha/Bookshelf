@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.ui.libraries;
+package fi.mkauha.bookshelf.ui.librariesview;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
