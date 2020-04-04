@@ -127,8 +127,8 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
         return prefsUtils.updateOne(key, book);
     }
 
-    public void delete(BookItem book) {
-        myBooksRepository.remove(book);
+    public void removeOne(String key, int id) {
+        prefsUtils.removeOne(key, id);
     }
 
     public void deleteAll() {

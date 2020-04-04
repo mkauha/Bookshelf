@@ -21,6 +21,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/temp_cover_1" />
 
+    <ImageButton
+        android:id="@+id/editDialog_mark_owned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/add_book"
+        android:layout_marginBottom="8dp"
+        android:padding="10dp"
+        android:background="#00FFFFFF"
+        android:src="@drawable/ic_dashboard_black_24dp"
+        android:onClick="onClickAddAsOwned"
+        app:layout_constraintBottom_toBottomOf="@+id/editDialog_imageView"
+        app:layout_constraintStart_toStartOf="@id/editDialog_imageView" />
+
     <EditText
         android:id="@+id/editDialog_bookmark"
         android:layout_width="wrap_content"
@@ -34,7 +47,19 @@
         android:singleLine="true"
         android:textColor="@android:color/primary_text_dark"
         app:layout_constraintBottom_toBottomOf="@+id/editDialog_imageView"
-        app:layout_constraintStart_toStartOf="@id/editDialog_imageView" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/editDialog_removeBookButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="#00FFFFFF"
+        android:onClick="onClickRemove"
+        android:padding="5dp"
+        android:src="@android:drawable/ic_menu_delete"
+        app:layout_constraintTop_toTopOf="@+id/editDialog_imageView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
         android:id="@+id/editDialog_editBookButton"

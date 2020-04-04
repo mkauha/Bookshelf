@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -41,6 +42,8 @@ public class DetailsActivity extends AppCompatActivity {
     EditText etImgURL;
     EditText etBookmark;
     ImageButton editButton;
+    ImageButton addAsOwnedButton;
+    ImageButton removeBookButton;
     Button okButton;
     ColorFilter defaultColorFilter;
     Drawable defaultBackground;
@@ -87,16 +90,29 @@ public class DetailsActivity extends AppCompatActivity {
         etGenre = findViewById(R.id.editDialog_bookGenre);
         etImgURL = findViewById(R.id.editDialog_bookImageURL);
         etBookmark = findViewById(R.id.editDialog_bookmark);
+        addAsOwnedButton = findViewById(R.id.editDialog_mark_owned);
+        removeBookButton = findViewById(R.id.editDialog_removeBookButton);
         editButton = findViewById(R.id.editDialog_editBookButton);
         okButton = findViewById(R.id.editDialog_okButton);
 
         defaultColorFilter = editButton.getColorFilter();
         defaultBackground = etTitle.getBackground();
 
+        if(prefsKey.equals(BooksViewModel.WISHLIST_BOOKS_KEY)) {
+            etBookmark.setVisibility(View.GONE);
+            addAsOwnedButton.setVisibility(View.VISIBLE);
+        } else {
+            etBookmark.setVisibility(View.VISIBLE);
+            addAsOwnedButton.setVisibility(View.GONE);
+        }
+
         if(currentAction == Action.ADD) {
             enableEditing();
             editButton.setVisibility(View.GONE);
             okButton.setText(R.string.add_book);
+            if(prefsKey.equals(BooksViewModel.WISHLIST_BOOKS_KEY)) {
+                addAsOwnedButton.setVisibility(View.GONE);
+            }
         } else {
             disableEditing();
             Log.d("DetailsActivity","key :" + prefsKey);
@@ -113,6 +129,8 @@ public class DetailsActivity extends AppCompatActivity {
                     .placeholder(R.drawable.temp_cover_1)
                     .into(etImageView);
         }
+
+
 
         etImgURL.setOnEditorActionListener((v, actionId, event) -> {
             boolean handled = false;
@@ -134,13 +152,13 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void onClickOK(View view) {
         if(currentAction == Action.ADD) {
-            addNewBook();
+            addNewBook(prefsKey);
         } else {
-            updateBook();
+            updateBook(prefsKey);
         }
         finish();
     }
-    public void addNewBook() {
+    public void addNewBook(String prefsKey) {
         Log.d("EditBookActivity", "addNewBook");
         title = etTitle.getText().toString();
         author = etAuthor.getText().toString();
@@ -155,7 +173,7 @@ public class DetailsActivity extends AppCompatActivity {
         booksViewModel.putOne(prefsKey, bookItem);
     }
 
-    public void updateBook() {
+    public void updateBook(String prefsKey) {
         Log.d("EditBookActivity", "updateBook");
         title = etTitle.getText().toString();
         author = etAuthor.getText().toString();
@@ -165,7 +183,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         // TODO don't allow empty title and author
         if(imgURL == null || imgURL.equals("")) {
-            imgURL = "placeholder";
+            imgURL = "";
         }
         bookItemInEdit.setTitle(title);
         bookItemInEdit.setAuthor(author);
@@ -184,6 +202,21 @@ public class DetailsActivity extends AppCompatActivity {
         } else {
             enableEditing();
         }
+    }
+
+    public void onClickRemove(View view) {
+        Log.d("EditBookActivity", "onClickRemove");
+        booksViewModel.removeOne(prefsKey, this.id);
+        finish();
+    }
+
+    public void onClickAddAsOwned(View view) {
+        addNewBook(BooksViewModel.MY_BOOKS_KEY);
+        booksViewModel.removeOne(prefsKey, this.id);
+        Toast.makeText(this,R.string.added_as_owned,Toast.LENGTH_LONG).show();
+        etBookmark.setVisibility(View.VISIBLE);
+        addAsOwnedButton.setVisibility(View.GONE);
+        finish();
     }
 
     private void enableEditing() {
@@ -209,6 +242,7 @@ public class DetailsActivity extends AppCompatActivity {
         etBookmark.setBackground(defaultBackground);
 
         etImgURL.setVisibility(View.VISIBLE);
+        removeBookButton.setVisibility(View.VISIBLE);
 
         editable = true;
     }
@@ -231,6 +265,7 @@ public class DetailsActivity extends AppCompatActivity {
         etGenre.setBackground(null);
 
         etImgURL.setVisibility(View.GONE);
+        removeBookButton.setVisibility(View.GONE);
 
         etBookmark.setFocusableInTouchMode(false);
         etBookmark.setFocusable(false);

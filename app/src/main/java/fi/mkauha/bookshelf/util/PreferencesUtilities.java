@@ -86,4 +86,18 @@ public class PreferencesUtilities {
         }
         return rBool;
     }
+
+    public void removeOne(String key, int id) {
+        ArrayList<BookItem> bookItems = getAll(key);
+
+        int i = 0;
+        for(BookItem book : bookItems) {
+            if (book.getBookID() == id) {
+                bookItems.remove(book);
+                putAll(key, bookItems);
+                break;
+            }
+            i++;
+        }
+    }
 }
