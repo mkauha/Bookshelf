@@ -19,7 +19,7 @@ import java.util.List;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.model.BookItem;
-import fi.mkauha.bookshelf.ui.details.EditBookActivity;
+import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> {
 
@@ -90,7 +90,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
                 int position = getAdapterPosition();
                 Context context = view.getContext();
                 Toast.makeText(context,"Pos: " + position,Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(context, EditBookActivity.class);
+                Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra("Action", "EDIT");
                 intent.putExtra("ID", bookID);
                 intent.putExtra("Position", position);

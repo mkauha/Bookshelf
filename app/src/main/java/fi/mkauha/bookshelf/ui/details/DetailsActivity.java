@@ -31,7 +31,7 @@ import fi.mkauha.bookshelf.util.PreferencesUtilities;
 import static fi.mkauha.bookshelf.ui.mybooksview.MyBooksFragment.MY_BOOKS_KEY;
 import static fi.mkauha.bookshelf.ui.mybooksview.MyBooksFragment.SHARED_PREFS;
 
-public class EditBookActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity {
 
     SharedPreferences prefs;
     PreferencesUtilities prefsUtils;

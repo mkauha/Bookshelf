@@ -22,7 +22,7 @@ import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
-import fi.mkauha.bookshelf.ui.details.EditBookActivity;
+import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 public class WishListFragment extends Fragment {
 
@@ -90,7 +90,7 @@ public class WishListFragment extends Fragment {
         super.onOptionsItemSelected(item);
         if(item.getItemId() == R.id.add_book) {
             //Toast.makeText(getActivity(), "Add book", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getActivity(), EditBookActivity.class);
+            Intent intent = new Intent(getActivity(), DetailsActivity.class);
             intent.putExtra("Action", "ADD");
             startActivity(intent);
         }
