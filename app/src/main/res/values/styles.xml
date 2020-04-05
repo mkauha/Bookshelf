@@ -6,6 +6,7 @@
         <item name="colorPrimary">#0003A9F4</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorMenuIcon</item>
     </style>
 
     <style name="Theme.NoTitleActivityDialog" parent="Theme.AppCompat.Light">

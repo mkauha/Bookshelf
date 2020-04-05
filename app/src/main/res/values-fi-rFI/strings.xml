@@ -13,4 +13,6 @@
     <string name="button_ok">OK</string>
     <string name="button_cancel">Peruuta</string>
     <string name="added_as_owned">Kirja lisättiin omiin kirjoihin</string>
+    <string name="search">Hae</string>
+    <string name="search_hint">Hae kirjaa</string>
 </resources>

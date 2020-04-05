@@ -5,6 +5,8 @@
     <string name="title_notifications">Libraries</string>
     <string name="cover_description" translatable="false">Cover image</string>
     <string name="add_book">Add book</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search books</string>
     <string name="edit_book">Edit book</string>
     <string name="book_title">Title</string>
     <string name="book_author">Author</string>
