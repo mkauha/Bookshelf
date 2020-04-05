@@ -8,7 +8,7 @@
     android:padding="0dp">
 
     <ImageView
-        android:id="@+id/editDialog_imageView"
+        android:id="@+id/details_imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#222222"
@@ -18,10 +18,10 @@
         app:layout_constraintHeight_percent="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/temp_cover_1" />
+        app:srcCompat="@drawable/book_cover_placeholder" />
 
     <ImageButton
-        android:id="@+id/editDialog_mark_owned"
+        android:id="@+id/details_addAsOwnedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="@string/add_book"
@@ -30,11 +30,11 @@
         android:background="#00FFFFFF"
         android:src="@drawable/ic_dashboard_black_24dp"
         android:onClick="onClickAddAsOwned"
-        app:layout_constraintBottom_toBottomOf="@+id/editDialog_imageView"
-        app:layout_constraintStart_toStartOf="@id/editDialog_imageView" />
+        app:layout_constraintBottom_toBottomOf="@+id/details_imageView"
+        app:layout_constraintStart_toStartOf="@id/details_imageView" />
 
     <EditText
-        android:id="@+id/editDialog_bookmark"
+        android:id="@+id/details_bookmark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -45,11 +45,11 @@
         android:padding="10dp"
         android:singleLine="true"
         android:textColor="@android:color/primary_text_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/editDialog_imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/details_imageView"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/editDialog_removeBookButton"
+        android:id="@+id/details_remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -57,11 +57,11 @@
         android:onClick="onClickRemove"
         android:padding="5dp"
         android:src="@android:drawable/ic_menu_delete"
-        app:layout_constraintTop_toTopOf="@+id/editDialog_imageView"
+        app:layout_constraintTop_toTopOf="@+id/details_imageView"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
-        android:id="@+id/editDialog_editBookButton"
+        android:id="@+id/details_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -69,11 +69,11 @@
         android:onClick="onClickEdit"
         android:padding="5dp"
         android:src="@android:drawable/ic_menu_edit"
-        app:layout_constraintBottom_toBottomOf="@+id/editDialog_imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/details_imageView"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editDialog_bookTitle"
+        android:id="@+id/details_book_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -86,10 +86,10 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editDialog_imageView" />
+        app:layout_constraintTop_toBottomOf="@id/details_imageView" />
 
     <EditText
-        android:id="@+id/editDialog_bookAuthor"
+        android:id="@+id/details_book_author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -101,10 +101,10 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editDialog_bookTitle" />
+        app:layout_constraintTop_toBottomOf="@id/details_book_title" />
 
     <EditText
-        android:id="@+id/editDialog_bookGenre"
+        android:id="@+id/details_book_genre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -116,10 +116,10 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editDialog_bookAuthor" />
+        app:layout_constraintTop_toBottomOf="@id/details_book_author" />
 
     <EditText
-        android:id="@+id/editDialog_bookImageURL"
+        android:id="@+id/details_book_imageURL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -130,10 +130,10 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editDialog_bookGenre" />
+        app:layout_constraintTop_toBottomOf="@id/details_book_genre" />
 
     <Button
-        android:id="@+id/editDialog_okButton"
+        android:id="@+id/details_ok_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -145,7 +145,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editDialog_bookImageURL"
+        app:layout_constraintTop_toBottomOf="@id/details_book_imageURL"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
