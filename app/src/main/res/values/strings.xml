@@ -3,7 +3,7 @@
     <string name="title_home">My books</string>
     <string name="title_dashboard">Wish list</string>
     <string name="title_notifications">Libraries</string>
-    <string name="cover_description">Cover image</string>
+    <string name="cover_description" translatable="false">Cover image</string>
     <string name="add_book">Add book</string>
     <string name="edit_book">Edit book</string>
     <string name="book_title">Title</string>
