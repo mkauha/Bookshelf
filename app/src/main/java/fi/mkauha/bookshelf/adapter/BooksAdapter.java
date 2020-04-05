@@ -32,10 +32,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
         this.booksViewModel = booksViewModel;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_book_grid, parent, false);
         return new ViewHolder(view);
@@ -61,7 +60,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
                 .load(currentBook.getImgURL())
                 .resize(500, 700)
                 .centerCrop()
-                .placeholder(R.drawable.temp_cover_1)
+                .placeholder(R.drawable.book_cover_placeholder)
                 .into(holder.bookImageView);
     }
 
@@ -100,7 +99,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.ViewHolder> 
                 Context context = view.getContext();
                 //Toast.makeText(context,"Pos: " + position,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, DetailsActivity.class);
-                intent.putExtra("Action", "EDIT");
+                intent.putExtra("Action", "VIEW");
                 intent.putExtra("ViewModel_Key", prefsKey);
                 intent.putExtra("ID", bookID);
                 intent.putExtra("Position", position);
