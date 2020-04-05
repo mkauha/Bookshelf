@@ -18,12 +18,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import fi.mkauha.bookshelf.R;
+import fi.mkauha.bookshelf.databinding.FragmentWishlistBinding;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 public class WishListFragment extends Fragment {
-    private RecyclerView recyclerView;
+    private FragmentWishlistBinding binding;
     private RecyclerView.LayoutManager layoutManager;
     private BooksViewModel booksViewModel;
 
@@ -36,17 +37,18 @@ public class WishListFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("WishListFragment", "onCreateView " + this);
-        View root = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        binding = FragmentWishlistBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
         setHasOptionsMenu(true);
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.readingList_recycler_view);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+
+        binding.wishListRecyclerView.setLayoutManager(layoutManager);
+        binding.wishListRecyclerView.setHasFixedSize(true);
 
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
         booksViewModel.setCurrentKey(BooksViewModel.WISHLIST_BOOKS_KEY);
 
-        recyclerView.setAdapter(booksViewModel.getAdapter());
+        binding.wishListRecyclerView.setAdapter(booksViewModel.getAdapter());
 
         booksViewModel.getWishListLiveData().observe(this,
                 list -> {
@@ -55,7 +57,7 @@ public class WishListFragment extends Fragment {
                     Log.d("WishListFragment", "Observer changed"); }
         );
 
-        return root;
+        return view;
     }
 
     @Override
@@ -85,7 +87,12 @@ public class WishListFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Log.d("WishListFragment", "onPause");
         super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

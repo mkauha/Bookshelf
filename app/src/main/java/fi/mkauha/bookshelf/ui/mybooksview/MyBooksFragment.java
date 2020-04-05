@@ -18,12 +18,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import fi.mkauha.bookshelf.R;
+import fi.mkauha.bookshelf.databinding.FragmentMybooksBinding;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 public class MyBooksFragment extends Fragment {
-    private RecyclerView recyclerView;
+    private FragmentMybooksBinding binding;
+
     private RecyclerView.LayoutManager layoutManager;
     private BooksViewModel booksViewModel;
 
@@ -37,22 +39,22 @@ public class MyBooksFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("BooksFragment", "onCreateView " + this);
 
-        View root = inflater.inflate(R.layout.fragment_mybooks, container, false);
+        binding = FragmentMybooksBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
         setHasOptionsMenu(true);
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.books_recycler_view);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        binding.booksRecyclerView.setLayoutManager(layoutManager);
+        binding.booksRecyclerView.setHasFixedSize(true);
 
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
         booksViewModel.setCurrentKey(BooksViewModel.MY_BOOKS_KEY);
 
-        recyclerView.setAdapter(booksViewModel.getAdapter());
+        binding.booksRecyclerView.setAdapter(booksViewModel.getAdapter());
 
         booksViewModel.getMyBooksLiveData().observe(this,
             list -> {
                 booksViewModel.setBooksInAdapter(list);
-                recyclerView.smoothScrollToPosition(booksViewModel.getAdapter().getItemCount());
+                binding.booksRecyclerView.smoothScrollToPosition(booksViewModel.getAdapter().getItemCount());
                 }
         );
 
@@ -75,7 +77,6 @@ public class MyBooksFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if(item.getItemId() == R.id.add_book) {
-            //Toast.makeText(getActivity(), "Add book", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getActivity(), DetailsActivity.class);
             intent.putExtra("Action", "ADD");
             intent.putExtra("ViewModel_Key", booksViewModel.getCurrentKey());
@@ -86,13 +87,12 @@ public class MyBooksFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Log.d("BooksFragment", "onPause");
         super.onPause();
     }
 
     @Override
     public void onDestroyView() {
-        Log.d("BooksFragment", "onDestroyView");
         super.onDestroyView();
+        binding = null;
     }
 }

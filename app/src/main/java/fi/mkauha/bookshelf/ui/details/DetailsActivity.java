@@ -10,10 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,32 +20,22 @@ import androidx.lifecycle.ViewModelProviders;
 import com.squareup.picasso.Picasso;
 
 import fi.mkauha.bookshelf.R;
+import fi.mkauha.bookshelf.databinding.ActivityDetailsBinding;
 import fi.mkauha.bookshelf.model.BookItem;
 import fi.mkauha.bookshelf.util.IDGenerator;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 
 public class DetailsActivity extends AppCompatActivity {
+    private ActivityDetailsBinding binding;
+
     BooksViewModel booksViewModel;
-    private Action currentAction;
-
-    private boolean editable;
-
-    ImageView etImageView;
-    EditText etTitle;
-    EditText etAuthor;
-    EditText etGenre;
-    EditText etImgURL;
-    EditText etBookmark;
-    ImageButton editButton;
-    ImageButton addAsOwnedButton;
-    ImageButton removeBookButton;
-    Button okButton;
+    Action currentAction;
     ColorFilter defaultColorFilter;
     Drawable defaultBackground;
-
     BookItem bookItemInEdit;
 
+    private boolean editable = true;
     private int id;
     private String prefsKey;
     private String bookmark;
@@ -63,76 +49,57 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        binding = ActivityDetailsBinding.inflate(getLayoutInflater());
+        View root = binding.getRoot();
+        setContentView(root);
+
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getApplication())).get(BooksViewModel.class);
         Intent intent = getIntent();
 
         if(intent.getStringExtra("Action").equals("ADD")) {
-            setTitle(R.string.add_book);
             currentAction = Action.ADD;
             prefsKey = intent.getStringExtra("ViewModel_Key");
-            Log.d("DetailsActivity","key :" + prefsKey);
         } else {
-            setTitle(R.string.edit_book);
-            currentAction = Action.EDIT;
+            currentAction = Action.VIEW;
             prefsKey = intent.getStringExtra("ViewModel_Key");
-
             id = intent.getIntExtra("ID", -1);
-            Log.d("DetailsActivity","ID :" + id);
             position = intent.getIntExtra("Position", 0);
         }
 
-        setContentView(R.layout.activity_details);
-
-        etImageView = findViewById(R.id.editDialog_imageView);
-        etTitle = findViewById(R.id.editDialog_bookTitle);
-        etAuthor = findViewById(R.id.editDialog_bookAuthor);
-        etGenre = findViewById(R.id.editDialog_bookGenre);
-        etGenre = findViewById(R.id.editDialog_bookGenre);
-        etImgURL = findViewById(R.id.editDialog_bookImageURL);
-        etBookmark = findViewById(R.id.editDialog_bookmark);
-        addAsOwnedButton = findViewById(R.id.editDialog_mark_owned);
-        removeBookButton = findViewById(R.id.editDialog_removeBookButton);
-        editButton = findViewById(R.id.editDialog_editBookButton);
-        okButton = findViewById(R.id.editDialog_okButton);
-
-        defaultColorFilter = editButton.getColorFilter();
-        defaultBackground = etTitle.getBackground();
+        defaultColorFilter = binding.detailsEdit.getColorFilter();
+        defaultBackground = binding.detailsBookTitle.getBackground();
 
         if(prefsKey.equals(BooksViewModel.WISHLIST_BOOKS_KEY)) {
-            etBookmark.setVisibility(View.GONE);
-            addAsOwnedButton.setVisibility(View.VISIBLE);
+            binding.detailsBookmark.setVisibility(View.GONE);
+            binding.detailsAddAsOwnedButton.setVisibility(View.VISIBLE);
         } else {
-            etBookmark.setVisibility(View.VISIBLE);
-            addAsOwnedButton.setVisibility(View.GONE);
+            binding.detailsBookmark.setVisibility(View.VISIBLE);
+            binding.detailsAddAsOwnedButton.setVisibility(View.GONE);
         }
 
         if(currentAction == Action.ADD) {
-            enableEditing();
-            editButton.setVisibility(View.GONE);
-            okButton.setText(R.string.add_book);
-            if(prefsKey.equals(BooksViewModel.WISHLIST_BOOKS_KEY)) {
-                addAsOwnedButton.setVisibility(View.GONE);
-            }
-        } else {
-            disableEditing();
-            Log.d("DetailsActivity","key :" + prefsKey);
+            setEditingMode(true);
+            binding.detailsEdit.setVisibility(View.GONE);
+            binding.detailsOkButton.setText(R.string.add_book);
+            binding.detailsAddAsOwnedButton.setVisibility(View.GONE);
+
+        } else if(currentAction == Action.VIEW) {
+            setEditingMode(false);
             bookItemInEdit = booksViewModel.getOne(prefsKey, this.id);
-            etTitle.setText(bookItemInEdit.getTitle());
-            etAuthor.setText(bookItemInEdit.getAuthor());
-            etGenre.setText(bookItemInEdit.getGenre());
-            etImgURL.setText(bookItemInEdit.getImgURL());
-            etBookmark.setText(bookItemInEdit.getBookmark());
+            binding.detailsBookTitle.setText(bookItemInEdit.getTitle());
+            binding.detailsBookAuthor.setText(bookItemInEdit.getAuthor());
+            binding.detailsBookGenre.setText(bookItemInEdit.getGenre());
+            binding.detailsBookImageURL.setText(bookItemInEdit.getImgURL());
+            binding.detailsBookmark.setText(bookItemInEdit.getBookmark());
             Picasso.get()
                     .load(bookItemInEdit.getImgURL())
                     .resize(500, 700)
                     .centerCrop()
-                    .placeholder(R.drawable.temp_cover_1)
-                    .into(etImageView);
+                    .placeholder(R.drawable.book_cover_placeholder)
+                    .into(binding.detailsImageView);
         }
 
-
-
-        etImgURL.setOnEditorActionListener((v, actionId, event) -> {
+        binding.detailsBookImageURL.setOnEditorActionListener((v, actionId, event) -> {
             boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 Log.d("etImgURL","done");
@@ -141,71 +108,56 @@ public class DetailsActivity extends AppCompatActivity {
                         .load(v.getText().toString())
                         .resize(500, 700)
                         .centerCrop()
-                        .placeholder(R.drawable.temp_cover_1)
-                        .into(etImageView);
+                        .placeholder(R.drawable.book_cover_placeholder)
+                        .into(binding.detailsImageView);
                 handled = true;
             }
             return handled;
         });
-
     }
 
     public void onClickOK(View view) {
+        title = binding.detailsBookTitle.getText().toString();
+        author = binding.detailsBookAuthor.getText().toString();
+        genre = binding.detailsBookGenre.getText().toString();
+        imgURL = binding.detailsBookImageURL.getText().toString();
+
+        // TODO don't allow empty title and author
+        if(imgURL.equals("")) {
+            imgURL = "R.drawable.book_cover_placeholder";
+        }
+
         if(currentAction == Action.ADD) {
             addNewBook(prefsKey);
         } else {
+            bookmark = binding.detailsBookmark.getText().toString();
             updateBook(prefsKey);
         }
         finish();
     }
     public void addNewBook(String prefsKey) {
-        Log.d("EditBookActivity", "addNewBook");
-        title = etTitle.getText().toString();
-        author = etAuthor.getText().toString();
-        genre = etGenre.getText().toString();
-        imgURL = etImgURL.getText().toString();
-
-        // TODO don't allow empty title and author
-        if(imgURL == null || imgURL.equals("")) {
-            imgURL = "placeholder";
-        }
         BookItem bookItem = new BookItem(IDGenerator.generate(), title, author, genre, imgURL);
         booksViewModel.putOne(prefsKey, bookItem);
     }
 
     public void updateBook(String prefsKey) {
-        Log.d("EditBookActivity", "updateBook");
-        title = etTitle.getText().toString();
-        author = etAuthor.getText().toString();
-        genre = etGenre.getText().toString();
-        imgURL = etImgURL.getText().toString();
-        bookmark = etBookmark.getText().toString();
-
-        // TODO don't allow empty title and author
-        if(imgURL == null || imgURL.equals("")) {
-            imgURL = "";
-        }
         bookItemInEdit.setTitle(title);
         bookItemInEdit.setAuthor(author);
         bookItemInEdit.setGenre(genre);
         bookItemInEdit.setImgURL(imgURL);
         bookItemInEdit.setBookmark(bookmark);
-
-        boolean updated = booksViewModel.updateOne(prefsKey, bookItemInEdit);
-        Log.d("EditBookActivity", "updateBook: " + updated);
+        booksViewModel.updateOne(prefsKey, bookItemInEdit);
     }
 
     public void onClickEdit(View view) {
-        Log.d("EditBookActivity", "onClickEdit");
-        if (editable) {
-            disableEditing();
+        if(!editable) {
+            setEditingMode(true);
         } else {
-            enableEditing();
+            setEditingMode(false);
         }
     }
 
     public void onClickRemove(View view) {
-        Log.d("EditBookActivity", "onClickRemove");
         booksViewModel.removeOne(prefsKey, this.id);
         finish();
     }
@@ -214,69 +166,52 @@ public class DetailsActivity extends AppCompatActivity {
         addNewBook(BooksViewModel.MY_BOOKS_KEY);
         booksViewModel.removeOne(prefsKey, this.id);
         Toast.makeText(this,R.string.added_as_owned,Toast.LENGTH_LONG).show();
-        etBookmark.setVisibility(View.VISIBLE);
-        addAsOwnedButton.setVisibility(View.GONE);
+        binding.detailsBookmark.setVisibility(View.VISIBLE);
+        binding.detailsAddAsOwnedButton.setVisibility(View.GONE);
         finish();
     }
 
-    private void enableEditing() {
-        editButton.setColorFilter(Color.RED);
-        etTitle.setFocusableInTouchMode(true);
-        etTitle.setFocusable(true);
-        etTitle.setEnabled(true);
-        etTitle.setBackground(defaultBackground);
+    private void setEditingMode(boolean editingMode) {
+        if(editingMode) {
+            editable = true;
+            binding.detailsBookImageURL.setVisibility(View.VISIBLE);
+            binding.detailsRemove.setVisibility(View.VISIBLE);
 
-        etAuthor.setFocusableInTouchMode(true);
-        etAuthor.setFocusable(true);
-        etAuthor.setEnabled(true);
-        etAuthor.setBackground(defaultBackground);
+            binding.detailsEdit.setColorFilter(Color.RED);
+            binding.detailsBookTitle.setBackground(defaultBackground);
+            binding.detailsBookAuthor.setBackground(defaultBackground);
+            binding.detailsBookGenre.setBackground(defaultBackground);
+            binding.detailsBookmark.setBackground(defaultBackground);
+        } else {
+            editable = false;
+            binding.detailsBookImageURL.setVisibility(View.GONE);
+            binding.detailsRemove.setVisibility(View.GONE);
 
-        etGenre.setFocusableInTouchMode(true);
-        etGenre.setFocusable(true);
-        etGenre.setEnabled(true);
-        etGenre.setBackground(defaultBackground);
+            binding.detailsEdit.setColorFilter(defaultColorFilter);
+            binding.detailsBookTitle.setBackground(null);
+            binding.detailsBookAuthor.setBackground(null);
+            binding.detailsBookGenre.setBackground(null);
+            binding.detailsBookmark.setBackground(null);
+        }
 
-        etBookmark.setFocusableInTouchMode(true);
-        etBookmark.setFocusable(true);
-        etBookmark.setEnabled(true);
-        etBookmark.setBackground(defaultBackground);
+        binding.detailsBookTitle.setFocusableInTouchMode(editingMode);
+        binding.detailsBookTitle.setFocusable(editingMode);
+        binding.detailsBookTitle.setEnabled(editingMode);
 
-        etImgURL.setVisibility(View.VISIBLE);
-        removeBookButton.setVisibility(View.VISIBLE);
+        binding.detailsBookAuthor.setFocusableInTouchMode(editingMode);
+        binding.detailsBookAuthor.setFocusable(editingMode);
+        binding.detailsBookAuthor.setEnabled(editingMode);
 
-        editable = true;
+        binding.detailsBookGenre.setFocusableInTouchMode(editingMode);
+        binding.detailsBookGenre.setFocusable(editingMode);
+        binding.detailsBookGenre.setEnabled(editingMode);
+
+        binding.detailsBookmark.setFocusableInTouchMode(editingMode);
+        binding.detailsBookmark.setFocusable(editingMode);
+        binding.detailsBookmark.setEnabled(editingMode);
     }
-
-    private void disableEditing() {
-        editButton.setColorFilter(defaultColorFilter);
-        etTitle.setFocusableInTouchMode(false);
-        etTitle.setFocusable(false);
-        //etTitle.setEnabled(false);
-        etTitle.setBackground(null);
-
-        etAuthor.setFocusableInTouchMode(false);
-        etAuthor.setFocusable(false);
-        //etAuthor.setEnabled(false);
-        etAuthor.setBackground(null);
-
-        etGenre.setFocusableInTouchMode(false);
-        etGenre.setFocusable(false);
-        //etGenre.setEnabled(false);
-        etGenre.setBackground(null);
-
-        etImgURL.setVisibility(View.GONE);
-        removeBookButton.setVisibility(View.GONE);
-
-        etBookmark.setFocusableInTouchMode(false);
-        etBookmark.setFocusable(false);
-        //etBookmark.setEnabled(false);
-        etBookmark.setBackground(null);
-
-        editable = false;
-    }
-
 }
 
 enum Action {
-    EDIT, ADD
+    VIEW, ADD
 }
