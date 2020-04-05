@@ -26,6 +26,7 @@ import fi.mkauha.bookshelf.util.IDGenerator;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 
+// TODO Refactor data fetching
 public class DetailsActivity extends AppCompatActivity {
     private ActivityDetailsBinding binding;
 
@@ -163,6 +164,11 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void onClickAddAsOwned(View view) {
+        id = bookItemInEdit.getBookID();
+        title = bookItemInEdit.getTitle();
+        author = bookItemInEdit.getAuthor();
+        genre = bookItemInEdit.getGenre();
+        imgURL = bookItemInEdit.getImgURL();
         addNewBook(BooksViewModel.MY_BOOKS_KEY);
         booksViewModel.removeOne(prefsKey, this.id);
         Toast.makeText(this,R.string.added_as_owned,Toast.LENGTH_LONG).show();
