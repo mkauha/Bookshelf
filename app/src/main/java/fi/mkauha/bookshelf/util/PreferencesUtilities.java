@@ -35,7 +35,7 @@ public class PreferencesUtilities {
         try {
             String values = gson.toJson(bookItems);
             editor.putString(key,  values);
-            Log.d("PreferencesUtilities", "putAll key: " + key + " value: " + bookItems);
+            Log.d("PreferencesUtilities", "putAll key: " + key);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,12 +59,11 @@ public class PreferencesUtilities {
         ArrayList<BookItem> list = new ArrayList<>();
         String json;
         Type listType = new TypeToken<ArrayList<BookItem>>(){}.getType();
-        //Log.d("PreferencesUtilities", "getAll prefs: " + prefs.getAll().toString());
 
         if(prefs.contains(key)) {
             json = prefs.getString(key, "");
             list = gson.fromJson(json, listType);
-            Log.d("PreferencesUtilities", "getAll key: " + key + " value: " + json);
+            Log.d("PreferencesUtilities", "getAll key: " + key);
         }
         return list;
     }
