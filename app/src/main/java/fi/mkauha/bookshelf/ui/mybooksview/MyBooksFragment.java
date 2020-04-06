@@ -1,5 +1,6 @@
 package fi.mkauha.bookshelf.ui.mybooksview;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,26 +10,39 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import fi.mkauha.bookshelf.R;
+import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.databinding.FragmentMybooksBinding;
+import fi.mkauha.bookshelf.model.BookItem;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
-public class MyBooksFragment extends Fragment {
-    private FragmentMybooksBinding binding;
+import static fi.mkauha.bookshelf.viewmodel.BooksViewModel.MY_BOOKS_KEY;
 
+public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextListener, SortedListAdapter.Callback {
+    private FragmentMybooksBinding binding;
+    private Animator mAnimator;
     private RecyclerView.LayoutManager layoutManager;
     private BooksViewModel booksViewModel;
-
+    private BooksAdapter mAdapter;
+    private List<BookItem> mModels;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("BooksFragment", "onCreate " + this);
@@ -47,14 +61,20 @@ public class MyBooksFragment extends Fragment {
         binding.booksRecyclerView.setHasFixedSize(true);
 
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
-        booksViewModel.setCurrentKey(BooksViewModel.MY_BOOKS_KEY);
+        booksViewModel.setCurrentKey(MY_BOOKS_KEY);
 
-        binding.booksRecyclerView.setAdapter(booksViewModel.getAdapter());
+        final Comparator<BookItem> alphabeticalComparator = (a, b) -> a.getTitle().compareTo(b.getTitle());
+
+        mAdapter = new BooksAdapter(getContext(), alphabeticalComparator);
+        binding.booksRecyclerView.setAdapter(mAdapter);
 
         booksViewModel.getMyBooksLiveData().observe(this,
             list -> {
-                booksViewModel.setBooksInAdapter(list);
-                binding.booksRecyclerView.smoothScrollToPosition(booksViewModel.getAdapter().getItemCount());
+                mModels = list;
+                mAdapter.prefsKey = booksViewModel.getCurrentKey();
+                mAdapter.edit()
+                        .replaceAll(list)
+                        .commit();
                 }
         );
 
@@ -67,13 +87,6 @@ public class MyBooksFragment extends Fragment {
         m1.setEnabled(true);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.top_main_menu, menu);
-    }
-    // When menu item is selected
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if(item.getItemId() == R.id.add_book) {
@@ -83,6 +96,53 @@ public class MyBooksFragment extends Fragment {
             startActivity(intent);
         }
         return false;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.top_main_menu, menu);
+
+        final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        final List<BookItem> filteredModelList = filter(mModels, query);
+        mAdapter.edit()
+                .replaceAll(filteredModelList)
+                .commit();
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    private static List<BookItem> filter(List<BookItem> models, String query) {
+        final String lowerCaseQuery = query.toLowerCase();
+
+        final List<BookItem> filteredModelList = new ArrayList<>();
+        for (BookItem model : models) {
+            final String text = model.getTitle().toLowerCase();
+            if (text.contains(lowerCaseQuery)) {
+                filteredModelList.add(model);
+            }
+        }
+        return filteredModelList;
+    }
+
+    @Override
+    public void onEditStarted() {
+
+    }
+
+    @Override
+    public void onEditFinished() {
+
     }
 
     @Override

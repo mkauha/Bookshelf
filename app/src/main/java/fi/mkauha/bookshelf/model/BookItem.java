@@ -1,8 +1,12 @@
 package fi.mkauha.bookshelf.model;
 
+import androidx.annotation.NonNull;
+
+import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter;
+
 import java.io.Serializable;
 
-public class BookItem implements Serializable {
+public class BookItem implements Serializable, SortedListAdapter.ViewModel {
     private int bookID;
     private int imageID;
     private String bookmark;
@@ -84,5 +88,23 @@ public class BookItem implements Serializable {
     @Override
     public String toString() {
         return "ID: " + bookID + " Title: " + title;
+    }
+
+    @Override
+    public <T> boolean isSameModelAs(@NonNull T item) {
+        if (item instanceof BookItem) {
+            final BookItem other = (BookItem) item;
+            return other.bookID == this.bookID;
+        }
+        return false;
+    }
+
+    @Override
+    public <T> boolean isContentTheSameAs(@NonNull T item) {
+        if (item instanceof BookItem) {
+            final BookItem other = (BookItem) item;
+            return this.title != null ? this.title.equals(other.getTitle()) : other.getTitle() == null;
+        }
+        return false;
     }
 }
