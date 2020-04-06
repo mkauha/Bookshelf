@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
@@ -175,7 +176,9 @@ public class DetailsActivity extends AppCompatActivity {
         imgURL = bookItemInEdit.getImgURL();
         addNewBook(BooksViewModel.MY_BOOKS_KEY, id);
         booksViewModel.removeOne(prefsKey, this.id);
-        Toast.makeText(this,R.string.added_as_owned,Toast.LENGTH_LONG).show();
+        Toast toast = Toast.makeText(this,R.string.added_as_owned,Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
         binding.detailsBookmark.setVisibility(View.VISIBLE);
         binding.detailsAddAsOwnedButton.setVisibility(View.GONE);
         finish();
@@ -191,7 +194,7 @@ public class DetailsActivity extends AppCompatActivity {
             binding.detailsBookTitle.setBackground(defaultBackground);
             binding.detailsBookAuthor.setBackground(defaultBackground);
             binding.detailsBookGenre.setBackground(defaultBackground);
-            binding.detailsBookmark.setBackground(defaultBackground);
+            //binding.detailsBookmark.setBackground(defaultBackground);
         } else {
             editable = false;
             binding.detailsBookImageURL.setVisibility(View.GONE);
@@ -216,9 +219,9 @@ public class DetailsActivity extends AppCompatActivity {
         binding.detailsBookGenre.setFocusable(editingMode);
         binding.detailsBookGenre.setEnabled(editingMode);
 
-        binding.detailsBookmark.setFocusableInTouchMode(editingMode);
+/*        binding.detailsBookmark.setFocusableInTouchMode(editingMode);
         binding.detailsBookmark.setFocusable(editingMode);
-        binding.detailsBookmark.setEnabled(editingMode);
+        binding.detailsBookmark.setEnabled(editingMode);*/
     }
 }
 
