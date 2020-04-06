@@ -68,8 +68,7 @@ public class PreferencesUtilities {
         return list;
     }
 
-    public boolean updateOne(String key, BookItem updatedBookItem) {
-        boolean rBool = false;
+    public void updateOne(String key, BookItem updatedBookItem) {
         ArrayList<BookItem> bookItems = getAll(key);
 
         int i = 0;
@@ -78,12 +77,10 @@ public class PreferencesUtilities {
                 bookItems.set(i, updatedBookItem);
                 Log.d("PreferencesUtilities", "updateOne key: " + key + " value: " + updatedBookItem);
                 putAll(key, bookItems);
-                rBool = true;
                 break;
             }
             i++;
         }
-        return rBool;
     }
 
     public void removeOne(String key, int id) {
