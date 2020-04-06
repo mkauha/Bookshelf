@@ -12,7 +12,6 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.model.BookItem;
 import fi.mkauha.bookshelf.util.IDGenerator;
 import fi.mkauha.bookshelf.util.PreferencesUtilities;
@@ -25,21 +24,20 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
 
     private String currentKey;
 
+    private Context context;
     private SharedPreferences prefs;
     PreferencesUtilities prefsUtils;
     private List<BookItem> myBooksRepository;
     private List<BookItem> wishListRepository;
     private MutableLiveData<List<BookItem>> myBooksLiveData;
     private MutableLiveData<List<BookItem>> wishListLiveData;
-    private BooksAdapter mAdapter;
 
     public BooksViewModel(Application application) {
         super(application);
         prefs = application.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         prefs.registerOnSharedPreferenceChangeListener(this);
         prefsUtils = new PreferencesUtilities(prefs);
-
-        mAdapter = new BooksAdapter(this);
+        context = application.getApplicationContext();
 
         if(myBooksLiveData == null) {
             initMyBooks(MY_BOOKS_KEY);
@@ -48,7 +46,6 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
         if(wishListLiveData == null) {
             initWishList(WISHLIST_BOOKS_KEY);
         }
-        //Log.d("BooksViewModel", "prefs " + prefs.getAll());
     }
 
     public void initMyBooks(String prefsKey) {
@@ -98,10 +95,10 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
     public void loadDummyMyBooks() {
         Log.d("BooksViewModel", "loadDummyMyBooks");
         if(myBooksRepository.isEmpty()) {
-            myBooksRepository.add(new BookItem(IDGenerator.generate(), "Book Title", "John McWriter", "none", "R.drawable.temp_cover_1"));
-            myBooksRepository.add(new BookItem(IDGenerator.generate(), "1984", "George Orwell", "none", "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg"));
-            myBooksRepository.add(new BookItem(IDGenerator.generate(), "The Jungle Book", "Rudyard Kipling", "none", "https://i.pinimg.com/736x/d8/10/eb/d810eb142803834fa37e3ec84353ab49--the-jungle-book-book-cover-jungle-book-poster.jpg"));
-            myBooksRepository.add(new BookItem(IDGenerator.generate(), "Something Nasty In The Woodshed", "Kyril Bonfiglioli", "none", "https://i1.wp.com/www.casualoptimist.com/wp-content/uploads/2014/06/9780241970270.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Book Title", "John McWriter", "none", "R.drawable.temp_cover_1"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "1984", "George Orwell", "none", "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "The Jungle Book", "Rudyard Kipling", "none", "https://i.pinimg.com/736x/d8/10/eb/d810eb142803834fa37e3ec84353ab49--the-jungle-book-book-cover-jungle-book-poster.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Something Nasty In The Woodshed", "Kyril Bonfiglioli", "none", "https://i1.wp.com/www.casualoptimist.com/wp-content/uploads/2014/06/9780241970270.jpg"));
         }
         myBooksLiveData.setValue(myBooksRepository);
     }
@@ -109,7 +106,7 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
     public void loadDummyWishList() {
         Log.d("BooksViewModel", "loadDummyWishList");
         if(wishListRepository.isEmpty()) {
-            wishListRepository.add(new BookItem(IDGenerator.generate(), "The Shining", "Stephen King", "none", "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg"));
+            wishListRepository.add(new BookItem(IDGenerator.generate(context), "The Shining", "Stephen King", "none", "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg"));
         }
         wishListLiveData.setValue(wishListRepository);
     }
@@ -135,15 +132,6 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
         myBooksRepository.clear();
     }
 
-    public BooksAdapter getAdapter() {
-        return mAdapter;
-    }
-
-    public void setBooksInAdapter(List<BookItem> booksList) {
-        this.mAdapter.setBooksList(booksList);
-        this.mAdapter.notifyDataSetChanged();
-    }
-
     public void setCurrentKey(String key) {
         this.currentKey = key;
     }
@@ -153,17 +141,19 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         PreferencesUtilities prefUtils = new PreferencesUtilities(sharedPreferences);
-        List<BookItem> myBooks =  prefUtils.getAll(s);
-        switch(s) {
-            case MY_BOOKS_KEY:
-                myBooksLiveData.setValue(myBooks);
-                break;
-            case WISHLIST_BOOKS_KEY:
-                wishListLiveData.setValue(myBooks);
-                break;
+        if(!key.equals("ID")) {
+            List<BookItem> myBooks =  prefUtils.getAll(key);
+            switch(key) {
+                case MY_BOOKS_KEY:
+                    myBooksLiveData.setValue(myBooks);
+                    break;
+                case WISHLIST_BOOKS_KEY:
+                    wishListLiveData.setValue(myBooks);
+                    break;
+            }
+            Log.d("BooksViewModel", "onSharedPreferenceChanged in key: " + key);
         }
-        Log.d("BooksViewModel", "onSharedPreferenceChanged prefs: " + s + ", " + sharedPreferences.getAll());
     }
 }

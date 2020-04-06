@@ -104,7 +104,6 @@ public class DetailsActivity extends AppCompatActivity {
             boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 Log.d("etImgURL","done");
-                //TODO correct placeholder images
                 Picasso.get()
                         .load(v.getText().toString())
                         .resize(500, 700)
@@ -125,19 +124,24 @@ public class DetailsActivity extends AppCompatActivity {
 
         // TODO don't allow empty title and author
         if(imgURL.equals("")) {
-            imgURL = "R.drawable.book_cover_placeholder";
+            imgURL = "No image URL";
         }
 
         if(currentAction == Action.ADD) {
-            addNewBook(prefsKey);
+            addNewBook(prefsKey, -1);
         } else {
             bookmark = binding.detailsBookmark.getText().toString();
             updateBook(prefsKey);
         }
         finish();
     }
-    public void addNewBook(String prefsKey) {
-        BookItem bookItem = new BookItem(IDGenerator.generate(), title, author, genre, imgURL);
+    // TODO fix multiadd
+    public void addNewBook(String prefsKey, int id) {
+        if(id == -1) {
+            id = IDGenerator.generate(getApplicationContext());
+        }
+
+        BookItem bookItem = new BookItem(id, title, author, genre, imgURL);
         booksViewModel.putOne(prefsKey, bookItem);
     }
 
@@ -169,7 +173,7 @@ public class DetailsActivity extends AppCompatActivity {
         author = bookItemInEdit.getAuthor();
         genre = bookItemInEdit.getGenre();
         imgURL = bookItemInEdit.getImgURL();
-        addNewBook(BooksViewModel.MY_BOOKS_KEY);
+        addNewBook(BooksViewModel.MY_BOOKS_KEY, id);
         booksViewModel.removeOne(prefsKey, this.id);
         Toast.makeText(this,R.string.added_as_owned,Toast.LENGTH_LONG).show();
         binding.detailsBookmark.setVisibility(View.VISIBLE);
