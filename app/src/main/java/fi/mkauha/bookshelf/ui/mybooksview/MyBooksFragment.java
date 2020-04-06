@@ -47,7 +47,7 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("BooksFragment", "onCreate " + this);
         super.onCreate(savedInstanceState);
-        layoutManager = new GridLayoutManager(getActivity(),3);
+        //layoutManager = new GridLayoutManager(getActivity(),3);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
         View root = binding.getRoot();
         setHasOptionsMenu(true);
 
-        binding.booksRecyclerView.setLayoutManager(layoutManager);
+        binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
         binding.booksRecyclerView.setHasFixedSize(true);
 
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
@@ -127,8 +127,10 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
 
         final List<BookItem> filteredModelList = new ArrayList<>();
         for (BookItem model : models) {
-            final String text = model.getTitle().toLowerCase();
-            if (text.contains(lowerCaseQuery)) {
+            final String title = model.getTitle().toLowerCase();
+            final String author = model.getAuthor().toLowerCase();
+            final String genre = model.getGenre().toLowerCase();
+            if (title.contains(lowerCaseQuery) || author.contains(lowerCaseQuery) || genre.contains(lowerCaseQuery)) {
                 filteredModelList.add(model);
             }
         }

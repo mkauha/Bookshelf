@@ -44,7 +44,7 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("WishListFragment", "onCreate " + this);
         super.onCreate(savedInstanceState);
-        layoutManager = new GridLayoutManager(getActivity(),3);
+        //layoutManager = new GridLayoutManager(getActivity(),3);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
         setHasOptionsMenu(true);
 
 
-        binding.wishListRecyclerView.setLayoutManager(layoutManager);
+        binding.wishListRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
         binding.wishListRecyclerView.setHasFixedSize(true);
 
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
@@ -126,8 +126,10 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
 
         final List<BookItem> filteredModelList = new ArrayList<>();
         for (BookItem model : models) {
-            final String text = model.getTitle().toLowerCase();
-            if (text.contains(lowerCaseQuery)) {
+            final String title = model.getTitle().toLowerCase();
+            final String author = model.getAuthor().toLowerCase();
+            final String genre = model.getGenre().toLowerCase();
+            if (title.contains(lowerCaseQuery) || author.contains(lowerCaseQuery) || genre.contains(lowerCaseQuery)) {
                 filteredModelList.add(model);
             }
         }
@@ -155,4 +157,6 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
         super.onDestroyView();
         binding = null;
     }
+
+
 }
