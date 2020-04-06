@@ -95,10 +95,10 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
     public void loadDummyMyBooks() {
         Log.d("BooksViewModel", "loadDummyMyBooks");
         if(myBooksRepository.isEmpty()) {
-            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Book Title", "John McWriter", "none", "R.drawable.temp_cover_1"));
-            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "1984", "George Orwell", "none", "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg"));
-            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "The Jungle Book", "Rudyard Kipling", "none", "https://i.pinimg.com/736x/d8/10/eb/d810eb142803834fa37e3ec84353ab49--the-jungle-book-book-cover-jungle-book-poster.jpg"));
-            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Something Nasty In The Woodshed", "Kyril Bonfiglioli", "none", "https://i1.wp.com/www.casualoptimist.com/wp-content/uploads/2014/06/9780241970270.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Moby Dick", "Herman Melville", "Adventure fiction", "https://www.nauticalmind.com/wp-content/uploads/2018/04/Moby-Dick-Illustrated.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "1984", "George Orwell", "Political fiction", "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "The Jungle Book", "Rudyard Kipling", "Children's book", "https://i.pinimg.com/736x/d8/10/eb/d810eb142803834fa37e3ec84353ab49--the-jungle-book-book-cover-jungle-book-poster.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Something Nasty In The Woodshed", "Kyril Bonfiglioli", "-", "https://i1.wp.com/www.casualoptimist.com/wp-content/uploads/2014/06/9780241970270.jpg"));
         }
         myBooksLiveData.setValue(myBooksRepository);
     }
@@ -106,7 +106,7 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
     public void loadDummyWishList() {
         Log.d("BooksViewModel", "loadDummyWishList");
         if(wishListRepository.isEmpty()) {
-            wishListRepository.add(new BookItem(IDGenerator.generate(context), "The Shining", "Stephen King", "none", "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg"));
+            wishListRepository.add(new BookItem(IDGenerator.generate(context), "The Shining", "Stephen King", "Horror", "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg"));
         }
         wishListLiveData.setValue(wishListRepository);
     }
@@ -120,8 +120,8 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
         return prefsUtils.getOne(key, id);
     }
 
-    public boolean updateOne(String key, BookItem book ) {
-        return prefsUtils.updateOne(key, book);
+    public void updateOne(String key, BookItem book ) {
+        prefsUtils.updateOne(key, book);
     }
 
     public void removeOne(String key, int id) {
