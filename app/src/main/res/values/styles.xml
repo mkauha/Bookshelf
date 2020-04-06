@@ -1,16 +1,22 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">#0003A9F4</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorMenuIcon</item>
     </style>
 
-    <style name="Theme.NoTitleActivityDialog" parent="Theme.AppCompat.Light.Dialog">
+    <style name="Theme.NoTitleActivityDialog" parent="Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="BottomNavigationTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorMenuIconSelected</item>
+        <item name="android:textColorSecondary">@color/colorMenuIcon</item>
     </style>
 
 </resources>

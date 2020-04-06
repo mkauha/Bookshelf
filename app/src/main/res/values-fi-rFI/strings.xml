@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Kirjahylly</string>
-    <string name="title_dashboard">Lukulista</string>
-    <string name="title_home">Kirjat</string>
+    <string name="title_dashboard">Toivelista</string>
+    <string name="title_home">Omat kirjat</string>
     <string name="title_notifications">Kirjastot</string>
+    <string name="add_book">Lisää kirja</string>
+    <string name="edit_book">Muokkaa kirjaa</string>
+    <string name="book_title">Nimi</string>
+    <string name="book_author">Kirjoittaja</string>
+    <string name="book_genre">Lajityyppi</string>
+    <string name="book_img_url">Kuvan URL</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Peruuta</string>
+    <string name="added_as_owned">Kirja lisättiin omiin kirjoihin</string>
+    <string name="search">Hae</string>
+    <string name="search_hint">Hae kirjaa</string>
 </resources>

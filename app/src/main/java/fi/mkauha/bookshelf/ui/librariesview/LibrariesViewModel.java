@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.ui.libraries;
+package fi.mkauha.bookshelf.ui.librariesview;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,7 +10,7 @@ public class LibrariesViewModel extends ViewModel {
 
     public LibrariesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("Nothing to see here");
     }
 
     public LiveData<String> getText() {

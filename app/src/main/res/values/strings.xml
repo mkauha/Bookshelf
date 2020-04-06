@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Bookshelf</string>
     <string name="title_home">My books</string>
-    <string name="title_dashboard">Reading list</string>
+    <string name="title_dashboard">Wish list</string>
     <string name="title_notifications">Libraries</string>
-    <string name="cover_description">Cover image</string>
+    <string name="cover_description" translatable="false">Cover image</string>
     <string name="add_book">Add book</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search books</string>
     <string name="edit_book">Edit book</string>
     <string name="book_title">Title</string>
     <string name="book_author">Author</string>
@@ -12,4 +14,6 @@
     <string name="book_img_url">Image URL</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
+
+    <string name="added_as_owned">Book was added to owned books</string>
 </resources>

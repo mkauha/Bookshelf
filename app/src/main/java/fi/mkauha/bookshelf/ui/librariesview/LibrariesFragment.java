@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.ui.libraries;
+package fi.mkauha.bookshelf.ui.librariesview;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
