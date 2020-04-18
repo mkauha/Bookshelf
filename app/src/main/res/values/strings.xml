@@ -1,4 +1,7 @@
 <resources>
+    <string name="mapbox_access_token" translatable="false">pk.eyJ1IjoibWthdWhhIiwiYSI6ImNrNnJ2cmdvdjA5Z2Izcm1sdnI0bWowdWcifQ.wuFAuBZtRKYQIWf6jalqlw</string>
+    <string name="mapbox_custom_style" translatable="false">mapbox://styles/mkauha/ck93oa6fm07at1ip28n53anbq</string>
+
     <string name="app_name">Bookshelf</string>
     <string name="title_home">My books</string>
     <string name="title_dashboard">Wish list</string>
@@ -15,5 +18,9 @@
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
 
-    <string name="added_as_owned">Book was added to owned books</string>
+    <string name="move_to_owned_confirm">Move book to owned books?</string>
+    <string name="move_to_owned">Book was moved to owned books.</string>
+
+    <string name="library_open">Closed</string>
+    <string name="library_closed">Open</string>
 </resources>
