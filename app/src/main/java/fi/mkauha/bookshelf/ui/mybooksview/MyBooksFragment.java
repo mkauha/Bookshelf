@@ -29,7 +29,7 @@ import java.util.List;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.databinding.FragmentMybooksBinding;
-import fi.mkauha.bookshelf.model.BookItem;
+import fi.mkauha.bookshelf.models.BookItem;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;

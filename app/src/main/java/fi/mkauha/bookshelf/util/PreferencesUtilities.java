@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import fi.mkauha.bookshelf.model.BookItem;
+import fi.mkauha.bookshelf.models.BookItem;
 
 public class PreferencesUtilities {
 

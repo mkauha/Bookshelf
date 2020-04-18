@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Comparator;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.ItemBookGridBinding;
-import fi.mkauha.bookshelf.model.BookItem;
+import fi.mkauha.bookshelf.models.BookItem;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 public class BooksAdapter extends SortedListAdapter<BookItem> {

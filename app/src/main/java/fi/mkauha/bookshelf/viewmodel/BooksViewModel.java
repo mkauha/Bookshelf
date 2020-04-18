@@ -12,7 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.mkauha.bookshelf.model.BookItem;
+import fi.mkauha.bookshelf.models.BookItem;
 import fi.mkauha.bookshelf.util.IDGenerator;
 import fi.mkauha.bookshelf.util.PreferencesUtilities;
 

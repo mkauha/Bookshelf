@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.model;
+package fi.mkauha.bookshelf.models;
 
 import androidx.annotation.NonNull;
 
