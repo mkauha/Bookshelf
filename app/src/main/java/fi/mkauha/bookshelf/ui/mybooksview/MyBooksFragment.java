@@ -47,7 +47,6 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("BooksFragment", "onCreate " + this);
         super.onCreate(savedInstanceState);
-        //layoutManager = new GridLayoutManager(getActivity(),3);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,6 +101,9 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.top_main_menu, menu);
+
+        final MenuItem changeCityItem = menu.findItem(R.id.change_city);
+        changeCityItem.setVisible(false);
 
         final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);

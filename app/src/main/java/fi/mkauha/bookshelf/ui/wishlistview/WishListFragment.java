@@ -102,6 +102,9 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.top_main_menu, menu);
 
+        final MenuItem changeCityItem = menu.findItem(R.id.change_city);
+        changeCityItem.setVisible(false);
+
         final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
