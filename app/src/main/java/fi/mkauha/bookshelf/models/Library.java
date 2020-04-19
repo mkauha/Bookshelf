@@ -10,11 +10,12 @@ public class Library {
     private String openHours;
     private double latitude;
     private double longitude;
+    private boolean isMainLibrary;
 
     public Library() {
     }
 
-    public Library(long id, String name, String consortium, String address, String zip, boolean isOpen, String openHours, double latitude, double longitude) {
+    public Library(long id, String name, String consortium, String address, String zip, boolean isOpen, String openHours, double latitude, double longitude, boolean isMainLibrary) {
         this.id = id;
         this.name = name;
         this.consortium = consortium;
@@ -24,6 +25,7 @@ public class Library {
         this.openHours = openHours;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.isMainLibrary = isMainLibrary;
     }
 
     public long getId() {
@@ -98,6 +100,14 @@ public class Library {
         this.longitude = longitude;
     }
 
+    public boolean isMainLibrary() {
+        return isMainLibrary;
+    }
+
+    public void setMainLibrary(boolean mainLibrary) {
+        isMainLibrary = mainLibrary;
+    }
+
     @Override
     public String toString() {
         return "Library{" +
@@ -110,6 +120,7 @@ public class Library {
                 ", openHours='" + openHours + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", isMainLibrary=" + isMainLibrary +
                 '}';
     }
 }
