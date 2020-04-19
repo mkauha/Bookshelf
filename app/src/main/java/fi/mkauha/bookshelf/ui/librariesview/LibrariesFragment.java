@@ -34,6 +34,7 @@ import com.google.gson.JsonObject;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.maps.UiSettings;
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
@@ -59,6 +60,7 @@ public class LibrariesFragment extends Fragment {
     DialogLibraryInfoBinding dialogBinding;
     private LibrariesViewModel viewModel;
     private MapView mapView;
+    private MapboxMap mapboxMap;
     private SymbolManager symbolManager;
 
 
@@ -73,10 +75,10 @@ public class LibrariesFragment extends Fragment {
     private static final String LAYER_ID = "LAYER_ID";
 
     private Consortium currentConsortium;
-    private double initialLongitude = 23.8491393;
-    private double initialLatitude = 61.450702;
-
     private Gson gson;
+
+    private double cameraLatitude;
+    private double cameraLongitude;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,13 +91,17 @@ public class LibrariesFragment extends Fragment {
         View root = binding.getRoot();
         setHasOptionsMenu(true);
         viewModel = new ViewModelProvider(this).get(LibrariesViewModel.class);
+        currentConsortium = viewModel.getConsortium().getValue();
+        cameraLatitude = viewModel.getLatitude().getValue();
+        cameraLongitude = viewModel.getLongitude().getValue();
 
         mapView = binding.mapView;
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(mapboxMap -> mapboxMap.setStyle(new Style.Builder().fromUri(getString(R.string.mapbox_custom_style)), style -> {
+            this.mapboxMap = mapboxMap;
             mapboxMap.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(initialLatitude, initialLongitude), 10
+                        new LatLng(cameraLatitude, cameraLongitude), 10
                 )
             );
 
@@ -124,7 +130,7 @@ public class LibrariesFragment extends Fragment {
 
             Intent myIntent = new Intent(getActivity(), LibrariesService.class);
             myIntent.putExtra("consortium_list", "");
-            myIntent.putExtra("consortium", 2090);
+            myIntent.putExtra("consortium", currentConsortium.getId());
             getActivity().startService(myIntent);
         }
 
@@ -164,27 +170,51 @@ public class LibrariesFragment extends Fragment {
     }
     private void updateLibraryList(String libraryData) {
         this.libraryList.clear();
+
         Gson gson = new Gson();
         JsonObject dataJson = gson.fromJson(libraryData, JsonObject.class);
         JsonArray librariesJson = dataJson.getAsJsonObject().get("items").getAsJsonArray();
         JsonObject coordinatesObj = null;
         JsonObject addressObj = null;
+        JsonObject mainLibraryObj = null;
         JsonArray schedulesObj = null;
+        long id = -1;
+        String name = "";
+        String street = "";
+        String zip = "";
         boolean isOpen = false;
+        boolean isMainLibrary = false;
+        double latitude = 0;
+        double longitude = 0;
 
         for(JsonElement library : librariesJson) {
-            JsonElement address = library.getAsJsonObject().get("address");
-            JsonElement schedules = library.getAsJsonObject().get("schedules");
-            JsonElement coordinates = library.getAsJsonObject().get("coordinates");
+            JsonObject rootObject = library.getAsJsonObject();
+            boolean isValid = true;
+            JsonElement address = rootObject.get("address");
+            JsonElement schedules = rootObject.get("schedules");
+            JsonElement coordinates = rootObject.get("coordinates");
+            JsonElement mainLibrary = rootObject.get("mainLibrary");
 
             if(!address.isJsonNull()) {
-                addressObj = library.getAsJsonObject().get("address").getAsJsonObject();
+                addressObj = rootObject.get("address").getAsJsonObject();
+            } else {
+                isValid = false;
             }
+
             if(!schedules.isJsonNull()) {
-                schedulesObj = library.getAsJsonObject().get("schedules").getAsJsonArray();
+                schedulesObj = rootObject.get("schedules").getAsJsonArray();
+            } else {
+                isValid = false;
             }
+
             if(!coordinates.isJsonNull()) {
-                coordinatesObj = library.getAsJsonObject().get("coordinates").getAsJsonObject();
+                coordinatesObj = rootObject.get("coordinates").getAsJsonObject();
+            } else {
+                isValid = false;
+            }
+
+            if(!mainLibrary.isJsonNull()) {
+                isMainLibrary = mainLibrary.getAsBoolean();
             }
 
             if(schedulesObj != null) {
@@ -195,18 +225,27 @@ public class LibrariesFragment extends Fragment {
                 }
             }
 
-            long id = library.getAsJsonObject().get("id").getAsLong();
-            String name = library.getAsJsonObject().get("name").getAsString();
+            if(isValid) {
+                if(!library.getAsJsonObject().get("id").isJsonNull()) {
+                    id = rootObject.get("id").getAsLong();
+                }
+                if(!library.getAsJsonObject().get("name").isJsonNull()) {
+                    name = rootObject.get("name").getAsString();
+                }
+                if(!addressObj.getAsJsonObject().get("street").isJsonNull()) {
+                    street = addressObj.getAsJsonObject().get("street").getAsString();
+                }
+                if(!addressObj.getAsJsonObject().get("zipcode").isJsonNull()) {
+                    zip = addressObj.getAsJsonObject().get("zipcode").getAsString();
+                }
+                if(!coordinatesObj.getAsJsonObject().isJsonNull()) {
+                    latitude = coordinatesObj.getAsJsonObject().get("lat").getAsDouble();
+                    longitude = coordinatesObj.getAsJsonObject().get("lon").getAsDouble();
+                }
 
+                this.libraryList.add(new Library(id, name, "", street, zip, isOpen, "", latitude, longitude, isMainLibrary));
+            }
 
-            String street = addressObj.getAsJsonObject().get("street").getAsString();
-            String zip = addressObj.getAsJsonObject().get("zipcode").getAsString();
-
-            double latitude = coordinatesObj.getAsJsonObject().get("lat").getAsDouble();
-            double longitude = coordinatesObj.getAsJsonObject().get("lon").getAsDouble();
-
-
-            this.libraryList.add(new Library(id, name, "", street, zip, isOpen, "", latitude, longitude));
         }
         updateMarkers();
     }
@@ -217,6 +256,13 @@ public class LibrariesFragment extends Fragment {
             options.clear();
             symbolManager.delete(symbols);
             for (Library lib : libraryList) {
+                if(lib.isMainLibrary()) {
+                    mapboxMap.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                    new LatLng(lib.getLatitude(), lib.getLongitude()), 10
+                            )
+                    );
+                }
                 JsonObject dataJson = gson.fromJson(gson.toJson(lib), JsonObject.class);
                 options.add(new SymbolOptions()
                         .withLatLng(new LatLng(lib.getLatitude(), lib.getLongitude()))
@@ -271,6 +317,7 @@ public class LibrariesFragment extends Fragment {
         alertDialogBuilder.setTitle(getResources().getString(R.string.choose_city));
         alertDialogBuilder.setItems(consortiumNamesList.toArray(new CharSequence[consortiumNamesList.size()]), (dialog, which) -> {
             Log.d("LibrariesFragment", "" + consortiumList.get(which));
+            viewModel.setConsortium(consortiumList.get(which));
             currentConsortium = consortiumList.get(which);
             Intent myIntent = new Intent(getActivity(), LibrariesService.class);
             myIntent.putExtra("consortium", currentConsortium.getId());
