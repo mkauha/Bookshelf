@@ -1,5 +1,6 @@
 package fi.mkauha.bookshelf.ui.details;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -22,12 +23,11 @@ import com.squareup.picasso.Picasso;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.ActivityDetailsBinding;
-import fi.mkauha.bookshelf.model.BookItem;
+import fi.mkauha.bookshelf.models.BookItem;
 import fi.mkauha.bookshelf.util.IDGenerator;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 
-// TODO Refactor data fetching
 public class DetailsActivity extends AppCompatActivity {
     private ActivityDetailsBinding binding;
 
@@ -169,19 +169,35 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void onClickAddAsOwned(View view) {
-        id = bookItemInEdit.getBookID();
-        title = bookItemInEdit.getTitle();
-        author = bookItemInEdit.getAuthor();
-        genre = bookItemInEdit.getGenre();
-        imgURL = bookItemInEdit.getImgURL();
-        addNewBook(BooksViewModel.MY_BOOKS_KEY, id);
-        booksViewModel.removeOne(prefsKey, this.id);
-        Toast toast = Toast.makeText(this,R.string.added_as_owned,Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
-        binding.detailsBookmark.setVisibility(View.VISIBLE);
-        binding.detailsAddAsOwnedButton.setVisibility(View.GONE);
-        finish();
+        openConfirmDialog();
+
+    }
+
+    public void openConfirmDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(getResources().getString(R.string.move_to_owned_confirm));
+        alertDialogBuilder.setPositiveButton(getResources().getString(R.string.button_yes),
+                (arg0, arg1) -> {
+                    id = bookItemInEdit.getBookID();
+                    title = bookItemInEdit.getTitle();
+                    author = bookItemInEdit.getAuthor();
+                    genre = bookItemInEdit.getGenre();
+                    imgURL = bookItemInEdit.getImgURL();
+                    addNewBook(BooksViewModel.MY_BOOKS_KEY, id);
+                    booksViewModel.removeOne(prefsKey, getId());
+                    Toast toast = Toast.makeText(getApplicationContext(),R.string.move_to_owned,Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                    binding.detailsBookmark.setVisibility(View.VISIBLE);
+                    binding.detailsAddAsOwnedButton.setVisibility(View.GONE);
+                    finish();
+                });
+
+        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.button_cancel), (dialog, which) -> {
+
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     private void setEditingMode(boolean editingMode) {
@@ -222,6 +238,10 @@ public class DetailsActivity extends AppCompatActivity {
 /*        binding.detailsBookmark.setFocusableInTouchMode(editingMode);
         binding.detailsBookmark.setFocusable(editingMode);
         binding.detailsBookmark.setEnabled(editingMode);*/
+    }
+
+    public int getId() {
+        return id;
     }
 }
 
