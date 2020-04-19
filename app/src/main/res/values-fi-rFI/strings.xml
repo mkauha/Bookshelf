@@ -16,6 +16,7 @@
     <string name="search_hint">Hae kirjaa</string>
     <string name="move_to_owned">Kirja lisättiin omiin kirjoihin.</string>
     <string name="move_to_owned_confirm">Siirrä kirja omiin kirjoihin?</string>
-    <string name="library_open">Suljettu</string>
-    <string name="library_closed">Avoinna</string>
+    <string name="library_open">Avoinna</string>
+    <string name="library_closed">Suljettu</string>
+    <string name="choose_city">Valitse kirjastoyhteisö</string>
 </resources>

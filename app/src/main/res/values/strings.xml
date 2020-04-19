@@ -9,6 +9,7 @@
     <string name="cover_description" translatable="false">Cover image</string>
     <string name="add_book">Add book</string>
     <string name="search">Search</string>
+    <string name="choose_city">Choose library consortium</string>
     <string name="search_hint">Search books</string>
     <string name="edit_book">Edit book</string>
     <string name="book_title">Title</string>
@@ -21,6 +22,6 @@
     <string name="move_to_owned_confirm">Move book to owned books?</string>
     <string name="move_to_owned">Book was moved to owned books.</string>
 
-    <string name="library_open">Closed</string>
-    <string name="library_closed">Open</string>
+    <string name="library_open">Open</string>
+    <string name="library_closed">Closed</string>
 </resources>
