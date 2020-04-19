@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.Gson;
@@ -47,22 +43,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.databinding.DialogLibraryInfoBinding;
 import fi.mkauha.bookshelf.databinding.FragmentLibrariesBinding;
 import fi.mkauha.bookshelf.models.Consortium;
 import fi.mkauha.bookshelf.models.Library;
-import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.viewmodel.LibrariesViewModel;
 
 
 public class LibrariesFragment extends Fragment {
-    FragmentLibrariesBinding binding;
-    DialogLibraryInfoBinding dialogBinding;
+    private FragmentLibrariesBinding binding;
     private LibrariesViewModel viewModel;
     private MapView mapView;
     private MapboxMap mapboxMap;
     private SymbolManager symbolManager;
-
 
     private List<Library> libraryList = new ArrayList<>();
     private List<Consortium> consortiumList = new ArrayList<>();
@@ -70,9 +62,7 @@ public class LibrariesFragment extends Fragment {
     private List<Symbol> symbols = new ArrayList<>();
     private List<SymbolOptions> options = new ArrayList<>();
 
-    private static final String SOURCE_ID = "SOURCE_ID";
-    private static final String ICON_ID = "ICON_ID";
-    private static final String LAYER_ID = "LAYER_ID";
+    private static final String ICON_ID = "LIBRARY_ICON";
 
     private Consortium currentConsortium;
     private Gson gson;
@@ -138,7 +128,6 @@ public class LibrariesFragment extends Fragment {
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-
         String libraryData;
         String consortiumData;
 
@@ -176,7 +165,6 @@ public class LibrariesFragment extends Fragment {
         JsonArray librariesJson = dataJson.getAsJsonObject().get("items").getAsJsonArray();
         JsonObject coordinatesObj = null;
         JsonObject addressObj = null;
-        JsonObject mainLibraryObj = null;
         JsonArray schedulesObj = null;
         long id = -1;
         String name = "";
@@ -281,8 +269,6 @@ public class LibrariesFragment extends Fragment {
 
 
     private void openLibraryInfoDialog(JsonElement data) {
-        Log.d("LibrariesFragment", "" + data);
-
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater factory = LayoutInflater.from(getActivity());
         View dialogLayout = factory.inflate(R.layout.dialog_library_info, null);
@@ -316,7 +302,6 @@ public class LibrariesFragment extends Fragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setTitle(getResources().getString(R.string.choose_city));
         alertDialogBuilder.setItems(consortiumNamesList.toArray(new CharSequence[consortiumNamesList.size()]), (dialog, which) -> {
-            Log.d("LibrariesFragment", "" + consortiumList.get(which));
             viewModel.setConsortium(consortiumList.get(which));
             currentConsortium = consortiumList.get(which);
             Intent myIntent = new Intent(getActivity(), LibrariesService.class);
