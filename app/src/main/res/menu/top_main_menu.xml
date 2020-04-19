@@ -14,5 +14,10 @@
         android:icon="@drawable/ic_add_book"
         android:title="@string/add_book"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/change_city"
+        android:icon="@drawable/ic_choose_city"
+        android:title="@string/choose_city"
+        app:showAsAction="ifRoom" />
 
 </menu>
