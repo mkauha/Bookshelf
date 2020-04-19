@@ -1,27 +1,34 @@
 package fi.mkauha.bookshelf.ui.librariesview;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mapbox.geojson.Feature;
-import com.mapbox.geojson.FeatureCollection;
-import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -41,18 +48,18 @@ import fi.mkauha.bookshelf.databinding.DialogLibraryInfoBinding;
 import fi.mkauha.bookshelf.databinding.FragmentLibrariesBinding;
 import fi.mkauha.bookshelf.models.Library;
 
-import static com.mapbox.geojson.FeatureCollection.fromFeatures;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 public class LibrariesFragment extends Fragment {
     FragmentLibrariesBinding binding;
     DialogLibraryInfoBinding dialogBinding;
     private MapView mapView;
     Location selectedLocation;
+    SymbolManager symbolManager;
+
 
     List<Library> libraryList = new ArrayList<>();
     private List<Symbol> symbols = new ArrayList<>();
+    List<SymbolOptions> options = new ArrayList<>();
 
     private static final String SOURCE_ID = "SOURCE_ID";
     private static final String ICON_ID = "ICON_ID";
@@ -73,17 +80,6 @@ public class LibrariesFragment extends Fragment {
         binding = FragmentLibrariesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
-        List<Feature> symbolLayerIconFeatureList = new ArrayList<>();
-        symbolLayerIconFeatureList.add(Feature.fromGeometry(
-                Point.fromLngLat(23.8491393, 	61.450702)));
-        symbolLayerIconFeatureList.add(Feature.fromGeometry(
-                Point.fromLngLat(23.7340802, 61.4704433)));
-        symbolLayerIconFeatureList.add(Feature.fromGeometry(
-                Point.fromLngLat(23.872232, 	61.4702285)));
-
-        initializeLibraryList();
-
         mapView = binding.mapView;
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(mapboxMap -> mapboxMap.setStyle(new Style.Builder().fromUri(getString(R.string.mapbox_custom_style)), style -> {
@@ -95,32 +91,15 @@ public class LibrariesFragment extends Fragment {
 
             addLibrarySymbolImageToStyle(style);
 
-            SymbolManager symbolManager = new SymbolManager(mapView, mapboxMap, style);
+            symbolManager = new SymbolManager(mapView, mapboxMap, style);
             symbolManager.addClickListener(symbol -> {
-                openLibraryInfoDialog(symbol.getData());
-                Log.d("LibrariesFragment", "symbol:  " + symbol);
+                if(symbol.getData() != null) {
+                    openLibraryInfoDialog(symbol.getData());
+                }
             });
 
             symbolManager.setIconAllowOverlap(true);
             symbolManager.setIconIgnorePlacement(true);
-
-            // Add symbol at specified lat/lon
-            List<SymbolOptions> options = new ArrayList<>();
-            for(Library lib : libraryList) {
-                JsonObject dataJson = gson.fromJson(gson.toJson(lib), JsonObject.class);
-                options.add( new SymbolOptions()
-                        .withLatLng(new LatLng(lib.getLatitude(),lib.getLongitude()))
-                        .withIconImage(ICON_ID)
-                        .withIconColor(ColorUtils.colorToRgbaString(getResources().getColor(R.color.colorPrimary)))
-                        .withData(dataJson)
-                        .withIconSize(1.1f)
-                        .withTextField(lib.getName())
-                        .withTextSize(10f)
-                        .withTextOffset(new Float[] {0f, 2.1f})
-                );
-            }
-
-           symbols = symbolManager.create(options);
 
             UiSettings uiSettings = mapboxMap.getUiSettings();
             uiSettings.setCompassEnabled(false);
@@ -129,17 +108,98 @@ public class LibrariesFragment extends Fragment {
             uiSettings.setAttributionGravity(Gravity.TOP);
         }));
 
+        Activity activity = getActivity();
+        if(activity != null) {
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver, new IntentFilter("LibrariesService"));
+
+            Intent myIntent = new Intent(getActivity(), LibrariesService.class);
+            myIntent.putExtra("city", "tampere");
+            getActivity().startService(myIntent);
+        }
+
         return root;
     }
 
-    public void initializeLibraryList() {
-        this.libraryList.add(new Library(1, "Hervannan kirjasto", "Piki", "Insinöörinkatu 38","33720", false, "", 61.450702, 23.8491393));
-        this.libraryList.add(new Library(2, 	"Härmälän kirjasto", "Piki", "Nuolialantie 47", "33900", false, "", 61.4704433, 23.7340802));
-        this.libraryList.add(new Library(3, "Kaukajärven kirjasto", "Piki", "Käätykatu 6","33710", false, "", 61.4702285, 23.872232));
-        this.libraryList.add(new Library(4, "Koivistonkylän kirjasto", "Piki", "Lehvänkatu 9","33820", false, "", 61.470319, 	23.796789));
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        String libraryData;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.hasExtra("libraryData")) {
+                libraryData = intent.getStringExtra("libraryData");
+                updateLibraryList(libraryData);
+            }
+        }
+    };
+
+    private void updateLibraryList(String libraryData) {
+        Gson gson = new Gson();
+        JsonObject dataJson = gson.fromJson(libraryData, JsonObject.class);
+        JsonArray librariesJson = dataJson.getAsJsonObject().get("items").getAsJsonArray();
+        JsonObject coordinatesObj = null;
+        JsonObject addressObj = null;
+        JsonArray schedulesObj = null;
+        boolean isOpen = false;
+
+        for(JsonElement library : librariesJson) {
+            JsonElement address = library.getAsJsonObject().get("address");
+            JsonElement schedules = library.getAsJsonObject().get("schedules");
+            JsonElement coordinates = library.getAsJsonObject().get("coordinates");
+
+            if(!address.isJsonNull()) {
+                addressObj = library.getAsJsonObject().get("address").getAsJsonObject();
+            }
+            if(!schedules.isJsonNull()) {
+                schedulesObj = library.getAsJsonObject().get("schedules").getAsJsonArray();
+            }
+            if(!coordinates.isJsonNull()) {
+                coordinatesObj = library.getAsJsonObject().get("coordinates").getAsJsonObject();
+            }
+
+            if(schedulesObj != null) {
+                for(JsonElement key : schedulesObj) {
+                    if(key.toString().equals("closed")) {
+                        isOpen = key.getAsBoolean();
+                    }
+                }
+            }
+
+            long id = library.getAsJsonObject().get("id").getAsLong();
+            String name = library.getAsJsonObject().get("name").getAsString();
+            String street = addressObj.getAsJsonObject().get("street").getAsString();
+            String zip = addressObj.getAsJsonObject().get("zipcode").getAsString();
+
+            double latitude = coordinatesObj.getAsJsonObject().get("lat").getAsDouble();
+            double longitude = coordinatesObj.getAsJsonObject().get("lon").getAsDouble();
+
+            this.libraryList.add(new Library(id, name, "", street, zip, isOpen, "", latitude, longitude));
+        }
+        updateMarkers();
     }
 
-    public void openLibraryInfoDialog(JsonElement data) {
+    private void updateMarkers() {
+        Activity activity = getActivity();
+        if(activity != null) {
+            for (Library lib : libraryList) {
+                JsonObject dataJson = gson.fromJson(gson.toJson(lib), JsonObject.class);
+                options.add(new SymbolOptions()
+                        .withLatLng(new LatLng(lib.getLatitude(), lib.getLongitude()))
+                        .withIconImage(ICON_ID)
+                        .withIconColor(ColorUtils.colorToRgbaString(getResources().getColor(R.color.colorPrimary)))
+                        .withData(dataJson)
+                        .withIconSize(1.1f)
+                        .withTextField(lib.getName())
+                        .withTextSize(10f)
+                        .withTextOffset(new Float[]{0f, 2.1f})
+                );
+            }
+            symbols = symbolManager.create(options);
+        }
+    }
+
+
+    private void openLibraryInfoDialog(JsonElement data) {
         Log.d("LibrariesFragment", "" + data);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -162,8 +222,10 @@ public class LibrariesFragment extends Fragment {
 
         if(isOpen) {
             openView.setText(getString(R.string.library_open));
+            openView.setTextColor(Color.GREEN);
         } else {
             openView.setText(getString(R.string.library_closed));
+            openView.setTextColor(Color.RED);
         }
 
         alertDialog.show();
@@ -172,6 +234,8 @@ public class LibrariesFragment extends Fragment {
     private void addLibrarySymbolImageToStyle(Style style) {
         style.addImage(ICON_ID, BitmapUtils.getBitmapFromDrawable(getResources().getDrawable(R.drawable.ic_library_point)),true);
     }
+
+
 
     @Override
     public void onStart() {
