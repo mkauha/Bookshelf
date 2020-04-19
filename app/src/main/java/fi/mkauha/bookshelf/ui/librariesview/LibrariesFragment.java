@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -21,8 +22,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.Gson;
@@ -46,27 +48,33 @@ import java.util.List;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.DialogLibraryInfoBinding;
 import fi.mkauha.bookshelf.databinding.FragmentLibrariesBinding;
+import fi.mkauha.bookshelf.models.Consortium;
 import fi.mkauha.bookshelf.models.Library;
+import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
+import fi.mkauha.bookshelf.viewmodel.LibrariesViewModel;
 
 
 public class LibrariesFragment extends Fragment {
     FragmentLibrariesBinding binding;
     DialogLibraryInfoBinding dialogBinding;
+    private LibrariesViewModel viewModel;
     private MapView mapView;
-    Location selectedLocation;
-    SymbolManager symbolManager;
+    private SymbolManager symbolManager;
 
 
-    List<Library> libraryList = new ArrayList<>();
+    private List<Library> libraryList = new ArrayList<>();
+    private List<Consortium> consortiumList = new ArrayList<>();
+    private List<String> consortiumNamesList = new ArrayList<>();
     private List<Symbol> symbols = new ArrayList<>();
-    List<SymbolOptions> options = new ArrayList<>();
+    private List<SymbolOptions> options = new ArrayList<>();
 
     private static final String SOURCE_ID = "SOURCE_ID";
     private static final String ICON_ID = "ICON_ID";
     private static final String LAYER_ID = "LAYER_ID";
 
-    double initialLongitude = 23.8491393;
-    double initialLatitude = 61.450702;
+    private Consortium currentConsortium;
+    private double initialLongitude = 23.8491393;
+    private double initialLatitude = 61.450702;
 
     private Gson gson;
 
@@ -79,6 +87,8 @@ public class LibrariesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentLibrariesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        setHasOptionsMenu(true);
+        viewModel = new ViewModelProvider(this).get(LibrariesViewModel.class);
 
         mapView = binding.mapView;
         mapView.onCreate(savedInstanceState);
@@ -113,7 +123,8 @@ public class LibrariesFragment extends Fragment {
             LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver, new IntentFilter("LibrariesService"));
 
             Intent myIntent = new Intent(getActivity(), LibrariesService.class);
-            myIntent.putExtra("city", "tampere");
+            myIntent.putExtra("consortium_list", "");
+            myIntent.putExtra("consortium", 2090);
             getActivity().startService(myIntent);
         }
 
@@ -123,17 +134,36 @@ public class LibrariesFragment extends Fragment {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 
         String libraryData;
+        String consortiumData;
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            if(intent.hasExtra("consortiumData")) {
+                consortiumData = intent.getStringExtra("consortiumData");
+                updateConsortiumList(consortiumData);
+            }
             if(intent.hasExtra("libraryData")) {
                 libraryData = intent.getStringExtra("libraryData");
                 updateLibraryList(libraryData);
             }
         }
     };
+    private void updateConsortiumList(String consortiumData) {
+        Gson gson = new Gson();
+        JsonObject dataJson = gson.fromJson(consortiumData, JsonObject.class);
+        JsonArray librariesJson = dataJson.getAsJsonObject().get("items").getAsJsonArray();
 
+        for(JsonElement library : librariesJson) {
+            long id = library.getAsJsonObject().get("id").getAsLong();
+            String name = library.getAsJsonObject().get("name").getAsString();
+
+            this.consortiumList.add(new Consortium(id, name));
+            this.consortiumNamesList.add(name);
+        }
+
+    }
     private void updateLibraryList(String libraryData) {
+        this.libraryList.clear();
         Gson gson = new Gson();
         JsonObject dataJson = gson.fromJson(libraryData, JsonObject.class);
         JsonArray librariesJson = dataJson.getAsJsonObject().get("items").getAsJsonArray();
@@ -167,11 +197,14 @@ public class LibrariesFragment extends Fragment {
 
             long id = library.getAsJsonObject().get("id").getAsLong();
             String name = library.getAsJsonObject().get("name").getAsString();
+
+
             String street = addressObj.getAsJsonObject().get("street").getAsString();
             String zip = addressObj.getAsJsonObject().get("zipcode").getAsString();
 
             double latitude = coordinatesObj.getAsJsonObject().get("lat").getAsDouble();
             double longitude = coordinatesObj.getAsJsonObject().get("lon").getAsDouble();
+
 
             this.libraryList.add(new Library(id, name, "", street, zip, isOpen, "", latitude, longitude));
         }
@@ -181,6 +214,8 @@ public class LibrariesFragment extends Fragment {
     private void updateMarkers() {
         Activity activity = getActivity();
         if(activity != null) {
+            options.clear();
+            symbolManager.delete(symbols);
             for (Library lib : libraryList) {
                 JsonObject dataJson = gson.fromJson(gson.toJson(lib), JsonObject.class);
                 options.add(new SymbolOptions()
@@ -231,11 +266,55 @@ public class LibrariesFragment extends Fragment {
         alertDialog.show();
     }
 
+    private void openChooseConsortiumDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle(getResources().getString(R.string.choose_city));
+        alertDialogBuilder.setItems(consortiumNamesList.toArray(new CharSequence[consortiumNamesList.size()]), (dialog, which) -> {
+            Log.d("LibrariesFragment", "" + consortiumList.get(which));
+            currentConsortium = consortiumList.get(which);
+            Intent myIntent = new Intent(getActivity(), LibrariesService.class);
+            myIntent.putExtra("consortium", currentConsortium.getId());
+            getActivity().startService(myIntent);
+
+        });
+        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.button_cancel),
+                (arg0, arg1) -> {
+
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+
     private void addLibrarySymbolImageToStyle(Style style) {
         style.addImage(ICON_ID, BitmapUtils.getBitmapFromDrawable(getResources().getDrawable(R.drawable.ic_library_point)),true);
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem m1 = menu.findItem(R.id.change_city);
+        m1.setEnabled(true);
+    }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.change_city) {
+            openChooseConsortiumDialog();
+        }
+        return false;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.top_main_menu, menu);
+        final MenuItem changeCityItem = menu.findItem(R.id.change_city);
+        final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        final MenuItem addItem = menu.findItem(R.id.add_book);
+
+        searchItem.setVisible(false);
+        addItem.setVisible(false);
+    }
 
     @Override
     public void onStart() {
