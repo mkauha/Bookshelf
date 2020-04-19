@@ -8,13 +8,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,9 +17,7 @@ import java.net.URL;
 
 public class LibrariesService extends IntentService {
 
-    String city;
-    URL url;
-    HttpURLConnection urlConnection;
+    long consortiumId;
 
     public LibrariesService(String name) {
         super(name);
@@ -44,16 +35,31 @@ public class LibrariesService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        if(intent.hasExtra("city")) {
-            this.city = (String) intent.getStringExtra("city");
+        if(intent.hasExtra("consortium_list")) {
 
             StringBuilder urlBuilder = new StringBuilder();
-            urlBuilder.append("https://api.kirjastot.fi/v4/library?city.name=");
-            urlBuilder.append(this.city);
-            urlBuilder.append("&with=schedules&limit=23");
+            urlBuilder.append("https://api.kirjastot.fi/v4/consortium?limit=50");
             String url = urlBuilder.toString();
             String data = getJSON(url, 10000);
-            Log.d("LibrariesService", "data: " + data);
+
+            LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+            Intent intentUpdate = new Intent("LibrariesService");
+            intentUpdate.putExtra("consortiumData", data);
+            manager.sendBroadcast(intentUpdate);
+
+        }
+        if(intent.hasExtra("consortium")) {
+            long defId = 2090;
+            this.consortiumId = intent.getLongExtra("consortium", defId);
+
+            StringBuilder urlBuilder = new StringBuilder();
+            //urlBuilder.append("https://api.kirjastot.fi/v4/library?city.name=");
+            urlBuilder.append("https://api.kirjastot.fi/v4/library?consortium=");
+            urlBuilder.append(this.consortiumId);
+            urlBuilder.append("&with=schedules&limit=100");
+            String url = urlBuilder.toString();
+            String data = getJSON(url, 10000);
+            Log.d("LibrariesService", data);
 
             LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
             Intent intentUpdate = new Intent("LibrariesService");
