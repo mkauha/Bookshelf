@@ -3,6 +3,8 @@ package fi.mkauha.bookshelf.models;
 public class Consortium {
     private long id;
     private String name;
+    private double latitude;
+    private double longitude;
 
     public Consortium(long id, String name) {
         this.id = id;
