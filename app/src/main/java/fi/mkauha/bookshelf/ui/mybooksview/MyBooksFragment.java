@@ -28,6 +28,7 @@ import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.databinding.FragmentMybooksBinding;
 import fi.mkauha.bookshelf.models.BookItem;
+import fi.mkauha.bookshelf.ui.CreditsActivity;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
@@ -100,7 +101,7 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem m1 = menu.findItem(R.id.add_book);
+        MenuItem m1 = menu.findItem(R.id.app_bar_add_book);
         m1.setEnabled(true);
     }
 
@@ -112,10 +113,14 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-        if(item.getItemId() == R.id.add_book) {
+        if(item.getItemId() == R.id.app_bar_add_book) {
             Intent intent = new Intent(getActivity(), DetailsActivity.class);
             intent.putExtra("Action", "ADD");
             intent.putExtra("ViewModel_Key", booksViewModel.getCurrentKey());
+            startActivity(intent);
+        }
+        if(item.getItemId() == R.id.app_bar_credits) {
+            Intent intent = new Intent(getActivity(), CreditsActivity.class);
             startActivity(intent);
         }
         return false;
@@ -132,7 +137,7 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.top_main_menu, menu);
 
-        final MenuItem changeCityItem = menu.findItem(R.id.change_consortium);
+        final MenuItem changeCityItem = menu.findItem(R.id.app_bar_change_consortium);
         changeCityItem.setVisible(false);
 
         final MenuItem searchItem = menu.findItem(R.id.app_bar_search);

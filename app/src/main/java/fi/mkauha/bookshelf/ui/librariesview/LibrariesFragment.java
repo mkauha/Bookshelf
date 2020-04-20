@@ -45,6 +45,7 @@ import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentLibrariesBinding;
 import fi.mkauha.bookshelf.models.Consortium;
 import fi.mkauha.bookshelf.models.Library;
+import fi.mkauha.bookshelf.ui.CreditsActivity;
 
 
 /**
@@ -386,14 +387,18 @@ public class LibrariesFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem m1 = menu.findItem(R.id.change_consortium);
+        MenuItem m1 = menu.findItem(R.id.app_bar_change_consortium);
         m1.setEnabled(true);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-        if(item.getItemId() == R.id.change_consortium) {
+        if(item.getItemId() == R.id.app_bar_change_consortium) {
             openChooseConsortiumDialog();
+        }
+        if(item.getItemId() == R.id.app_bar_credits) {
+            Intent intent = new Intent(getActivity(), CreditsActivity.class);
+            startActivity(intent);
         }
         return false;
     }
@@ -402,9 +407,9 @@ public class LibrariesFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.top_main_menu, menu);
-        final MenuItem changeCityItem = menu.findItem(R.id.change_consortium);
+        final MenuItem changeCityItem = menu.findItem(R.id.app_bar_change_consortium);
         final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
-        final MenuItem addItem = menu.findItem(R.id.add_book);
+        final MenuItem addItem = menu.findItem(R.id.app_bar_add_book);
 
         searchItem.setVisible(false);
         addItem.setVisible(false);
