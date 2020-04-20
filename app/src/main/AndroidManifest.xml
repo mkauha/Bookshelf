@@ -22,6 +22,10 @@
         </activity>
         <activity android:name=".ui.details.DetailsActivity"
             android:theme="@style/Theme.NoTitleActivityDialog" />
+
+        <activity android:name=".ui.CreditsActivity"
+            android:theme="@style/Theme.NoTitleActivityDialog" />
+
         <service
             android:name=".ui.librariesview.LibrariesService"/>
     </application>

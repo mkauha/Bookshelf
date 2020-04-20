@@ -20,4 +20,9 @@
     <string name="library_closed">Suljettu</string>
     <string name="choose_city">Valitse kirjastoyhteisö</string>
     <string name="button_yes">Kyllä</string>
+    <string name="app_author">Tekijä: Miko Kauhanen</string>
+    <string name="credits_data_sources">Tietolähteet:</string>
+    <string name="credits_licenses">Lisenssit:</string>
+    <string name="credits">Tietoja</string>
+    <string name="credits_data_links">Linkit</string>
 </resources>

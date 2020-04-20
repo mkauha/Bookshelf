@@ -2,6 +2,23 @@
 
 
     <string name="app_name">Bookshelf</string>
+    <string name="app_author">Created by: Miko Kauhanen</string>
+    <string name="app_github" translatable="false">GitHub</string>
+    <string name="app_github_URL" translatable="false">https://github.com/mkauha/Bookshelf</string>
+
+    <string name="credits_data_links">Links:</string>
+    <string name="credits_data_sources">Data sources:</string>
+    <string name="credits_licenses">Licenses:</string>
+
+    <string name="credits_data_sources_kirkanta" translatable="false">Kirkanta API v4</string>
+    <string name="credits_data_sources_kirkanta_URL" translatable="false">https://api.kirjastot.fi/</string>
+    <string name="credits_licenses_picasso" translatable="false">Picasso</string>
+    <string name="credits_licenses_picasso_URL" translatable="false">https://square.github.io/picasso/#license</string>
+    <string name="credits_licenses_mapbox" translatable="false">MapBox</string>
+    <string name="credits_licenses_mapbox_URL" translatable="false">https://github.com/mapbox/mapbox-navigation-android/blob/master/LICENSE.md</string>
+    <string name="credits_licenses_sortedlist" translatable="false">SortedListAdapter</string>
+    <string name="credits_licenses_credits_licenses_sortedlist_URL" translatable="false">https://github.com/Wrdlbrnft/SortedListAdapter/blob/master/LICENSE</string>
+
     <string name="title_home">My books</string>
     <string name="title_dashboard">Wish list</string>
     <string name="title_notifications">Libraries</string>
@@ -9,6 +26,7 @@
     <string name="add_book">Add book</string>
     <string name="search">Search</string>
     <string name="choose_city">Choose library consortium</string>
+    <string name="credits">Credits</string>
     <string name="search_hint">Search books</string>
     <string name="edit_book">Edit book</string>
     <string name="book_title">Title</string>
