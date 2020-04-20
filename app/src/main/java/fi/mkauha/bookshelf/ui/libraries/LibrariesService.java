@@ -82,13 +82,11 @@ public class LibrariesService extends IntentService {
             this.consortiumId = intent.getLongExtra("consortium", defId);
 
             StringBuilder urlBuilder = new StringBuilder();
-            //urlBuilder.append("https://api.kirjastot.fi/v4/library?city.name=");
             urlBuilder.append("https://api.kirjastot.fi/v4/library?consortium=");
             urlBuilder.append(this.consortiumId);
             urlBuilder.append("&with=schedules&limit=100");
             String url = urlBuilder.toString();
             String data = getJSON(url, 10000);
-            Log.d("LibrariesService", data);
 
             LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
             Intent intentUpdate = new Intent("LibrariesService");
