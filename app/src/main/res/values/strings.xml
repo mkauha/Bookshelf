@@ -23,7 +23,7 @@
     <string name="title_dashboard">Wish list</string>
     <string name="title_notifications">Libraries</string>
     <string name="cover_description" translatable="false">Cover image</string>
-    <string name="add_book">Add book</string>
+    <string name="add_book">Add</string>
     <string name="search">Search</string>
     <string name="choose_city">Choose library consortium</string>
     <string name="credits">Credits</string>

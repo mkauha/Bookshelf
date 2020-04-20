@@ -4,7 +4,7 @@
     <string name="title_dashboard">Toivelista</string>
     <string name="title_home">Omat kirjat</string>
     <string name="title_notifications">Kirjastot</string>
-    <string name="add_book">Lisää kirja</string>
+    <string name="add_book">Lisää</string>
     <string name="edit_book">Muokkaa kirjaa</string>
     <string name="book_title">Nimi</string>
     <string name="book_author">Kirjoittaja</string>
