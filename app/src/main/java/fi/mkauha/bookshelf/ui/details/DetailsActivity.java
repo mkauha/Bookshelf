@@ -300,7 +300,6 @@ public class DetailsActivity extends AppCompatActivity {
             binding.detailsBookTitle.setBackground(defaultBackground);
             binding.detailsBookAuthor.setBackground(defaultBackground);
             binding.detailsBookGenre.setBackground(defaultBackground);
-            //binding.detailsBookmark.setBackground(defaultBackground);
         } else {
             editable = false;
             binding.detailsBookImageURL.setVisibility(View.GONE);
@@ -315,19 +314,12 @@ public class DetailsActivity extends AppCompatActivity {
 
         binding.detailsBookTitle.setFocusableInTouchMode(editingMode);
         binding.detailsBookTitle.setFocusable(editingMode);
-        binding.detailsBookTitle.setEnabled(editingMode);
 
         binding.detailsBookAuthor.setFocusableInTouchMode(editingMode);
         binding.detailsBookAuthor.setFocusable(editingMode);
-        binding.detailsBookAuthor.setEnabled(editingMode);
 
         binding.detailsBookGenre.setFocusableInTouchMode(editingMode);
         binding.detailsBookGenre.setFocusable(editingMode);
-        binding.detailsBookGenre.setEnabled(editingMode);
-
-/*        binding.detailsBookmark.setFocusableInTouchMode(editingMode);
-        binding.detailsBookmark.setFocusable(editingMode);
-        binding.detailsBookmark.setEnabled(editingMode);*/
     }
 
     /**
