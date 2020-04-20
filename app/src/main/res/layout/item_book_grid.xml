@@ -31,8 +31,7 @@
                 cardview:layout_constraintBottom_toTopOf="@id/itemView_book_title"
                 cardview:layout_constraintEnd_toEndOf="parent"
                 cardview:layout_constraintHorizontal_bias="0.0"
-                cardview:layout_constraintStart_toStartOf="parent"
-                cardview:srcCompat="@drawable/temp_cover_1" />
+                cardview:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/itemView_book_title"
