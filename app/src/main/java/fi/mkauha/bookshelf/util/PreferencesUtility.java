@@ -2,7 +2,6 @@ package fi.mkauha.bookshelf.util;
 
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -13,12 +12,12 @@ import java.util.Collection;
 
 import fi.mkauha.bookshelf.models.BookItem;
 
-public class PreferencesUtilities {
+public class PreferencesUtility {
 
     private SharedPreferences prefs;
     private Gson gson;
 
-    public PreferencesUtilities(SharedPreferences prefs) {
+    public PreferencesUtility(SharedPreferences prefs) {
         this.prefs = prefs;
         gson = new Gson();
     }
@@ -31,11 +30,9 @@ public class PreferencesUtilities {
 
     public void putAll(String key, Collection<BookItem> bookItems) {
         SharedPreferences.Editor editor = prefs.edit();
-        //editor.clear();
         try {
             String values = gson.toJson(bookItems);
             editor.putString(key,  values);
-            Log.d("PreferencesUtilities", "putAll key: " + key);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +48,6 @@ public class PreferencesUtilities {
                 break;
             }
         }
-        Log.d("PreferencesUtilities", "getOne key: " + key + " " + id + ": " + rBook);
         return rBook;
     }
 
@@ -63,7 +59,6 @@ public class PreferencesUtilities {
         if(prefs.contains(key)) {
             json = prefs.getString(key, "");
             list = gson.fromJson(json, listType);
-            Log.d("PreferencesUtilities", "getAll key: " + key);
         }
         return list;
     }
@@ -75,7 +70,6 @@ public class PreferencesUtilities {
         for(BookItem book : bookItems) {
             if(book.getBookID() == updatedBookItem.getBookID()) {
                 bookItems.set(i, updatedBookItem);
-                Log.d("PreferencesUtilities", "updateOne key: " + key + " value: " + updatedBookItem);
                 putAll(key, bookItems);
                 break;
             }
