@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.ui.librariesview;
+package fi.mkauha.bookshelf.ui.libraries;
 
 import android.app.IntentService;
 import android.content.Intent;

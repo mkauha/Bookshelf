@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.ui.wishlistview;
+package fi.mkauha.bookshelf.ui.mybooks;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -26,15 +26,17 @@ import java.util.List;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.adapter.BooksAdapter;
-import fi.mkauha.bookshelf.databinding.FragmentWishlistBinding;
+import fi.mkauha.bookshelf.databinding.FragmentMybooksBinding;
 import fi.mkauha.bookshelf.models.BookItem;
-import fi.mkauha.bookshelf.ui.CreditsActivity;
-import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
+import fi.mkauha.bookshelf.ui.credits.CreditsActivity;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
+import static fi.mkauha.bookshelf.viewmodel.BooksViewModel.MY_BOOKS_KEY;
+
 /**
- * Fragment that displays a wish list of books in a grid layout.
+ * Fragment that displays a owned books in a grid layout.
  *
  * Uses RecyclerView with a GridLayout to display books from ViewModel.
  * Has search and filter in top bar that can filter books by their title, author or genre.
@@ -43,8 +45,8 @@ import fi.mkauha.bookshelf.ui.details.DetailsActivity;
  * @author  Miko Kauhanen
  * @version 1.0
  */
-public class WishListFragment extends Fragment implements SearchView.OnQueryTextListener, SortedListAdapter.Callback {
-    private FragmentWishlistBinding binding;
+public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextListener, SortedListAdapter.Callback {
+    private FragmentMybooksBinding binding;
     private BooksViewModel booksViewModel;
     private BooksAdapter mAdapter;
     private List<BookItem> mModels;
@@ -67,36 +69,34 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
      * @return root view
      */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("WishListFragment", "onCreateView " + this);
-        binding = FragmentWishlistBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
+        Log.d("BooksFragment", "onCreateView " + this);
+
+        binding = FragmentMybooksBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
         setHasOptionsMenu(true);
 
-
-        binding.wishListRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
-        binding.wishListRecyclerView.setHasFixedSize(true);
+        binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        binding.booksRecyclerView.setHasFixedSize(true);
 
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
-        booksViewModel.setCurrentKey(BooksViewModel.WISHLIST_BOOKS_KEY);
-
+        booksViewModel.setCurrentKey(MY_BOOKS_KEY);
 
         final Comparator<BookItem> alphabeticalComparator = (a, b) -> a.getTitle().compareTo(b.getTitle());
 
         mAdapter = new BooksAdapter(getContext(), alphabeticalComparator);
-        binding.wishListRecyclerView.setAdapter(mAdapter);
+        binding.booksRecyclerView.setAdapter(mAdapter);
 
-
-        booksViewModel.getWishListLiveData().observe(this,
-                list -> {
-                    mModels = list;
-                    mAdapter.prefsKey = booksViewModel.getCurrentKey();
-                    mAdapter.edit()
-                            .replaceAll(list)
-                            .commit();
-                    }
+        booksViewModel.getMyBooksLiveData().observe(this,
+            list -> {
+                mModels = list;
+                mAdapter.prefsKey = booksViewModel.getCurrentKey();
+                mAdapter.edit()
+                        .replaceAll(list)
+                        .commit();
+                }
         );
 
-        return view;
+        return root;
     }
 
     @Override
@@ -199,7 +199,6 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
 
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
@@ -210,6 +209,4 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
         super.onDestroyView();
         binding = null;
     }
-
-
 }

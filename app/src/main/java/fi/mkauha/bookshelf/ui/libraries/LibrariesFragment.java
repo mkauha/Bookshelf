@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.ui.librariesview;
+package fi.mkauha.bookshelf.ui.libraries;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -45,7 +45,7 @@ import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentLibrariesBinding;
 import fi.mkauha.bookshelf.models.Consortium;
 import fi.mkauha.bookshelf.models.Library;
-import fi.mkauha.bookshelf.ui.CreditsActivity;
+import fi.mkauha.bookshelf.ui.credits.CreditsActivity;
 
 
 /**
@@ -288,7 +288,9 @@ public class LibrariesFragment extends Fragment {
         Activity activity = getActivity();
         if(activity != null) {
             options.clear();
-            symbolManager.delete(symbols);
+            if(symbols != null && symbolManager != null) {
+                symbolManager.delete(symbols);
+            }
             for (Library lib : libraryList) {
                 if(lib.isMainLibrary()) {
                     mapboxMap.moveCamera(

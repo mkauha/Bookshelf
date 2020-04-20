@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.ui;
+package fi.mkauha.bookshelf.ui.credits;
 
 import android.content.Intent;
 import android.net.Uri;
