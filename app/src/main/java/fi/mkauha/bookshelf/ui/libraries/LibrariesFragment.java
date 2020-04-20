@@ -290,28 +290,30 @@ public class LibrariesFragment extends Fragment {
             options.clear();
             if(symbols != null && symbolManager != null) {
                 symbolManager.delete(symbols);
-            }
-            for (Library lib : libraryList) {
-                if(lib.isMainLibrary()) {
-                    mapboxMap.moveCamera(
-                            CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(lib.getLatitude(), lib.getLongitude()), 10
-                            )
-                    );
+                if(mapboxMap != null) {
+                    for (Library lib : libraryList) {
+                        if(lib.isMainLibrary()) {
+                            mapboxMap.moveCamera(
+                                    CameraUpdateFactory.newLatLngZoom(
+                                            new LatLng(lib.getLatitude(), lib.getLongitude()), 10
+                                    )
+                            );
+                        }
+                        JsonObject dataJson = gson.fromJson(gson.toJson(lib), JsonObject.class);
+                        options.add(new SymbolOptions()
+                                .withLatLng(new LatLng(lib.getLatitude(), lib.getLongitude()))
+                                .withIconImage(ICON_ID)
+                                .withIconColor(ColorUtils.colorToRgbaString(getResources().getColor(R.color.colorPrimary)))
+                                .withData(dataJson)
+                                .withIconSize(1.1f)
+                                .withTextField(lib.getName())
+                                .withTextSize(10f)
+                                .withTextOffset(new Float[]{0f, 2.1f})
+                        );
+                    }
                 }
-                JsonObject dataJson = gson.fromJson(gson.toJson(lib), JsonObject.class);
-                options.add(new SymbolOptions()
-                        .withLatLng(new LatLng(lib.getLatitude(), lib.getLongitude()))
-                        .withIconImage(ICON_ID)
-                        .withIconColor(ColorUtils.colorToRgbaString(getResources().getColor(R.color.colorPrimary)))
-                        .withData(dataJson)
-                        .withIconSize(1.1f)
-                        .withTextField(lib.getName())
-                        .withTextSize(10f)
-                        .withTextOffset(new Float[]{0f, 2.1f})
-                );
+                symbols = symbolManager.create(options);
             }
-            symbols = symbolManager.create(options);
         }
     }
 
