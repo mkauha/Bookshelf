@@ -101,7 +101,7 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
 
     public void loadDummyWishList() {
         if(wishListRepository.isEmpty()) {
-            wishListRepository.add(new BookItem(IDGenerator.generate(context), "Hohto (The Shining)", "Stephen King", "Kauhu", "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg"));
+            wishListRepository.add(new BookItem(IDGenerator.generate(context), "Hohto", "Stephen King", "Kauhu", "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg"));
             wishListRepository.add(new BookItem(IDGenerator.generate(context), "Kalevala", "Elias Lönnrot", "Eeppinen runous", "https://kbimages1-a.akamaihd.net/dc7bc5a1-649f-4358-b232-b38d347cabda/353/569/90/False/kalevala-22.jpg"));
         }
         wishListLiveData.setValue(wishListRepository);
