@@ -1,6 +1,5 @@
 <resources>
-    <string name="mapbox_access_token" translatable="false">pk.eyJ1IjoibWthdWhhIiwiYSI6ImNrNnJ2cmdvdjA5Z2Izcm1sdnI0bWowdWcifQ.wuFAuBZtRKYQIWf6jalqlw</string>
-    <string name="mapbox_custom_style" translatable="false">mapbox://styles/mkauha/ck93oa6fm07at1ip28n53anbq</string>
+
 
     <string name="app_name">Bookshelf</string>
     <string name="title_home">My books</string>

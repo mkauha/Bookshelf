@@ -15,7 +15,7 @@
         android:title="@string/add_book"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/change_city"
+        android:id="@+id/change_consortium"
         android:icon="@drawable/ic_choose_city"
         android:title="@string/choose_city"
         app:showAsAction="ifRoom" />
