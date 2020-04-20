@@ -14,7 +14,7 @@ import java.util.List;
 
 import fi.mkauha.bookshelf.models.BookItem;
 import fi.mkauha.bookshelf.util.IDGenerator;
-import fi.mkauha.bookshelf.util.PreferencesUtilities;
+import fi.mkauha.bookshelf.util.PreferencesUtility;
 
 public class BooksViewModel extends AndroidViewModel implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -26,7 +26,7 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
 
     private Context context;
     private SharedPreferences prefs;
-    PreferencesUtilities prefsUtils;
+    PreferencesUtility prefsUtils;
     private List<BookItem> myBooksRepository;
     private List<BookItem> wishListRepository;
     private MutableLiveData<List<BookItem>> myBooksLiveData;
@@ -36,7 +36,7 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
         super(application);
         prefs = application.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         prefs.registerOnSharedPreferenceChangeListener(this);
-        prefsUtils = new PreferencesUtilities(prefs);
+        prefsUtils = new PreferencesUtility(prefs);
         context = application.getApplicationContext();
 
         if(myBooksLiveData == null) {
@@ -142,7 +142,7 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        PreferencesUtilities prefUtils = new PreferencesUtilities(sharedPreferences);
+        PreferencesUtility prefUtils = new PreferencesUtility(sharedPreferences);
         if(!key.equals("ID")) {
             List<BookItem> myBooks =  prefUtils.getAll(key);
             switch(key) {

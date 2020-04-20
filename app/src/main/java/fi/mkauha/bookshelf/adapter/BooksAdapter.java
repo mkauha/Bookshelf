@@ -18,33 +18,84 @@ import fi.mkauha.bookshelf.databinding.ItemBookGridBinding;
 import fi.mkauha.bookshelf.models.BookItem;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
+/**
+ * Adapter for recyclerview that holds Book items.
+ *
+ * @author  Miko Kauhanen
+ * @version 1.0
+ */
 public class BooksAdapter extends SortedListAdapter<BookItem> {
 
+    /**
+     * SharedPreferences key.
+     */
     public String prefsKey;
 
+    /**
+     * Instantiates a new Books adapter.
+     *
+     * @param context    the context
+     * @param comparator the comparator
+     */
     public BooksAdapter(Context context, Comparator<BookItem> comparator) {
         super(context, BookItem.class, comparator);
     }
 
+    /**
+     * Creates viewHolder.
+     *
+     * @param inflater    the inflater
+     * @param parent      the parent
+     * @param viewType      the viewType
+     */
     @Override
     protected ViewHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
         ItemBookGridBinding binding = ItemBookGridBinding.inflate(inflater, parent, false);
         return new ViewHolder(binding, prefsKey);
     }
 
+    /**
+     * The View holder for recyclerview.
+     */
     public class ViewHolder extends SortedListAdapter.ViewHolder<BookItem> {
+        /**
+         * The binding for layout.
+         */
         ItemBookGridBinding binding;
 
+        /**
+         * SharedPreferences key.
+         */
         String prefsKey;
+        /**
+         * The Book id.
+         */
         int bookID;
+        /**
+         * The Book image url.
+         */
         String bookImageURL;
 
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param binding  the binding
+         * @param prefsKey the SharedPreferences key
+         */
         ViewHolder(ItemBookGridBinding binding, String prefsKey) {
             super(binding.getRoot());
             this.binding = binding;
             this.prefsKey = prefsKey;
-    }
+        }
 
+        /**
+         * Binds book item to recyclerview.
+         *
+         * Sets book items title, bookmark and image to individual card views.
+         * Sets each view with an onClickListener that when clicked starts detailsActivity in "View" mode with clicked book item data .
+         *
+         * @param item  the book item that is bind
+         */
         @Override
         protected void performBind(@NonNull BookItem item) {
             bookID = item.getBookID();
@@ -65,11 +116,10 @@ public class BooksAdapter extends SortedListAdapter<BookItem> {
                     .placeholder(R.drawable.book_cover_placeholder)
                     .into(binding.itemViewBookImage);
 
-            // TODO fix prefsKey
+
             binding.getRoot().setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 Context context = binding.getRoot().getContext();
-                //Toast.makeText(context,"Pos: " + position,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra("Action", "VIEW");
                 intent.putExtra("ViewModel_Key", prefsKey);
