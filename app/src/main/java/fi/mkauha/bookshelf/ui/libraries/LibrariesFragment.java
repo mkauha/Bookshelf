@@ -183,8 +183,10 @@ public class LibrariesFragment extends Fragment {
             long id = library.getAsJsonObject().get("id").getAsLong();
             String name = library.getAsJsonObject().get("name").getAsString();
 
-            this.consortiumList.add(new Consortium(id, name));
-            this.consortiumNamesList.add(name);
+            if(!name.equals("Testi")) {
+                this.consortiumList.add(new Consortium(id, name));
+                this.consortiumNamesList.add(name);
+            }
         }
 
     }
@@ -270,7 +272,11 @@ public class LibrariesFragment extends Fragment {
                     longitude = coordinatesObj.getAsJsonObject().get("lon").getAsDouble();
                 }
 
-                this.libraryList.add(new Library(id, name, "", street, zip, isOpen, "", latitude, longitude, isMainLibrary));
+
+                if(!name.contains("Kirjastoauto")) {
+                    this.libraryList.add(new Library(id, name, "", street, zip, isOpen, "", latitude, longitude, isMainLibrary));
+                }
+
             }
 
         }
@@ -295,7 +301,7 @@ public class LibrariesFragment extends Fragment {
                         if(lib.isMainLibrary()) {
                             mapboxMap.moveCamera(
                                     CameraUpdateFactory.newLatLngZoom(
-                                            new LatLng(lib.getLatitude(), lib.getLongitude()), 10
+                                            new LatLng(lib.getLatitude(), lib.getLongitude()), 7
                                     )
                             );
                         }
