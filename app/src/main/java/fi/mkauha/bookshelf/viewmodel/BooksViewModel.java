@@ -3,7 +3,6 @@ package fi.mkauha.bookshelf.viewmodel;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -12,9 +11,9 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.mkauha.bookshelf.model.BookItem;
+import fi.mkauha.bookshelf.models.BookItem;
 import fi.mkauha.bookshelf.util.IDGenerator;
-import fi.mkauha.bookshelf.util.PreferencesUtilities;
+import fi.mkauha.bookshelf.util.PreferencesUtility;
 
 public class BooksViewModel extends AndroidViewModel implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -26,7 +25,7 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
 
     private Context context;
     private SharedPreferences prefs;
-    PreferencesUtilities prefsUtils;
+    PreferencesUtility prefsUtils;
     private List<BookItem> myBooksRepository;
     private List<BookItem> wishListRepository;
     private MutableLiveData<List<BookItem>> myBooksLiveData;
@@ -36,7 +35,7 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
         super(application);
         prefs = application.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         prefs.registerOnSharedPreferenceChangeListener(this);
-        prefsUtils = new PreferencesUtilities(prefs);
+        prefsUtils = new PreferencesUtility(prefs);
         context = application.getApplicationContext();
 
         if(myBooksLiveData == null) {
@@ -49,7 +48,6 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
     }
 
     public void initMyBooks(String prefsKey) {
-        Log.d("BooksViewModel", "initMyBooks ");
         this.myBooksRepository = new ArrayList<>();
         this.myBooksLiveData = new MutableLiveData<>();
 
@@ -63,7 +61,6 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
     }
 
     public void initWishList(String prefsKey) {
-        Log.d("BooksViewModel", "initWishList");
         this.wishListRepository = new ArrayList<>();
         this.wishListLiveData = new MutableLiveData<>();
 
@@ -80,7 +77,6 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
         if(myBooksLiveData == null) {
             myBooksLiveData = new MutableLiveData<>();
         }
-        Log.d("BooksViewModel", "getMyBooksLiveData "  + myBooksLiveData);
         return myBooksLiveData;
     }
 
@@ -88,31 +84,30 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
         if(wishListLiveData == null) {
             wishListLiveData = new MutableLiveData<>();
         }
-        Log.d("BooksViewModel", "getWishListLiveData "  + myBooksLiveData);
         return wishListLiveData;
     }
 
     public void loadDummyMyBooks() {
-        Log.d("BooksViewModel", "loadDummyMyBooks");
         if(myBooksRepository.isEmpty()) {
-            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Moby Dick", "Herman Melville", "Adventure fiction", "https://www.nauticalmind.com/wp-content/uploads/2018/04/Moby-Dick-Illustrated.jpg"));
-            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "1984", "George Orwell", "Political fiction", "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg"));
-            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "The Jungle Book", "Rudyard Kipling", "Children's book", "https://i.pinimg.com/736x/d8/10/eb/d810eb142803834fa37e3ec84353ab49--the-jungle-book-book-cover-jungle-book-poster.jpg"));
-            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Something Nasty In The Woodshed", "Kyril Bonfiglioli", "-", "https://i1.wp.com/www.casualoptimist.com/wp-content/uploads/2014/06/9780241970270.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Moby Dick", "Herman Melville", "Seikkailukirjallisuus", "https://www.nauticalmind.com/wp-content/uploads/2018/04/Moby-Dick-Illustrated.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Vuonna 1984", "George Orwell", "Dystopia", "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Täällä pohjantähden alla", "Väinö Linna", "Historiallinen romaani", "https://images.gr-assets.com/books/1245092828l/1229089.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Sinuhe egyptiläinen", "Mika Waltari", "Historiallinen romaani", "https://upload.wikimedia.org/wikipedia/fi/8/88/Sinuhe_egyptil%C3%A4inen.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Tuntematon sotilas", "Väinö Linna", "Sotakirjallisuus", "https://upload.wikimedia.org/wikipedia/fi/7/79/Tuntematon_sotilas_kansi.jpg"));
+            myBooksRepository.add(new BookItem(IDGenerator.generate(context), "Taru sormusten herrasta", "J.R.R. Tolkien", "Fantasia", "https://upload.wikimedia.org/wikipedia/fi/7/77/Taru_sormusten_herrasta.jpg"));
         }
         myBooksLiveData.setValue(myBooksRepository);
     }
 
     public void loadDummyWishList() {
-        Log.d("BooksViewModel", "loadDummyWishList");
         if(wishListRepository.isEmpty()) {
-            wishListRepository.add(new BookItem(IDGenerator.generate(context), "The Shining", "Stephen King", "Horror", "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg"));
+            wishListRepository.add(new BookItem(IDGenerator.generate(context), "Hohto", "Stephen King", "Kauhu", "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg"));
+            wishListRepository.add(new BookItem(IDGenerator.generate(context), "Kalevala", "Elias Lönnrot", "Eeppinen runous", "https://kbimages1-a.akamaihd.net/dc7bc5a1-649f-4358-b232-b38d347cabda/353/569/90/False/kalevala-22.jpg"));
         }
         wishListLiveData.setValue(wishListRepository);
     }
 
     public void putOne(String key, BookItem book) {
-        Log.d("BooksViewModel", "putOne " + key + ", " + book.toString());
         prefsUtils.putOne(key, book);
     }
 
@@ -142,7 +137,7 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        PreferencesUtilities prefUtils = new PreferencesUtilities(sharedPreferences);
+        PreferencesUtility prefUtils = new PreferencesUtility(sharedPreferences);
         if(!key.equals("ID")) {
             List<BookItem> myBooks =  prefUtils.getAll(key);
             switch(key) {
@@ -153,7 +148,6 @@ public class BooksViewModel extends AndroidViewModel implements SharedPreference
                     wishListLiveData.setValue(myBooks);
                     break;
             }
-            Log.d("BooksViewModel", "onSharedPreferenceChanged in key: " + key);
         }
     }
 }

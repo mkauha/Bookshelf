@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="fi.mkauha.bookshelf.ui.mybooksview.MyBooksFragment"
+        android:name="fi.mkauha.bookshelf.ui.mybooks.MyBooksFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_mybooks" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="fi.mkauha.bookshelf.ui.wishlistview.WishListFragment"
+        android:name="fi.mkauha.bookshelf.ui.wishlist.WishListFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_wishlist" />
 
     <fragment
         android:id="@+id/navigation_libraries"
-        android:name="fi.mkauha.bookshelf.ui.librariesview.LibrariesFragment"
+        android:name="fi.mkauha.bookshelf.ui.libraries.LibrariesFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_libraries" />
 </navigation>
