@@ -273,7 +273,7 @@ public class LibrariesFragment extends Fragment {
                 }
 
 
-                if(!name.contains("Kirjastoautot")) {
+                if(!name.contains("Kirjastoauto")) {
                     this.libraryList.add(new Library(id, name, "", street, zip, isOpen, "", latitude, longitude, isMainLibrary));
                 }
 
