@@ -23,7 +23,7 @@
     <string name="app_author">Tekijä: Miko Kauhanen</string>
     <string name="credits_data_sources">Tietolähteet:</string>
     <string name="credits_licenses">Lisenssit:</string>
-    <string name="credits">Tietoja</string>
+    <string name="credits">Tietoja sovelluksesta</string>
     <string name="credits_data_links">Linkit</string>
     <string name="title_menu">Menu</string>
 </resources>
