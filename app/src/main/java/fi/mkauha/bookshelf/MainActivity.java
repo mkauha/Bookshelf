@@ -1,15 +1,22 @@
 package fi.mkauha.bookshelf;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.SearchView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.mapbox.mapboxsdk.Mapbox;
+import com.google.android.material.bottomappbar.BottomAppBar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import fi.mkauha.bookshelf.ui.bottomnav.BottomNavigationFragment;
+import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 /**
  * MainActivity that initializes Navigation UI with bottom navigation bar and three fragments.
@@ -23,16 +30,46 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        BottomAppBar bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_app_bar);
+        setSupportActionBar(bottomAppBar);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("MainActivity", "bottomAppBar");
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                BottomNavigationFragment fragment = new BottomNavigationFragment();
+                fragmentTransaction.add(fragment, "BottomSheetFragment");
+                fragmentTransaction.addToBackStack(null);
+
+                fragmentTransaction.commit();
+            }
+        });
+
+/*        AppBarLayout navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_libraries)
+                R.id.navigation_books, R.id.navigation_library, R.id.navigation_search, R.id.navigation_menu)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        Mapbox.getInstance(getApplicationContext(), getString(R.string.mapbox_access_token));
+        Mapbox.getInstance(getApplicationContext(), getString(R.string.mapbox_access_token));*/
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.bottom_main_menu, menu);
+        return true;
+    }
+
+    public void onClickAdd(View view) {
+            Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra("Action", "ADD");
+            intent.putExtra("ViewModel_Key", "my_books");
+            startActivity(intent);
+    }
 
 }
