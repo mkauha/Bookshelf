@@ -2,9 +2,11 @@
 <resources>
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#227FC8</color>
-    <color name="colorAccent">#00BCD4</color>
+    <color name="colorSecondary">#48ADFD</color>
+    <color name="colorAccent">#48ADFD</color>
     <color name="colorBackground">#fff8d4</color>
     <color name="colorMenuIcon">#CD555454</color>
     <color name="colorPrimaryText">#303030</color>
+    <color name="colorPrimaryTextLight">#FFFFFF</color>
     <color name="colorMenuIconSelected">#2196F3</color>
 </resources>
