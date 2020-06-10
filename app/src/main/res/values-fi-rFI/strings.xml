@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Kirjahylly</string>
-    <string name="title_dashboard">Toivelista</string>
-    <string name="title_home">Omat kirjat</string>
-    <string name="title_notifications">Kirjastot</string>
+    <string name="title_library">Kirjasto</string>
+    <string name="title_books">Omat kirjat</string>
+    <string name="title_search">Haku</string>
     <string name="add_book">Lisää</string>
     <string name="edit_book">Muokkaa kirjaa</string>
     <string name="book_title">Nimi</string>
@@ -25,4 +25,5 @@
     <string name="credits_licenses">Lisenssit:</string>
     <string name="credits">Tietoja</string>
     <string name="credits_data_links">Linkit</string>
+    <string name="title_menu">Menu</string>
 </resources>
