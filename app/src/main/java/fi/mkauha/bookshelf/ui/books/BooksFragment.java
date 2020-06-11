@@ -1,37 +1,25 @@
-package fi.mkauha.bookshelf.ui.mybooks;
+package fi.mkauha.bookshelf.ui.books;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter;
-
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.adapter.BooksAdapter;
-import fi.mkauha.bookshelf.databinding.FragmentMybooksBinding;
+import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
 import fi.mkauha.bookshelf.models.BookItem;
-import fi.mkauha.bookshelf.ui.credits.CreditsActivity;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
-import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 import static fi.mkauha.bookshelf.viewmodel.BooksViewModel.MY_BOOKS_KEY;
 
@@ -45,8 +33,8 @@ import static fi.mkauha.bookshelf.viewmodel.BooksViewModel.MY_BOOKS_KEY;
  * @author  Miko Kauhanen
  * @version 1.0
  */
-public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextListener, SortedListAdapter.Callback {
-    private FragmentMybooksBinding binding;
+public class BooksFragment extends Fragment  {
+    private FragmentBooksBinding binding;
     private BooksViewModel booksViewModel;
     private BooksAdapter mAdapter;
     private List<BookItem> mModels;
@@ -71,7 +59,7 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("BooksFragment", "onCreateView " + this);
 
-        binding = FragmentMybooksBinding.inflate(inflater, container, false);
+        binding = FragmentBooksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         setHasOptionsMenu(true);
 
@@ -99,21 +87,21 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
         return root;
     }
 
-    @Override
+/*    @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem m1 = menu.findItem(R.id.app_bar_add_book);
-        m1.setEnabled(true);
+*//*        MenuItem m1 = menu.findItem(R.id.app_bar_add_book);
+        m1.setEnabled(true);*//*
     }
 
-    /**
+    *//**
      * When "Add" button is selected starts new details activity with "Add" -mode
      *
      * @param item selected menu item
      * @return false
-     */
+     *//*
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-        if(item.getItemId() == R.id.app_bar_add_book) {
+*//*        if(item.getItemId() == R.id.app_bar_add_book) {
             Intent intent = new Intent(getActivity(), DetailsActivity.class);
             intent.putExtra("Action", "ADD");
             intent.putExtra("ViewModel_Key", booksViewModel.getCurrentKey());
@@ -122,35 +110,35 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
         if(item.getItemId() == R.id.app_bar_credits) {
             Intent intent = new Intent(getActivity(), CreditsActivity.class);
             startActivity(intent);
-        }
+        }*//*
         return false;
     }
 
-    /**
+    *//**
      * Hides change consortium icon and set listener to search icon.
      *
      * @param menu the menu
      * @param inflater the menu inflater
-     */
+     *//*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.top_main_menu, menu);
+        inflater.inflate(R.menu.bottom_main_menu, menu);
 
-        final MenuItem changeCityItem = menu.findItem(R.id.app_bar_change_consortium);
-        changeCityItem.setVisible(false);
+*//*        final MenuItem changeCityItem = menu.findItem(R.id.app_bar_change_consortium);
+        changeCityItem.setVisible(false);*//*
 
         final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
     }
 
-    /**
+    *//**
      * Replaces RecyclerView data with filtered list of books.
      *
      * @param query text to filter books
      * @return true
-     */
+     *//*
     @Override
     public boolean onQueryTextChange(String query) {
         final List<BookItem> filteredModelList = filter(mModels, query);
@@ -165,15 +153,14 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
         return false;
     }
 
-    /**
+    *//**
      * Filters given list with given query.
      *
      * Filters books by title, author or genre and returns a list containing items that match given query.
      *
-     * @param models books to filter
-     * @param query text to filter books
+
      * @return true
-     */
+     *//*
     private static List<BookItem> filter(List<BookItem> models, String query) {
         final String lowerCaseQuery = query.toLowerCase();
 
@@ -198,7 +185,7 @@ public class MyBooksFragment extends Fragment implements SearchView.OnQueryTextL
     public void onEditFinished() {
 
     }
-
+*/
     @Override
     public void onPause() {
         super.onPause();
