@@ -8,13 +8,13 @@
 
     <ImageView
         android:id="@+id/dialog_credits_image"
-        android:layout_width="114dp"
-        android:layout_height="113dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
+        android:contentDescription="Logo"
         android:onClick="onClickLogo"
-        app:srcCompat="@drawable/bookshelf_launcher"
-        android:contentDescription="Logo" />
+        app:srcCompat="@drawable/bookshelf_launcher" />
 
     <TextView
         android:id="@+id/dialog_credits_title"
@@ -24,7 +24,7 @@
         android:layout_marginEnd="25dp"
         android:gravity="center"
         android:text="@string/app_name"
-        android:textSize="30sp" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/dialog_credits_author"
@@ -45,7 +45,7 @@
         android:layout_marginEnd="25dp"
         android:gravity="center"
         android:text="@string/credits_data_links"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_credits_github"
@@ -68,7 +68,7 @@
         android:layout_marginEnd="25dp"
         android:gravity="center"
         android:text="@string/credits_data_sources"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_credits_api_1"
@@ -87,11 +87,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
         android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
         android:gravity="center"
         android:text="@string/credits_licenses"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_credits_licenses_3"
