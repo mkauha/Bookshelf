@@ -1,6 +1,5 @@
 package fi.mkauha.bookshelf.ui.wishlist;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,10 +27,8 @@ import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.databinding.FragmentWishlistBinding;
 import fi.mkauha.bookshelf.models.BookItem;
-import fi.mkauha.bookshelf.ui.credits.CreditsActivity;
 import fi.mkauha.bookshelf.viewmodel.CustomViewModelFactory;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
-import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 
 /**
  * Fragment that displays a wish list of books in a grid layout.
@@ -101,8 +98,6 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem m1 = menu.findItem(R.id.app_bar_add_book);
-        m1.setEnabled(true);
     }
 
     /**
@@ -113,16 +108,6 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-        if(item.getItemId() == R.id.app_bar_add_book) {
-            Intent intent = new Intent(getActivity(), DetailsActivity.class);
-            intent.putExtra("Action", "ADD");
-            intent.putExtra("ViewModel_Key", booksViewModel.getCurrentKey());
-            startActivity(intent);
-        }
-        if(item.getItemId() == R.id.app_bar_credits) {
-            Intent intent = new Intent(getActivity(), CreditsActivity.class);
-            startActivity(intent);
-        }
         return false;
     }
 
@@ -135,12 +120,10 @@ public class WishListFragment extends Fragment implements SearchView.OnQueryText
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.top_main_menu, menu);
+        inflater.inflate(R.menu.bottom_main_menu, menu);
 
-        final MenuItem changeCityItem = menu.findItem(R.id.app_bar_change_consortium);
-        changeCityItem.setVisible(false);
 
-        final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        final MenuItem searchItem = menu.findItem(R.id.navigation_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
     }
