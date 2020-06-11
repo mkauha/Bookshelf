@@ -33,21 +33,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomAppBar bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_app_bar);
         setSupportActionBar(bottomAppBar);
+
+
+        bottomAppBar.setOnClickListener(view -> openNavigationDrawer());
+        bottomAppBar.setNavigationOnClickListener(v ->  openNavigationDrawer());
+
+    }
+
+    public void openNavigationDrawer() {
+        Log.d("MainActivity", "bottomAppBar");
+
         FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        BottomNavigationFragment fragment = new BottomNavigationFragment();
+        fragmentTransaction.add(fragment, "BottomSheetFragment");
+        fragmentTransaction.addToBackStack(null);
 
-        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("MainActivity", "bottomAppBar");
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                BottomNavigationFragment fragment = new BottomNavigationFragment();
-                fragmentTransaction.add(fragment, "BottomSheetFragment");
-                fragmentTransaction.addToBackStack(null);
-
-                fragmentTransaction.commit();
-            }
-        });
-
+        fragmentTransaction.commit();
     }
 
     @Override

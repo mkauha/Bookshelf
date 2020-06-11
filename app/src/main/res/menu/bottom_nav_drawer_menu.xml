@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <group
-        android:id="@+id/navigationItems"
+        android:id="@+id/navigationItemsTop"
         android:checkableBehavior="none">
 
-        <item
-            android:id="@+id/navigation_settings"
-            android:icon="@drawable/ic_outline_settings_24"
-            android:title="@string/title_settings" />
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_outline_settings_24"
+        android:title="@string/title_settings" />
+    </group>
+
+    <group
+        android:id="@+id/navigationItemsMid"
+        android:checkableBehavior="none">
         <item
             android:id="@+id/navigation_books"
             android:icon="@drawable/ic_outline_book_24"
@@ -19,6 +23,7 @@
             android:icon="@drawable/ic_outline_library_24"
             android:title="@string/title_library" />
     </group>
+
     <group android:id="@+id/controlItems">
         <item
             android:id="@+id/navigation_close"
