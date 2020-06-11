@@ -1,16 +1,19 @@
-package fi.mkauha.bookshelf.ui.credits;
+package fi.mkauha.bookshelf.ui.info;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.databinding.ActivityCreditsBinding;
+import fi.mkauha.bookshelf.databinding.FragmentInfoBinding;
 
 
 /**
@@ -19,20 +22,20 @@ import fi.mkauha.bookshelf.databinding.ActivityCreditsBinding;
  * @author  Miko Kauhanen
  * @version 1.0
  */
-public class CreditsActivity extends AppCompatActivity {
+public class InfoFragment extends Fragment {
 
     /**
      * The layout binding.
      */
-    ActivityCreditsBinding binding;
+    FragmentInfoBinding binding;
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        binding = ActivityCreditsBinding.inflate(getLayoutInflater());
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        binding = FragmentInfoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        setContentView(root);
+        return root;
     }
 
     /**
