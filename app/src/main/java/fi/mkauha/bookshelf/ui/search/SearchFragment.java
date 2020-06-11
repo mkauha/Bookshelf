@@ -19,9 +19,10 @@ public class SearchFragment  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("SearchFragment", "onCreateView " + this);
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = FragmentSearchBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
-        return view;
+        View root = binding.getRoot();
+        return root;
     }
 
 }
