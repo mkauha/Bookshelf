@@ -6,14 +6,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import fi.mkauha.bookshelf.ui.bottomnav.BottomNavigationFragment;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
@@ -47,15 +48,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-/*        AppBarLayout navView = findViewById(R.id.nav_view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_books, R.id.navigation_library, R.id.navigation_search, R.id.navigation_menu)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
-        Mapbox.getInstance(getApplicationContext(), getString(R.string.mapbox_access_token));*/
-
     }
 
     @Override
@@ -64,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.bottom_main_menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d("MainActivity", "onOptionsItemSelected " + item);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.onNavDestinationSelected(item, navController);
+
+        return true;
+    }
+
 
     public void onClickAdd(View view) {
             Intent intent = new Intent(this, DetailsActivity.class);
