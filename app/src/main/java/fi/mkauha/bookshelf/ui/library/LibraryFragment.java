@@ -19,9 +19,10 @@ public class LibraryFragment  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("LibraryFragment", "onCreateView " + this);
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = FragmentLibraryBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
-        return view;
+        View root = binding.getRoot();
+        return root;
     }
 
 }
