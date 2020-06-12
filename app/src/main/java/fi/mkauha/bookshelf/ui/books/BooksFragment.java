@@ -1,5 +1,6 @@
 package fi.mkauha.bookshelf.ui.books;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,13 +9,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Comparator;
 import java.util.List;
 
+import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.adapter.BooksAdapter;
 import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
 import fi.mkauha.bookshelf.models.BookItem;
@@ -56,15 +62,28 @@ public class BooksFragment extends Fragment  {
      * @param savedInstanceState the Bundle
      * @return root view
      */
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("BooksFragment", "onCreateView " + this);
 
         binding = FragmentBooksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         setHasOptionsMenu(true);
-
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
         binding.booksRecyclerView.setHasFixedSize(true);
+        binding.booksRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && fab.getVisibility() == View.VISIBLE) {
+                    fab.hide();
+                } else if (dy < 0 && fab.getVisibility() != View.VISIBLE) {
+                    fab.show();
+                }
+            }
+        });
+
 
         booksViewModel = ViewModelProviders.of(this, new CustomViewModelFactory(getActivity().getApplication())).get(BooksViewModel.class);
         booksViewModel.setCurrentKey(MY_BOOKS_KEY);
