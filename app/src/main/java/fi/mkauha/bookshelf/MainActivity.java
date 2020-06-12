@@ -16,8 +16,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import fi.mkauha.bookshelf.ui.books.BookDetailsFragment;
 import fi.mkauha.bookshelf.ui.bottomnav.BottomNavigationFragment;
 import fi.mkauha.bookshelf.ui.details.DetailsActivity;
+import fi.mkauha.bookshelf.ui.dialogs.AddBookModalFragment;
 
 /**
  * MainActivity that initializes Navigation UI with bottom navigation bar and three fragments.
@@ -27,16 +29,19 @@ import fi.mkauha.bookshelf.ui.details.DetailsActivity;
  */
 public class MainActivity extends AppCompatActivity {
 
+    BottomAppBar bottomAppBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomAppBar bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_app_bar);
+        bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_app_bar);
         setSupportActionBar(bottomAppBar);
 
 
         bottomAppBar.setOnClickListener(view -> openNavigationDrawer());
         bottomAppBar.setNavigationOnClickListener(v ->  openNavigationDrawer());
+
 
     }
 
@@ -70,10 +75,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClickAdd(View view) {
-            Intent intent = new Intent(this, DetailsActivity.class);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        AddBookModalFragment fragment = new AddBookModalFragment();
+        fragmentTransaction.add(fragment, "BottomSheetFragment");
+        fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.commit();
+
+/*            Intent intent = new Intent(this, DetailsActivity.class);
             intent.putExtra("Action", "ADD");
             intent.putExtra("ViewModel_Key", "my_books");
-            startActivity(intent);
+            startActivity(intent);*/
     }
 
 }
