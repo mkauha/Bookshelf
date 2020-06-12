@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Kirjahylly</string>
-    <string name="title_library">Kirjasto</string>
-    <string name="title_books">Omat kirjat</string>
-    <string name="title_search">Haku</string>
+    <string name="label_library">Kirjasto</string>
+    <string name="label_books">Omat kirjat</string>
+    <string name="label_search">Haku</string>
     <string name="add_book">Lisää</string>
     <string name="edit_book">Muokkaa kirjaa</string>
     <string name="book_title">Nimi</string>
@@ -25,6 +25,9 @@
     <string name="credits_licenses">Lisenssit:</string>
     <string name="credits">Tietoja sovelluksesta</string>
     <string name="credits_data_links">Linkit</string>
-    <string name="title_menu">Menu</string>
-    <string name="title_settings">Asetukset</string>
+    <string name="label_menu">Menu</string>
+    <string name="label_settings">Asetukset</string>
+    <string name="label_add_barcode">Skannaa viivakoodi</string>
+    <string name="label_add_manual">Lisää manuaalisesti</string>
+    <string name="label_add_search">Etsi kirjoja</string>
 </resources>
