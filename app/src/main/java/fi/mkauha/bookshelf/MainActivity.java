@@ -1,14 +1,13 @@
 package fi.mkauha.bookshelf;
 
-import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.material.bottomappbar.BottomAppBar;
-
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,9 +15,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import fi.mkauha.bookshelf.ui.books.BookDetailsFragment;
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import fi.mkauha.bookshelf.ui.bottomnav.BottomNavigationFragment;
-import fi.mkauha.bookshelf.ui.details.DetailsActivity;
 import fi.mkauha.bookshelf.ui.dialogs.AddBookModalFragment;
 
 /**
@@ -30,20 +30,39 @@ import fi.mkauha.bookshelf.ui.dialogs.AddBookModalFragment;
 public class MainActivity extends AppCompatActivity {
 
     BottomAppBar bottomAppBar;
+    FloatingActionButton fab;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_app_bar);
-        setSupportActionBar(bottomAppBar);
+        //setSupportActionBar(bottomAppBar);
 
-
-        bottomAppBar.setOnClickListener(view -> openNavigationDrawer());
+        bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+        bottomAppBar.replaceMenu(R.menu.bottom_main_menu);
+        bottomAppBar.setNavigationIcon(R.drawable.ic_outline_menu_24);
+        bottomAppBar.setFabAnimationMode(BottomAppBar.FAB_ANIMATION_MODE_SLIDE);
+        // TODO Change interaction in different fragments
+        // bottomAppBar.setOnClickListener(view -> openNavigationDrawer());
         bottomAppBar.setNavigationOnClickListener(v ->  openNavigationDrawer());
 
+        fab = findViewById(R.id.fab);
+        fab.setImageDrawable(getDrawable(R.drawable.ic_outline_add_24));
+        fab.setOnClickListener(view -> {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            AddBookModalFragment fragment = new AddBookModalFragment();
+            fragmentTransaction.add(fragment, "BottomSheetFragment");
+            fragmentTransaction.addToBackStack(null);
+
+            fragmentTransaction.commit();
+        });
 
     }
+
+
 
     public void openNavigationDrawer() {
         Log.d("MainActivity", "bottomAppBar");
