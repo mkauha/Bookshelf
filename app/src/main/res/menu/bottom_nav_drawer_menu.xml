@@ -8,7 +8,7 @@
     <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_outline_settings_24"
-        android:title="@string/title_settings" />
+        android:title="@string/label_settings" />
     </group>
 
     <group
@@ -17,11 +17,11 @@
         <item
             android:id="@+id/navigation_books"
             android:icon="@drawable/ic_outline_book_24"
-            android:title="@string/title_books" />
+            android:title="@string/label_books" />
         <item
             android:id="@+id/navigation_library"
             android:icon="@drawable/ic_outline_library_24"
-            android:title="@string/title_library" />
+            android:title="@string/label_library" />
     </group>
 
     <group android:id="@+id/controlItems">
