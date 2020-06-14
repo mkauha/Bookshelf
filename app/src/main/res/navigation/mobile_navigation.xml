@@ -8,13 +8,13 @@
     <fragment
         android:id="@+id/navigation_books"
         android:name="fi.mkauha.bookshelf.ui.books.BooksFragment"
-        android:label="@string/title_books"
+        android:label="@string/label_books"
         tools:layout="@layout/fragment_books" />
 
     <fragment
         android:id="@+id/navigation_library"
         android:name="fi.mkauha.bookshelf.ui.library.LibraryFragment"
-        android:label="@string/title_library"
+        android:label="@string/label_library"
         tools:layout="@layout/fragment_library" />
 
     <fragment
@@ -26,13 +26,19 @@
     <fragment
         android:id="@+id/navigation_settings"
         android:name="fi.mkauha.bookshelf.ui.settings.SettingsFragment"
-        android:label="@string/title_settings"
+        android:label="@string/label_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/navigation_search"
         android:name="fi.mkauha.bookshelf.ui.search.SearchFragment"
-        android:label="@string/title_search"
+        android:label="@string/label_search"
         tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_bookdetails"
+        android:name="fi.mkauha.bookshelf.ui.books.BookDetailsFragment"
+        android:label="Book details"
+        tools:layout="@layout/fragment_bookdetails" />
 
 </navigation>

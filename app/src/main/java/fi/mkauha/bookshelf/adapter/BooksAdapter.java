@@ -1,22 +1,24 @@
 package fi.mkauha.bookshelf.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.Comparator;
+
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.ItemBookGridBinding;
 import fi.mkauha.bookshelf.models.BookItem;
-import fi.mkauha.bookshelf.ui.details.DetailsActivity;
+import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 /**
  * Adapter for recyclerview that holds Book items.
@@ -25,6 +27,8 @@ import fi.mkauha.bookshelf.ui.details.DetailsActivity;
  * @version 1.0
  */
 public class BooksAdapter extends SortedListAdapter<BookItem> {
+
+    BooksViewModel booksViewModel;
 
     /**
      * SharedPreferences key.
@@ -37,8 +41,9 @@ public class BooksAdapter extends SortedListAdapter<BookItem> {
      * @param context    the context
      * @param comparator the comparator
      */
-    public BooksAdapter(Context context, Comparator<BookItem> comparator) {
+    public BooksAdapter(Context context, Comparator<BookItem> comparator, BooksViewModel booksViewModel) {
         super(context, BookItem.class, comparator);
+        this.booksViewModel = booksViewModel;
     }
 
     /**
@@ -98,9 +103,6 @@ public class BooksAdapter extends SortedListAdapter<BookItem> {
          */
         @Override
         protected void performBind(@NonNull BookItem item) {
-            bookID = item.getBookID();
-            bookImageURL = item.getImgURL();
-
             binding.itemViewBookTitle.setText(item.getTitle());
             binding.itemViewBookBookmarkText.setText(item.getBookmark());
 
@@ -118,15 +120,10 @@ public class BooksAdapter extends SortedListAdapter<BookItem> {
 
 
             binding.getRoot().setOnClickListener(v -> {
-                int position = getAdapterPosition();
                 Context context = binding.getRoot().getContext();
-                Intent intent = new Intent(context, DetailsActivity.class);
-                intent.putExtra("Action", "VIEW");
-                intent.putExtra("ViewModel_Key", prefsKey);
-                intent.putExtra("ID", bookID);
-                intent.putExtra("Position", position);
-                Log.d("BookAdapter", "onClick position " + position);
-                context.startActivity(intent);
+                booksViewModel.select(item);
+                NavController navController = Navigation.findNavController((AppCompatActivity)context, R.id.nav_host_fragment);
+                navController.navigate(R.id.navigation_bookdetails);
             });
         }
     }

@@ -7,7 +7,7 @@
     <string name="add_book">Lisää</string>
     <string name="edit_book">Muokkaa kirjaa</string>
     <string name="book_title">Nimi</string>
-    <string name="book_author">Kirjoittaja</string>
+    <string name="book_author">Tekijät</string>
     <string name="book_genre">Lajityyppi</string>
     <string name="book_img_url">Kuvan URL</string>
     <string name="button_ok">OK</string>
@@ -30,4 +30,7 @@
     <string name="label_add_barcode">Skannaa viivakoodi</string>
     <string name="label_add_manual">Lisää manuaalisesti</string>
     <string name="label_add_search">Etsi kirjoja</string>
+    <string name="book_year">Julkaisuvuosi</string>
+    <string name="book_pages">Sivut</string>
+    <string name="book_language">Kieli</string>
 </resources>
