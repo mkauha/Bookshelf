@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_add_book_manual"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="55dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/fragment_bookdetails_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="AddBookManualFragment">
+
+        <LinearLayout
+            android:id="@+id/add_book_manual_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/add_book_manual_cover_image"
+                android:layout_width="109dp"
+                android:layout_height="159dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="Add cover image"
+                app:srcCompat="@drawable/book_cover_placeholder" />
+
+            <TextView
+                android:id="@+id/add_book_manual_title_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/book_title"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/add_book_manual_book_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:hint="Add title"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:text=""
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/add_book_manual_authors_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/book_author"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/add_book_manual_book_authors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
+                android:hint="Add authors"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:text=""
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/add_book_manual_year_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/book_year"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/add_book_manual_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
+                android:hint="Add year"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text=""
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/add_book_manual_language_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/book_language"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/add_book_manual_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
+                android:hint="Add language"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text=""
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/add_book_manual_pages_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/book_pages"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/add_book_manual_pages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="10dp"
+                android:hint="Add pagecount"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text=""
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
