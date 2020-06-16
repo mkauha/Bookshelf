@@ -1,23 +1,14 @@
 package fi.mkauha.bookshelf.ui.books;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -27,20 +18,16 @@ import com.squareup.picasso.Picasso;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentBookdetailsBinding;
-import fi.mkauha.bookshelf.models.BookItem;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 public class BookDetailsFragment extends Fragment {
 
+    private FragmentBookdetailsBinding binding;
     private BooksViewModel booksViewModel;
-    BottomAppBar bottomAppBar;
-    FloatingActionButton fab;
-    /**
-     * The layout binding.
-     */
-    FragmentBookdetailsBinding binding;
+    private BottomAppBar bottomAppBar;
+    private FloatingActionButton fab;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,16 +52,15 @@ public class BookDetailsFragment extends Fragment {
         bottomAppBar.replaceMenu(R.menu.bottom_add_book_menu);
         booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
 
-        booksViewModel.getSelected().observe(getActivity(), item -> {
-            binding.bookdetailsBookTitle.setText(item.getTitle());
-            binding.bookdetailsBookAuthors.setText(item.getAuthor());
-            // TODO set real values to model
-            binding.bookdetailsBookYear.setText("2020");
-            binding.bookdetailsBookLanguage.setText("Finnish");
-            binding.bookdetailsBookPages.setText("300");
+        booksViewModel.getSelected().observe(getActivity(), book -> {
+            binding.bookdetailsBookTitle.setText(book.getTitle());
+            binding.bookdetailsBookAuthors.setText(book.getAuthor());
+            binding.bookdetailsBookYear.setText(book.getYear());
+            binding.bookdetailsBookLanguage.setText(book.getLanguages());
+            binding.bookdetailsBookPages.setText(String.valueOf(book.getPages()));
 
             Picasso.get()
-                    .load(item.getImgURL())
+                    .load(book.getImage())
                     .resize(1300, 2300)
                     .centerCrop()
                     .placeholder(R.drawable.book_cover_placeholder)
