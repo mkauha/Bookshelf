@@ -19,7 +19,7 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.adapter.BookListAdapter;
+import fi.mkauha.bookshelf.ui.adapter.BookListAdapter;
 import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
 import fi.mkauha.bookshelf.ui.dialogs.AddBookModalFragment;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
