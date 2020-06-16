@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.adapter;
+package fi.mkauha.bookshelf.ui.adapter;
 
 import android.content.Context;
 import android.util.Log;
