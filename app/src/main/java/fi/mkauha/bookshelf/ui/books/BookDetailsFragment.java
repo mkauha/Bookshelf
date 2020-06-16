@@ -49,7 +49,7 @@ public class BookDetailsFragment extends Fragment {
             navController.navigate(R.id.navigation_books);
         });
 
-        bottomAppBar.replaceMenu(R.menu.bottom_add_book_menu);
+        bottomAppBar.replaceMenu(R.menu.bottom_book_details_menu);
         booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
 
         booksViewModel.getSelected().observe(getActivity(), book -> {
