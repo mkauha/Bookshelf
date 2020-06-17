@@ -5,20 +5,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_share"
+        android:id="@+id/bookdetails_share"
         android:icon="@drawable/ic_outline_share_24"
         android:title="Share"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/navigation_favorite"
+        android:id="@+id/bookdetails_favorite"
         android:icon="@drawable/ic_outline_favorite_24"
         android:title="Favorite"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
-        android:id="@+id/navigation_bookmark"
+        android:id="@+id/bookdetails_bookmark"
         android:icon="@drawable/ic_outline_bookmark_24"
         android:title="Bookmark"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/navigation_manual_add"
+        android:icon="@drawable/ic_outline_edit_24"
+        android:title="Edit"
+        app:showAsAction="ifRoom" />
 
 
 </menu>
