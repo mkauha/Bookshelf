@@ -1,16 +1,19 @@
 package fi.mkauha.bookshelf.ui.books;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -67,7 +70,35 @@ public class BookDetailsFragment extends Fragment {
                     .into(binding.bookdetailsCoverImage);
         });
 
+        bottomAppBar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_manual_add:
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Edit book?")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                                NavigationUI.onNavDestinationSelected(item, navController);
+                            })
+
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            .setNegativeButton("No", null)
+                            .show();
+                    break;
+                case R.id.bookdetails_share:
+                    Log.d("ManualAddBookFragment", "Share");
+                    break;
+                case R.id.bookdetails_favorite:
+                    Log.d("ManualAddBookFragment", "Favorite");
+                    break;
+                case R.id.bookdetails_bookmark:
+                    Log.d("ManualAddBookFragment", "Bookmark");
+                    break;
+            }
+            return false;
+        });
+
 
         return root;
     }
+
 }
