@@ -1,6 +1,5 @@
 package fi.mkauha.bookshelf.models;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -19,7 +18,7 @@ public class Book {
 
     private String year;
 
-    private int pages;
+    private String pages;
 
     private String image;
 
@@ -30,7 +29,7 @@ public class Book {
     private int bookmark;
 
     public Book(String isbn, String title, String author,
-                String genres, String year, int pages, String image,
+                String genres, String year, String pages, String image,
                 String summary, String languages, int bookmark) {
         this.isbn = isbn;
         this.title = title;
@@ -92,11 +91,11 @@ public class Book {
         this.year = year;
     }
 
-    public int getPages() {
+    public String getPages() {
         return pages;
     }
 
-    public void setPages(int pages) {
+    public void setPages(String pages) {
         this.pages = pages;
     }
 
