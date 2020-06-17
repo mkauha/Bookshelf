@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fi.mkauha.bookshelf">
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,9 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ui.details.DetailsActivity"
-            android:theme="@style/Theme.NoTitleActivityDialog" />
 
         <service
             android:name=".ui.libraries.LibrariesService"/>
