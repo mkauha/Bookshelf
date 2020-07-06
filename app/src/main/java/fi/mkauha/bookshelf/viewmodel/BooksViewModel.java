@@ -22,12 +22,11 @@ public class BooksViewModel extends AndroidViewModel {
     public BooksViewModel(Application application) {
         super(application);
         this.mBooksRepository = new BookRepository(application);
-        this.mAllBooks = mBooksRepository.getAllWords();
+        this.mAllBooks = mBooksRepository.getAllBooks();
 
     }
 
     public void select(Book book) {
-        Log.d("BooksViewModel", "select: " + book);
         selected.setValue(book);
     }
 
@@ -40,6 +39,10 @@ public class BooksViewModel extends AndroidViewModel {
         return mAllBooks;
     }
 
-    public void insert(Book book) { mBooksRepository.insert(book); }
+    public void insertOrUpdate(Book book) {
+        mBooksRepository.insertOrUpdate(book);
+    }
+
+    public void update(Book book) { mBooksRepository.update(book);}
 
 }

@@ -130,5 +130,20 @@ public class Book {
     public void setBookmark(int bookmark) {
         this.bookmark = bookmark;
     }
+
+    public void update(String isbn, String title, String author,
+                        String genres, String year, String pages, String image,
+                        String summary, String languages, int bookmark) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.genres = genres;
+        this.year = year;
+        this.pages = pages;
+        this.image = image;
+        this.summary = summary;
+        this.languages = languages;
+        this.bookmark = bookmark;
+    }
 }
 
