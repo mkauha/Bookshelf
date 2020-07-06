@@ -37,13 +37,14 @@ public class ManualAddBookFragment extends Fragment {
     private BooksViewModel booksViewModel;
     private BottomAppBar bottomAppBar;
     private FloatingActionButton fab;
-    private Book book;
+    private Book _book;
     private String image;
     public static final int PICK_IMAGE = 1;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("ManualAddBookFragment", "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
         binding = FragmentManualAddBookBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -66,8 +67,10 @@ public class ManualAddBookFragment extends Fragment {
 
         bottomAppBar.replaceMenu(R.menu.bottom_manual_add_book_menu);
         booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
-        setBookDataToUI();
-
+        this._book = booksViewModel.getSelected().getValue();
+        if(_book != null) {
+            setBookDataToUI();
+        }
 
 
         ViewGroup.LayoutParams defaultParams = binding.fragmentManualAddBook.getLayoutParams();
@@ -97,18 +100,34 @@ public class ManualAddBookFragment extends Fragment {
             new AlertDialog.Builder(getContext())
                     .setTitle("Save book?")
                     .setPositiveButton("Save", (dialog, which) -> {
-                        book = new Book(
-                                "ISBN",
-                                binding.manualAddBookTitle.getText().toString(),
-                                binding.manualAddBookAuthors.getText().toString(),
-                                binding.manualAddBookGenres.getText().toString(),
-                                binding.manualAddBookYear.getText().toString(),
-                                binding.manualAddBookPages.getText().toString(),
-                                this.image,
-                                binding.manualAddBookSummary.getText().toString(),
-                                binding.manualAddBookLanguage.getText().toString(),
-                                0);
-                        booksViewModel.insert(book);
+
+                        if(_book == null) {
+                            _book = new Book(
+                                    "ISBN",
+                                    binding.manualAddBookTitle.getText().toString(),
+                                    binding.manualAddBookAuthors.getText().toString(),
+                                    binding.manualAddBookGenres.getText().toString(),
+                                    binding.manualAddBookYear.getText().toString(),
+                                    binding.manualAddBookPages.getText().toString(),
+                                    this.image,
+                                    binding.manualAddBookSummary.getText().toString(),
+                                    binding.manualAddBookLanguage.getText().toString(),
+                                    0);
+                        } else {
+                            _book.update(
+                                    "ISBN",
+                                    binding.manualAddBookTitle.getText().toString(),
+                                    binding.manualAddBookAuthors.getText().toString(),
+                                    binding.manualAddBookGenres.getText().toString(),
+                                    binding.manualAddBookYear.getText().toString(),
+                                    binding.manualAddBookPages.getText().toString(),
+                                    this.image,
+                                    binding.manualAddBookSummary.getText().toString(),
+                                    binding.manualAddBookLanguage.getText().toString(),
+                                    0);
+                        }
+
+                        booksViewModel.insertOrUpdate(_book);
                         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                         navController.navigate(R.id.navigation_books);
                     })
