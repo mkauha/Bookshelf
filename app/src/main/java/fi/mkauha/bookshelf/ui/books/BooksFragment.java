@@ -80,6 +80,7 @@ public class BooksFragment extends Fragment  {
         });
 
         booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
+        booksViewModel.select(null);
 
         mAdapter = new BookListAdapter(getContext(), booksViewModel);
         binding.booksRecyclerView.setAdapter(mAdapter);
