@@ -186,7 +186,7 @@ public class ManualAddBookFragment extends Fragment {
         binding.manualAddBookSummary.setText(book.getSummary());
 
 
-        //this.image = book.getImage();
+        this.image = book.getImage();
 
         Glide.with(this)
                 .load(this.image)
