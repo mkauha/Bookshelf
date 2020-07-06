@@ -15,9 +15,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentBookdetailsBinding;
@@ -65,12 +65,11 @@ public class BookDetailsFragment extends Fragment {
             binding.bookdetailsBookLanguage.setText(_book.getLanguages());
             binding.bookdetailsBookPages.setText(String.valueOf(_book.getPages()));
 
-            Picasso.get()
-                    .load(_book.getImage())
-                    .resize(1300, 2300)
-                    .centerCrop()
-                    .placeholder(R.drawable.book_cover_placeholder)
-                    .into(binding.bookdetailsCoverImage);
+        Glide.with(this)
+                .load(_book.getImage())
+                .centerCrop()
+                .placeholder(R.drawable.book_cover_placeholder)
+                .into(binding.bookdetailsCoverImage);
 
         bottomAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {

@@ -18,9 +18,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
@@ -185,12 +185,15 @@ public class ManualAddBookFragment extends Fragment {
         binding.manualAddBookPages.setText(book.getPages());
         binding.manualAddBookSummary.setText(book.getSummary());
 
-        Picasso.get()
-                .load(book.getImage())
-                .resize(1300, 2300)
+
+        //this.image = book.getImage();
+
+        Glide.with(this)
+                .load(this.image)
                 .centerCrop()
                 .placeholder(R.drawable.book_cover_placeholder)
                 .into(binding.manualAddBookCoverImage);
+
     }
 
 
@@ -200,11 +203,10 @@ public class ManualAddBookFragment extends Fragment {
 
         if(data != null && data.getData() != null) {
             Uri selectedImageUri = data.getData();
-            image = selectedImageUri.toString();
+            this.image = selectedImageUri.toString();
 
-            Picasso.get()
-                    .load(selectedImageUri)
-                    .resize(500, 700)
+            Glide.with(this)
+                    .load(this.image)
                     .centerCrop()
                     .placeholder(R.drawable.book_cover_placeholder)
                     .into(binding.manualAddBookCoverImage);

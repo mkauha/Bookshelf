@@ -11,7 +11,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -52,15 +52,16 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             Book current = mBooks.get(position);
             holder.binding.itemViewBookBookmarkIcon.setVisibility(View.INVISIBLE);
             holder.binding.itemViewBookTitle.setText(current.getTitle());
-            Picasso.get()
+
+            Glide.with(holder.binding.getRoot())
                     .load(current.getImage())
-                    .resize(500, 700)
                     .centerCrop()
                     .placeholder(R.drawable.book_cover_placeholder)
                     .into(holder.binding.itemViewBookImage);
 
+
             holder.binding.getRoot().setOnClickListener(v -> {
-                Log.d("onBindViewHolder", "select: " + current);
+                Log.d("onBindViewHolder", "select: " + current.getImage());
                 Context context = holder.binding.getRoot().getContext();
                 booksViewModel.select(current);
                 NavController navController = Navigation.findNavController((AppCompatActivity)context, R.id.nav_host_fragment);
