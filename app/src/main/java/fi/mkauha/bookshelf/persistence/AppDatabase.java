@@ -67,7 +67,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         "Dystopia",
                         "1995",
                         "400",
-                        "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg",
+                        "https://www.oberonbooks.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/9/7/9781783190614.jpg",
                         "summary",
                         "Suomi",
                         11);
