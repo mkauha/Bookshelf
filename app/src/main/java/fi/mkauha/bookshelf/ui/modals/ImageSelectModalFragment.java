@@ -1,6 +1,8 @@
 package fi.mkauha.bookshelf.ui.modals;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,9 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -60,10 +64,29 @@ public class ImageSelectModalFragment extends BottomSheetDialogFragment {
 
         binding.imageSelectIcLink.setOnClickListener(v -> {
             Log.d(TAG, "Link");
+            showDialog(savedInstanceState).show();
         });
 
         return root;
     }
+
+
+    public Dialog showDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        // Get the layout inflater
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_image_url, null);
+        builder.setView(dialogView);
+
+        builder.setPositiveButton(R.string.button_ok, (dialog, id) -> {
+                    EditText etURL = dialogView.findViewById(R.id.dialog_image_url_content);
+                    imageSelectViewModel.selectImageFile(etURL.getText().toString());
+                    this.dismiss();
+                })
+                .setNegativeButton(R.string.button_cancel, (dialog, id) -> getDialog().cancel());
+        return builder.create();
+    }
+
 
 
     @Override

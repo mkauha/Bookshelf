@@ -32,6 +32,7 @@
     <string name="label_image_select_file">File</string>
     <string name="label_image_select_camera">Camera</string>
     <string name="label_image_select_URL">URL</string>
+    <string name="label_image_select_URL_title">Image URL</string>
 
     <string name="add_book">Add</string>
     <string name="search">Search</string>

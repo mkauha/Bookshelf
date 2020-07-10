@@ -47,4 +47,5 @@
     <string name="label_image_select_camera">Kamera</string>
     <string name="label_image_select_URL">URL</string>
     <string name="label_add_title">Lisää kirja</string>
+    <string name="label_image_select_URL_title">Kuvan URL</string>
 </resources>
