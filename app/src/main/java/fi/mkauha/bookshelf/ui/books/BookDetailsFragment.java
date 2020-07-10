@@ -20,13 +20,13 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.databinding.FragmentBookdetailsBinding;
+import fi.mkauha.bookshelf.databinding.FragmentBookDetailsBinding;
 import fi.mkauha.bookshelf.models.Book;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 public class BookDetailsFragment extends Fragment {
 
-    private FragmentBookdetailsBinding binding;
+    private FragmentBookDetailsBinding binding;
     private BooksViewModel booksViewModel;
     private BottomAppBar bottomAppBar;
     private FloatingActionButton fab;
@@ -38,7 +38,7 @@ public class BookDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("BookDetailsFragment", "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
-        binding = FragmentBookdetailsBinding.inflate(inflater, container, false);
+        binding = FragmentBookDetailsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
@@ -55,21 +55,21 @@ public class BookDetailsFragment extends Fragment {
             navController.navigate(R.id.navigation_books);
         });
 
-        bottomAppBar.replaceMenu(R.menu.bottom_book_details_menu);
+        bottomAppBar.replaceMenu(R.menu.menu_bottom_book_details);
         booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
 
         this._book = booksViewModel.getSelected().getValue();
-            binding.bookdetailsBookTitle.setText(_book.getTitle());
-            binding.bookdetailsBookAuthors.setText(_book.getAuthor());
-            binding.bookdetailsBookYear.setText(_book.getYear());
-            binding.bookdetailsBookLanguage.setText(_book.getLanguages());
-            binding.bookdetailsBookPages.setText(String.valueOf(_book.getPages()));
+            binding.bookDetailsBookTitle.setText(_book.getTitle());
+            binding.bookDetailsBookAuthors.setText(_book.getAuthor());
+            binding.bookDetailsBookYear.setText(_book.getYear());
+            binding.bookDetailsBookLanguage.setText(_book.getLanguages());
+            binding.bookDetailsBookPages.setText(String.valueOf(_book.getPages()));
 
         Glide.with(this)
                 .load(_book.getImage())
                 .centerCrop()
                 .placeholder(R.drawable.book_cover_placeholder)
-                .into(binding.bookdetailsCoverImage);
+                .into(binding.bookDetailsCoverImage);
 
         bottomAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {

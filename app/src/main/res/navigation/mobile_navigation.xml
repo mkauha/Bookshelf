@@ -39,7 +39,7 @@
         android:id="@+id/navigation_bookdetails"
         android:name="fi.mkauha.bookshelf.ui.books.BookDetailsFragment"
         android:label="Book details"
-        tools:layout="@layout/fragment_bookdetails" />
+        tools:layout="@layout/fragment_book_details" />
 
     <fragment
         android:id="@+id/navigation_manual_add"

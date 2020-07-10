@@ -27,7 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.ui.adapter.BookListAdapter;
 import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
-import fi.mkauha.bookshelf.ui.dialogs.AddBookModalFragment;
+import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 public class BooksFragment extends Fragment  {
@@ -62,7 +62,7 @@ public class BooksFragment extends Fragment  {
 
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-        bottomAppBar.replaceMenu(R.menu.bottom_main_menu);
+        bottomAppBar.replaceMenu(R.menu.menu_bottom_main);
         bottomAppBar.setNavigationIcon(R.drawable.ic_outline_menu_24);
         bottomAppBar.setOnClickListener(view -> {});
         binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
@@ -95,7 +95,7 @@ public class BooksFragment extends Fragment  {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        getActivity().getMenuInflater().inflate(R.menu.bottom_main_menu, menu);
+        getActivity().getMenuInflater().inflate(R.menu.menu_bottom_main, menu);
     }
 
     @Override

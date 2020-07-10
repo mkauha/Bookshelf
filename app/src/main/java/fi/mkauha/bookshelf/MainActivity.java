@@ -18,8 +18,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import fi.mkauha.bookshelf.ui.bottomnav.BottomNavigationFragment;
-import fi.mkauha.bookshelf.ui.dialogs.AddBookModalFragment;
+import fi.mkauha.bookshelf.ui.modals.MainNavigationModalFragment;
+import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
 
 /**
  * MainActivity that initializes Navigation UI with bottom navigation bar and three fragments.
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //setSupportActionBar(bottomAppBar);
 
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-        bottomAppBar.replaceMenu(R.menu.bottom_main_menu);
+        bottomAppBar.replaceMenu(R.menu.menu_bottom_main);
         bottomAppBar.setNavigationIcon(R.drawable.ic_outline_menu_24);
         bottomAppBar.setFabAnimationMode(BottomAppBar.FAB_ANIMATION_MODE_SLIDE);
         // TODO Change interaction in different fragments
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        BottomNavigationFragment fragment = new BottomNavigationFragment();
+        MainNavigationModalFragment fragment = new MainNavigationModalFragment();
         fragmentTransaction.add(fragment, "BottomSheetFragment");
         fragmentTransaction.addToBackStack(null);
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.bottom_main_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_bottom_main, menu);
         return true;
     }
 
