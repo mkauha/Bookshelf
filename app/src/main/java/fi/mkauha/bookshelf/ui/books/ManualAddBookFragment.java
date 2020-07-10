@@ -1,7 +1,5 @@
 package fi.mkauha.bookshelf.ui.books;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -27,24 +27,26 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentManualAddBookBinding;
 import fi.mkauha.bookshelf.models.Book;
+import fi.mkauha.bookshelf.ui.modals.ImageSelectModalFragment;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
-
+import fi.mkauha.bookshelf.viewmodel.ImageSelectViewModel;
 
 
 public class ManualAddBookFragment extends Fragment {
+    private static final String TAG = "ManualAddBook";
 
     private FragmentManualAddBookBinding binding;
     private BooksViewModel booksViewModel;
+    private ImageSelectViewModel imageSelectViewModel;
     private BottomAppBar bottomAppBar;
     private FloatingActionButton fab;
     private Book _book;
     private String image;
-    public static final int PICK_IMAGE = 1;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("ManualAddBookFragment", "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
         binding = FragmentManualAddBookBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -65,19 +67,30 @@ public class ManualAddBookFragment extends Fragment {
             navController.navigate(R.id.navigation_books);
         });
 
-        bottomAppBar.replaceMenu(R.menu.bottom_manual_add_book_menu);
-        booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
+        bottomAppBar.replaceMenu(R.menu.menu_bottom_manual_add_book);
+        booksViewModel = new ViewModelProvider(requireActivity()).get(BooksViewModel.class);
+        imageSelectViewModel = new ViewModelProvider(requireActivity()).get(ImageSelectViewModel.class);
+
+        imageSelectViewModel.getSelectedImageFile().observe(requireActivity(), image -> {
+            Log.d(TAG, "selected: " + image);
+            this.image = image;
+            Glide.with(this)
+                    .load(this.image)
+                    .centerCrop()
+                    .placeholder(R.drawable.book_cover_placeholder)
+                    .into(binding.manualAddBookCoverImage);
+        });
+
         this._book = booksViewModel.getSelected().getValue();
         if(_book != null) {
             setBookDataToUI();
         }
 
-
         ViewGroup.LayoutParams defaultParams = binding.fragmentManualAddBook.getLayoutParams();
 
         // TODO Add string values
         bottomAppBar.setOnMenuItemClickListener(item -> {
-            Log.d("ManualAddBookFragment", "Cancel");
+            Log.d(TAG, "Cancel");
             switch (item.getItemId()) {
                 case R.id.navigation_books:
                     new AlertDialog.Builder(getContext())
@@ -158,18 +171,13 @@ public class ManualAddBookFragment extends Fragment {
                 });
 
         binding.manualAddBookCoverImage.setOnClickListener(view -> {
-            Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-            getIntent.setType("image/*");
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            ImageSelectModalFragment fragment = new ImageSelectModalFragment();
+            fragmentTransaction.add(fragment, "BottomSheetFragment");
+            fragmentTransaction.addToBackStack(null);
 
-            Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            pickIntent.setType("image/*");
-
-            Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-            startActivityForResult(chooserIntent, PICK_IMAGE);
-
-
+            fragmentTransaction.commit();
         });
 
         return root;
@@ -194,23 +202,6 @@ public class ManualAddBookFragment extends Fragment {
                 .placeholder(R.drawable.book_cover_placeholder)
                 .into(binding.manualAddBookCoverImage);
 
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(data != null && data.getData() != null) {
-            Uri selectedImageUri = data.getData();
-            this.image = selectedImageUri.toString();
-
-            Glide.with(this)
-                    .load(this.image)
-                    .centerCrop()
-                    .placeholder(R.drawable.book_cover_placeholder)
-                    .into(binding.manualAddBookCoverImage);
-        }
     }
 
 }
