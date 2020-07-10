@@ -27,7 +27,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:contentDescription="@string/book_image_hint"
-                android:onClick="onClickImage"
                 app:srcCompat="@drawable/book_cover_placeholder" />
 
             <TextView
