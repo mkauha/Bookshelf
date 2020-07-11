@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_manual_add_book"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="55dp"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:gravity="center">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/fragment_manual_add_book_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,7 +17,8 @@
             android:id="@+id/manual_add_book_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="64dp">
 
             <ImageView
                 android:id="@+id/manual_add_book_cover_image"
@@ -26,6 +26,7 @@
                 android:layout_height="159dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:contentDescription="@string/book_image_hint"
                 app:srcCompat="@drawable/book_cover_placeholder" />
 
@@ -191,5 +192,5 @@
                 android:text=""
                 android:textSize="18sp" />
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

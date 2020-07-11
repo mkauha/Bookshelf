@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,8 +29,10 @@ import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
  * @version 1.0
  */
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     BottomAppBar bottomAppBar;
+    private MaterialToolbar topAppBar;
     FloatingActionButton fab;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -38,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_app_bar);
-        //setSupportActionBar(bottomAppBar);
 
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
         bottomAppBar.replaceMenu(R.menu.menu_bottom_main);
@@ -47,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
         // TODO Change interaction in different fragments
         // bottomAppBar.setOnClickListener(view -> openNavigationDrawer());
         bottomAppBar.setNavigationOnClickListener(v ->  openNavigationDrawer());
+
+        topAppBar = (MaterialToolbar) findViewById(R.id.topAppBar);
+        Log.d(TAG, "topAppBar: " + topAppBar);
+
+
+        topAppBar.setVisibility(View.GONE);
 
         fab = findViewById(R.id.fab);
         fab.setImageDrawable(getDrawable(R.drawable.ic_outline_add_24));
@@ -109,4 +117,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);*/
     }
 
+    public MaterialToolbar getTopAppBar() {
+        return topAppBar;
+    }
 }

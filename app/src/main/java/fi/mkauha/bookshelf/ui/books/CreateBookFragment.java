@@ -19,26 +19,29 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.databinding.FragmentManualAddBookBinding;
+import fi.mkauha.bookshelf.databinding.FragmentCreateBookBinding;
 import fi.mkauha.bookshelf.models.Book;
 import fi.mkauha.bookshelf.ui.modals.ImageSelectModalFragment;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.viewmodel.ImageSelectViewModel;
 
 
-public class ManualAddBookFragment extends Fragment {
+public class CreateBookFragment extends Fragment {
     private static final String TAG = "ManualAddBook";
 
-    private FragmentManualAddBookBinding binding;
+    private FragmentCreateBookBinding binding;
     private BooksViewModel booksViewModel;
     private ImageSelectViewModel imageSelectViewModel;
     private BottomAppBar bottomAppBar;
+    private MaterialToolbar topAppBar;
     private FloatingActionButton fab;
     private Book _book;
     private String image;
@@ -48,26 +51,27 @@ public class ManualAddBookFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        binding = FragmentManualAddBookBinding.inflate(inflater, container, false);
+        binding = FragmentCreateBookBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        setHasOptionsMenu(true);
 
-        bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
-        bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
+        bottomAppBar = (BottomAppBar) requireActivity().findViewById(R.id.bottom_app_bar);
+        topAppBar = (MaterialToolbar) requireActivity().findViewById(R.id.topAppBar);
+
+        topAppBar.setVisibility(View.VISIBLE);
+
+        topAppBar.setNavigationOnClickListener(event -> {
+            showBackDialog();
+        });
 
         bottomAppBar.setNavigationIcon(null);
         bottomAppBar.performShow();
 
-        fab = getActivity().findViewById(R.id.fab);
-        fab.setImageDrawable(getActivity().getDrawable(R.drawable.ic_outline_save_24));
-        fab.show();
+        fab = requireActivity().findViewById(R.id.fab);
+        fab.hide();
 
-        fab.setOnClickListener(view -> {
-            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-            navController.navigate(R.id.navigation_books);
-        });
+        bottomAppBar.replaceMenu(R.menu.menu_bottom_create_book);
+        bottomAppBar.setHideOnScroll(false);
 
-        bottomAppBar.replaceMenu(R.menu.menu_bottom_manual_add_book);
         booksViewModel = new ViewModelProvider(requireActivity()).get(BooksViewModel.class);
         imageSelectViewModel = new ViewModelProvider(requireActivity()).get(ImageSelectViewModel.class);
 
@@ -90,65 +94,14 @@ public class ManualAddBookFragment extends Fragment {
 
         // TODO Add string values
         bottomAppBar.setOnMenuItemClickListener(item -> {
-            Log.d(TAG, "Cancel");
             switch (item.getItemId()) {
-                case R.id.navigation_books:
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("Stop editing?")
-                            .setMessage("Book data will be lost")
-                            .setPositiveButton("Stop", (dialog, which) -> {
-                                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                                NavigationUI.onNavDestinationSelected(item, navController);
-                            })
-
-                            // A null listener allows the button to dismiss the dialog and take no further action.
-                            .setNegativeButton("Continue editing", null)
-                            .show();
-                    break;
+                case R.id.bottom_create_book_ok:
+                    showSaveDialog();
             }
             return false;
         });
 
-        fab.setOnClickListener(view -> {
-            new AlertDialog.Builder(getContext())
-                    .setTitle("Save book?")
-                    .setPositiveButton("Save", (dialog, which) -> {
 
-                        if(_book == null) {
-                            _book = new Book(
-                                    "ISBN",
-                                    binding.manualAddBookTitle.getText().toString(),
-                                    binding.manualAddBookAuthors.getText().toString(),
-                                    binding.manualAddBookGenres.getText().toString(),
-                                    binding.manualAddBookYear.getText().toString(),
-                                    binding.manualAddBookPages.getText().toString(),
-                                    this.image,
-                                    binding.manualAddBookSummary.getText().toString(),
-                                    binding.manualAddBookLanguage.getText().toString(),
-                                    0);
-                        } else {
-                            _book.update(
-                                    "ISBN",
-                                    binding.manualAddBookTitle.getText().toString(),
-                                    binding.manualAddBookAuthors.getText().toString(),
-                                    binding.manualAddBookGenres.getText().toString(),
-                                    binding.manualAddBookYear.getText().toString(),
-                                    binding.manualAddBookPages.getText().toString(),
-                                    this.image,
-                                    binding.manualAddBookSummary.getText().toString(),
-                                    binding.manualAddBookLanguage.getText().toString(),
-                                    0);
-                        }
-
-                        booksViewModel.insertOrUpdate(_book);
-                        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                        navController.navigate(R.id.navigation_books);
-                    })
-
-                    // A null listener allows the button to dismiss the dialog and take no further action.
-                    .setNegativeButton("Continue editing", null)
-                    .show();
-        });
 
         KeyboardVisibilityEvent.setEventListener(
                 getActivity(),
@@ -162,11 +115,9 @@ public class ManualAddBookFragment extends Fragment {
                         binding.fragmentManualAddBook.setLayoutParams(params);
 
                         bottomAppBar.performHide();
-                        fab.hide();
                     } else {
                         binding.fragmentManualAddBook.setLayoutParams(defaultParams);
                         bottomAppBar.performShow();
-                        fab.show();
                     }
                 });
 
@@ -181,6 +132,60 @@ public class ManualAddBookFragment extends Fragment {
         });
 
         return root;
+    }
+
+
+    private void showBackDialog() {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.label_go_back)
+                .setPositiveButton(R.string.button_ok, (dialog, which) -> {
+                    NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.navigation_books);
+                })
+                .setNegativeButton(R.string.button_cancel, null)
+                .show();
+    }
+
+    private void showSaveDialog() {
+
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.label_save_book)
+                .setPositiveButton(R.string.button_ok, (dialog, which) -> {
+
+                    if(_book == null) {
+                        _book = new Book(
+                                "ISBN",
+                                binding.manualAddBookTitle.getText().toString(),
+                                binding.manualAddBookAuthors.getText().toString(),
+                                binding.manualAddBookGenres.getText().toString(),
+                                binding.manualAddBookYear.getText().toString(),
+                                binding.manualAddBookPages.getText().toString(),
+                                this.image,
+                                binding.manualAddBookSummary.getText().toString(),
+                                binding.manualAddBookLanguage.getText().toString(),
+                                0);
+                    } else {
+                        _book.update(
+                                "ISBN",
+                                binding.manualAddBookTitle.getText().toString(),
+                                binding.manualAddBookAuthors.getText().toString(),
+                                binding.manualAddBookGenres.getText().toString(),
+                                binding.manualAddBookYear.getText().toString(),
+                                binding.manualAddBookPages.getText().toString(),
+                                this.image,
+                                binding.manualAddBookSummary.getText().toString(),
+                                binding.manualAddBookLanguage.getText().toString(),
+                                0);
+                    }
+
+                    booksViewModel.insertOrUpdate(_book);
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.navigation_books);
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(R.string.button_cancel, null)
+                .show();
     }
 
     public void setBookDataToUI() {
@@ -204,5 +209,9 @@ public class ManualAddBookFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }
 

@@ -48,4 +48,6 @@
     <string name="label_image_select_URL">URL</string>
     <string name="label_add_title">Lisää kirja</string>
     <string name="label_image_select_URL_title">Kuvan URL</string>
+    <string name="label_save_book">Tallenna?</string>
+    <string name="label_go_back">Poistu tallentamatta?</string>
 </resources>

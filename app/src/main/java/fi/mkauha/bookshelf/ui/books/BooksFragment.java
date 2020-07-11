@@ -21,6 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,6 +37,7 @@ public class BooksFragment extends Fragment  {
     private BookListAdapter mAdapter;
     FloatingActionButton fab;
     BottomAppBar bottomAppBar;
+    private MaterialToolbar topAppBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,8 +49,11 @@ public class BooksFragment extends Fragment  {
 
         binding = FragmentBooksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        setHasOptionsMenu(true);
+
+
+
         fab = getActivity().findViewById(R.id.fab);
+        fab.show();
         fab.setImageDrawable(getActivity().getDrawable(R.drawable.ic_outline_add_24));
         fab.setOnClickListener(view -> {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -60,7 +65,11 @@ public class BooksFragment extends Fragment  {
             fragmentTransaction.commit();
         });
 
+        topAppBar = (MaterialToolbar) requireActivity().findViewById(R.id.topAppBar);
+        topAppBar.setVisibility(View.GONE);
+
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
+        bottomAppBar.setHideOnScroll(true);
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
         bottomAppBar.replaceMenu(R.menu.menu_bottom_main);
         bottomAppBar.setNavigationIcon(R.drawable.ic_outline_menu_24);

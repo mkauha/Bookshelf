@@ -25,6 +25,8 @@
     <string name="label_search">Search</string>
     <string name="label_menu">Menu</string>
     <string name="label_add_title">Add a book</string>
+    <string name="label_save_book">Save?</string>
+    <string name="label_go_back">Exit without saving?</string>
     <string name="label_add_barcode">ISBN</string>
     <string name="label_add_manual">Create</string>
     <string name="label_add_search">Search</string>
