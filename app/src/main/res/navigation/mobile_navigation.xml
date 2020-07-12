@@ -36,13 +36,13 @@
         tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/navigation_bookdetails"
+        android:id="@+id/navigation_book_details"
         android:name="fi.mkauha.bookshelf.ui.books.BookDetailsFragment"
         android:label="Book details"
         tools:layout="@layout/fragment_book_details" />
 
     <fragment
-        android:id="@+id/navigation_manual_add"
+        android:id="@+id/navigation_create_book"
         android:name="fi.mkauha.bookshelf.ui.books.CreateBookFragment"
         android:label="Add book manually"
         tools:layout="@layout/fragment_create_book" />

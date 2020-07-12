@@ -36,7 +36,7 @@ public class AddBookModalFragment extends BottomSheetDialogFragment {
         });
 
         binding.addBookSheetIcManual.setOnClickListener(v -> {
-            navController.navigate(R.id.navigation_manual_add);
+            navController.navigate(R.id.navigation_create_book);
             this.dismiss();
         });
 
