@@ -51,21 +51,14 @@ public class MainActivity extends AppCompatActivity {
         bottomAppBar.setNavigationOnClickListener(v ->  openNavigationDrawer());
 
         topAppBar = (MaterialToolbar) findViewById(R.id.topAppBar);
-        Log.d(TAG, "topAppBar: " + topAppBar);
-
 
         topAppBar.setVisibility(View.GONE);
 
         fab = findViewById(R.id.fab);
         fab.setImageDrawable(getDrawable(R.drawable.ic_outline_add_24));
         fab.setOnClickListener(view -> {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            AddBookModalFragment fragment = new AddBookModalFragment();
-            fragmentTransaction.add(fragment, "BottomSheetFragment");
-            fragmentTransaction.addToBackStack(null);
-
-            fragmentTransaction.commit();
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            navController.navigate(R.id.navigation_add_book);
         });
 
     }
@@ -73,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void openNavigationDrawer() {
-        Log.d("MainActivity", "bottomAppBar");
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         MainNavigationModalFragment fragment = new MainNavigationModalFragment();
@@ -100,24 +91,4 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
-    public void onClickAdd(View view) {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        AddBookModalFragment fragment = new AddBookModalFragment();
-        fragmentTransaction.add(fragment, "BottomSheetFragment");
-        fragmentTransaction.addToBackStack(null);
-
-        fragmentTransaction.commit();
-
-/*            Intent intent = new Intent(this, DetailsActivity.class);
-            intent.putExtra("Action", "ADD");
-            intent.putExtra("ViewModel_Key", "my_books");
-            startActivity(intent);*/
-    }
-
-    public MaterialToolbar getTopAppBar() {
-        return topAppBar;
-    }
 }
