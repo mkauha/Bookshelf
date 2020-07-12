@@ -43,5 +43,12 @@ public class BookRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mBookDao.update(book);
         });
+
+    }
+
+    public void delete(Book book) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mBookDao.delete(book);
+        });
     }
 }

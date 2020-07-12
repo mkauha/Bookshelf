@@ -3,6 +3,7 @@ package fi.mkauha.bookshelf.persistence;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -28,6 +29,9 @@ public interface  BookDao {
 
     @Update(entity = Book.class, onConflict = OnConflictStrategy.REPLACE)
     public int update(Book... books);
+
+    @Delete
+    public void delete(Book... books);
 
     @Query("DELETE FROM book")
     public void deleteAll();
