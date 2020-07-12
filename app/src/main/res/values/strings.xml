@@ -63,10 +63,10 @@
     <string name="button_cancel">Cancel</string>
 
 
-
     <string name="move_to_owned_confirm">Move book to owned books?</string>
     <string name="move_to_owned">Book was moved to owned books.</string>
 
     <string name="library_open">Open</string>
     <string name="library_closed">Closed</string>
+    <string name="title_activity_book_details" translatable="false">BookDetailsActivity</string>
 </resources>
