@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,10 +26,12 @@ import fi.mkauha.bookshelf.models.Book;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 public class BookDetailsFragment extends Fragment {
+    private static final String TAG = "BookDetailsFragment";
 
     private FragmentBookDetailsBinding binding;
     private BooksViewModel booksViewModel;
     private BottomAppBar bottomAppBar;
+    private MaterialToolbar topAppBar;
     private FloatingActionButton fab;
     private Book _book;
 
@@ -36,26 +39,27 @@ public class BookDetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("BookDetailsFragment", "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
         binding = FragmentBookDetailsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
-        bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-
         bottomAppBar.setNavigationIcon(null);
         bottomAppBar.performShow();
+        bottomAppBar.setHideOnScroll(false);
+        bottomAppBar.replaceMenu(R.menu.menu_bottom_book_details);
 
-        fab = getActivity().findViewById(R.id.fab);
-        fab.setImageDrawable(getActivity().getDrawable(R.drawable.ic_outline_arrow_back_ios_24));
-        fab.show();
+        topAppBar = (MaterialToolbar) requireActivity().findViewById(R.id.topAppBar);
+        topAppBar.setNavigationIcon(R.drawable.ic_outline_arrow_back_24);
 
-        fab.setOnClickListener(view -> {
-            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        topAppBar.setNavigationOnClickListener(event -> {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.navigation_books);
         });
 
-        bottomAppBar.replaceMenu(R.menu.menu_bottom_book_details);
+        fab = requireActivity().findViewById(R.id.fab);
+        fab.hide();
+
+
         booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
 
         this._book = booksViewModel.getSelected().getValue();
@@ -73,7 +77,7 @@ public class BookDetailsFragment extends Fragment {
 
         bottomAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.navigation_manual_add:
+                case R.id.navigation_create_book:
                     new AlertDialog.Builder(getContext())
                             .setTitle("Edit book?")
                             .setPositiveButton("Yes", (dialog, which) -> {
@@ -85,19 +89,36 @@ public class BookDetailsFragment extends Fragment {
                             .setNegativeButton("No", null)
                             .show();
                     break;
-                case R.id.bookdetails_share:
-                    Log.d("ManualAddBookFragment", "Share");
+                case R.id.book_details_share:
+                    Log.d(TAG, "Share");
                     break;
-                case R.id.bookdetails_favorite:
-                    Log.d("ManualAddBookFragment", "Favorite");
+                case R.id.book_details_favorite:
+                    Log.d(TAG, "Favorite");
                     break;
-                case R.id.bookdetails_bookmark:
-                    Log.d("ManualAddBookFragment", "Bookmark");
+                case R.id.book_details_bookmark:
+                    Log.d(TAG, "Bookmark");
                     break;
             }
             return false;
         });
 
+        binding.back.setOnClickListener(view -> {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.navigation_books);
+        });
+
+        binding.edit.setOnClickListener(view -> {
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Edit book?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                        navController.navigate(R.id.navigation_create_book);
+                    })
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton("No", null)
+                    .show();
+        });
 
         return root;
     }

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_book_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="55dp"
+    android:layout_marginBottom="50dp"
+    android:layout_marginTop="40dp"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -12,9 +14,12 @@
         android:id="@+id/fragment_book_details_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:tag="BookDetailsFragment">
+        android:tag="BookDetailsFragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/book_details_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,10 +27,42 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/book_details_cover_image"
+                android:id="@+id/back"
                 android:layout_width="wrap_content"
-                android:layout_height="558dp"
-                app:srcCompat="@drawable/book_cover_placeholder" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:tint="#FFFFFF"
+                android:translationZ="100dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/book_details_cover_image"
+                app:layout_constraintTop_toTopOf="@+id/book_details_cover_image"
+                app:srcCompat="@drawable/ic_outline_arrow_back_24" />
+
+            <ImageView
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:tint="#FFFFFF"
+                android:translationZ="100dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/book_details_cover_image"
+                app:layout_constraintTop_toTopOf="@+id/book_details_cover_image"
+                app:srcCompat="@drawable/ic_outline_edit_24" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/book_details_cover_image"
+                android:layout_width="280dp"
+                android:layout_height="410dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CardView" />
 
             <TextView
                 android:id="@+id/book_details_book_title"
@@ -33,7 +70,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text=""
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_details_cover_image" />
 
             <TextView
                 android:id="@+id/book_details_book_authors_label"
@@ -42,7 +82,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/book_author_label"
                 android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_details_book_title" />
 
             <TextView
                 android:id="@+id/book_details_book_authors"
@@ -50,7 +93,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text=""
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_details_book_authors_label" />
 
             <TextView
                 android:id="@+id/book_details_book_year_label"
@@ -59,7 +105,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/book_year_label"
                 android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_details_book_authors" />
 
             <TextView
                 android:id="@+id/book_details_book_year"
@@ -67,7 +116,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text=""
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_details_book_year_label" />
 
             <TextView
                 android:id="@+id/book_details_book_language_label"
@@ -76,7 +128,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/book_language_label"
                 android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_details_book_year" />
 
             <TextView
                 android:id="@+id/book_details_book_language"
@@ -84,7 +139,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text=""
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_details_book_language_label" />
 
             <TextView
                 android:id="@+id/book_details_book_pages_label"
@@ -93,16 +151,21 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/book_pages_label"
                 android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_details_book_language" />
 
             <TextView
                 android:id="@+id/book_details_book_pages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_marginBottom="10dp"
                 android:text=""
-                android:textSize="18sp" />
-        </LinearLayout>
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_details_book_pages_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
