@@ -1,6 +1,8 @@
 package fi.mkauha.bookshelf.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import java.util.List;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.ItemBookGridBinding;
 import fi.mkauha.bookshelf.models.Book;
+import fi.mkauha.bookshelf.ui.books.BookDetailsActivity;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookViewHolder> {
@@ -64,8 +67,11 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
                 Log.d("onBindViewHolder", "select: " + current.getImage());
                 Context context = holder.binding.getRoot().getContext();
                 booksViewModel.select(current);
-                NavController navController = Navigation.findNavController((AppCompatActivity)context, R.id.nav_host_fragment);
-                navController.navigate(R.id.navigation_bookdetails);
+/*                NavController navController = Navigation.findNavController((AppCompatActivity)context, R.id.nav_host_fragment);
+                navController.navigate(R.id.navigation_book_details);*/
+                Intent intent = new Intent(context, BookDetailsActivity.class);
+                intent.putExtra("CURRENT_BOOK", (Parcelable) current);
+                context.startActivity(intent);
             });
 
         } else {
