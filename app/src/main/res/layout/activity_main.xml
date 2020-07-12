@@ -17,15 +17,12 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="@string/label_add_manual"
-        app:menu="@menu/menu_top_create_book"
-        app:navigationIcon="@drawable/ic_outline_arrow_back_24"
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
@@ -36,12 +33,12 @@
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         style="@style/Widget.MaterialComponents.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
         app:fabAlignmentMode="center"
-        app:fabCradleMargin="4dp"
+        app:fabCradleMargin="2dp"
         app:fabCradleRoundedCornerRadius="12dp"
         app:hideOnScroll="true"
         app:navigationIcon="@drawable/ic_outline_menu_24" />

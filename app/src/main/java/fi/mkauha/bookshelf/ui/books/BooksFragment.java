@@ -67,6 +67,8 @@ public class BooksFragment extends Fragment  {
 
         topAppBar = (MaterialToolbar) requireActivity().findViewById(R.id.topAppBar);
         topAppBar.setVisibility(View.GONE);
+        topAppBar.setTitle("");
+        topAppBar.setNavigationIcon(null);
 
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
         bottomAppBar.setHideOnScroll(true);
