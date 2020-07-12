@@ -16,6 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.books.CreateBookActivity"
+            android:label="@string/title_activity_create_book"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name=".ui.books.BookDetailsActivity"
             android:label="@string/title_activity_book_details"
             android:theme="@style/AppTheme.NoActionBar">

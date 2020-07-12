@@ -25,10 +25,11 @@
     <string name="label_search">Search</string>
     <string name="label_menu">Menu</string>
     <string name="label_add_title">Add a book</string>
-    <string name="label_save_book">Save?</string>
-    <string name="label_go_back">Exit without saving?</string>
+    <string name="label_save_book">Save</string>
+    <string name="label_go_back">Exit without saving</string>
     <string name="label_add_barcode">ISBN</string>
-    <string name="label_add_manual">Create</string>
+    <string name="label_create_book">Create</string>
+    <string name="label_edit_book">Edit</string>
     <string name="label_add_search">Search</string>
     <string name="label_image_select">Set cover image</string>
     <string name="label_image_select_file">File</string>
@@ -38,6 +39,7 @@
 
     <string name="add_book">Add</string>
     <string name="search">Search</string>
+    <string name="collection">Collection</string>
     <string name="choose_city">Choose library consortium</string>
     <string name="credits">About this app</string>
     <string name="search_hint">Search</string>
@@ -69,4 +71,5 @@
     <string name="library_open">Open</string>
     <string name="library_closed">Closed</string>
     <string name="title_activity_book_details" translatable="false">BookDetailsActivity</string>
+    <string name="title_activity_create_book" translatable="false"></string>
 </resources>

@@ -38,13 +38,31 @@
     <fragment
         android:id="@+id/navigation_book_details"
         android:name="fi.mkauha.bookshelf.ui.books.BookDetailsFragment"
-        android:label="Book details"
+        android:label="@string/title_activity_book_details"
         tools:layout="@layout/fragment_book_details" />
 
     <fragment
         android:id="@+id/navigation_create_book"
         android:name="fi.mkauha.bookshelf.ui.books.CreateBookFragment"
-        android:label="Add book manually"
+        android:label="@string/title_activity_create_book"
         tools:layout="@layout/fragment_create_book" />
+
+    <fragment
+        android:id="@+id/navigation_image_select"
+        android:name="fi.mkauha.bookshelf.ui.modals.ImageSelectModalFragment"
+        android:label="@string/label_image_select"
+        tools:layout="@layout/fragment_modal_image_select" />
+
+    <fragment
+        android:id="@+id/navigation_add_book"
+        android:name="fi.mkauha.bookshelf.ui.modals.AddBookModalFragment"
+        android:label="@string/label_add_title"
+        tools:layout="@layout/fragment_modal_add_book" />
+
+    <fragment
+        android:id="@+id/navigation_main_navigation_modal"
+        android:name="fi.mkauha.bookshelf.ui.modals.MainNavigationModalFragment"
+        android:label=""
+        tools:layout="@layout/fragment_modal_main_navigation" />
 
 </navigation>

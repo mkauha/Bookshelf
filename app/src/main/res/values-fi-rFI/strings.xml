@@ -28,7 +28,7 @@
     <string name="label_menu">Menu</string>
     <string name="label_settings">Asetukset</string>
     <string name="label_add_barcode">ISBN</string>
-    <string name="label_add_manual">Luo uusi</string>
+    <string name="label_create_book">Luo uusi</string>
     <string name="label_add_search">Haku</string>
     <string name="book_year_label">Julkaisuvuosi</string>
     <string name="book_pages_label">Sivut</string>
@@ -48,6 +48,8 @@
     <string name="label_image_select_URL">URL</string>
     <string name="label_add_title">Lisää kirja</string>
     <string name="label_image_select_URL_title">Kuvan URL</string>
-    <string name="label_save_book">Tallenna?</string>
-    <string name="label_go_back">Poistu tallentamatta?</string>
+    <string name="label_save_book">Tallenna</string>
+    <string name="label_go_back">Poistu tallentamatta</string>
+    <string name="label_edit_book">Muokkaa</string>
+    <string name="collection">Kokoelma</string>
 </resources>
