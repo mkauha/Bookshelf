@@ -3,6 +3,9 @@ package fi.mkauha.bookshelf.ui.books;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,16 +15,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.ui.adapter.BookListAdapter;
 import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
-import fi.mkauha.bookshelf.ui.dialogs.AddBookModalFragment;
+import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 public class BooksFragment extends Fragment  {
@@ -30,6 +37,7 @@ public class BooksFragment extends Fragment  {
     private BookListAdapter mAdapter;
     FloatingActionButton fab;
     BottomAppBar bottomAppBar;
+    private MaterialToolbar topAppBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,8 +49,11 @@ public class BooksFragment extends Fragment  {
 
         binding = FragmentBooksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        setHasOptionsMenu(true);
+
+
+
         fab = getActivity().findViewById(R.id.fab);
+        fab.show();
         fab.setImageDrawable(getActivity().getDrawable(R.drawable.ic_outline_add_24));
         fab.setOnClickListener(view -> {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -54,9 +65,15 @@ public class BooksFragment extends Fragment  {
             fragmentTransaction.commit();
         });
 
+        topAppBar = (MaterialToolbar) requireActivity().findViewById(R.id.topAppBar);
+        topAppBar.setVisibility(View.GONE);
+        topAppBar.setTitle("");
+        topAppBar.setNavigationIcon(null);
+
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
+        bottomAppBar.setHideOnScroll(true);
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-        bottomAppBar.replaceMenu(R.menu.bottom_main_menu);
+        bottomAppBar.replaceMenu(R.menu.menu_bottom_main);
         bottomAppBar.setNavigationIcon(R.drawable.ic_outline_menu_24);
         bottomAppBar.setOnClickListener(view -> {});
         binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
@@ -74,6 +91,7 @@ public class BooksFragment extends Fragment  {
         });
 
         booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
+        booksViewModel.select(null);
 
         mAdapter = new BookListAdapter(getContext(), booksViewModel);
         binding.booksRecyclerView.setAdapter(mAdapter);
@@ -85,6 +103,20 @@ public class BooksFragment extends Fragment  {
         return root;
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        getActivity().getMenuInflater().inflate(R.menu.menu_bottom_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d("MainActivity", "onOptionsItemSelected " + item);
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        NavigationUI.onNavDestinationSelected(item, navController);
+
+        return true;
+    }
 
     @Override
     public void onDestroyView() {

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fi.mkauha.bookshelf">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -11,21 +15,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".ui.books.CreateBookActivity"
+            android:label="@string/title_activity_create_book"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.books.BookDetailsActivity"
+            android:label="@string/title_activity_book_details"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.details.DetailsActivity"
-            android:theme="@style/Theme.NoTitleActivityDialog" />
-
-        <service
-            android:name=".ui.libraries.LibrariesService"/>
+        <service android:name=".ui.libraries.LibrariesService" />
     </application>
 
 </manifest>

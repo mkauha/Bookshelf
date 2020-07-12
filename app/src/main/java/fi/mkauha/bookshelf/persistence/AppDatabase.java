@@ -19,7 +19,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
 
     private static volatile AppDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 1;
+    private static final int NUMBER_OF_THREADS = 2;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
@@ -39,8 +39,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
 
             // If you want to keep data through app restarts,
             // comment out the following block
@@ -55,7 +55,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         "Herman Melville",
                         "Seikkailukirjallisuus",
                         "1995",
-                        300,
+                        "300",
                         "https://www.nauticalmind.com/wp-content/uploads/2018/04/Moby-Dick-Illustrated.jpg",
                         "summary",
                         "Suomi",
@@ -66,8 +66,8 @@ public abstract class AppDatabase extends RoomDatabase {
                         "George Orwell",
                         "Dystopia",
                         "1995",
-                        400,
-                        "https://s22735.pcdn.co/wp-content/uploads/1984-book-covers-2.jpg",
+                        "400",
+                        "https://www.oberonbooks.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/9/7/9781783190614.jpg",
                         "summary",
                         "Suomi",
                         11);
@@ -77,7 +77,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         "Stephen King",
                         "Kauhu",
                         "1995",
-                        500,
+                        "500",
                         "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg",
                         "summary",
                         "Suomi",

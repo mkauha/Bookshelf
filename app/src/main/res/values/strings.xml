@@ -24,31 +24,52 @@
     <string name="label_settings">Settings</string>
     <string name="label_search">Search</string>
     <string name="label_menu">Menu</string>
-    <string name="label_add_barcode">Scan barcode</string>
-    <string name="label_add_manual">Add manually</string>
-    <string name="label_add_search">Search books</string>
+    <string name="label_add_title">Add a book</string>
+    <string name="label_save_book">Save</string>
+    <string name="label_go_back">Exit without saving</string>
+    <string name="label_add_barcode">ISBN</string>
+    <string name="label_create_book">Create</string>
+    <string name="label_edit_book">Edit</string>
+    <string name="label_add_search">Search</string>
+    <string name="label_image_select">Set cover image</string>
+    <string name="label_image_select_file">File</string>
+    <string name="label_image_select_camera">Camera</string>
+    <string name="label_image_select_URL">URL</string>
+    <string name="label_image_select_URL_title">Image URL</string>
 
-    <string name="cover_description" translatable="false">Cover image</string>
     <string name="add_book">Add</string>
     <string name="search">Search</string>
+    <string name="collection">Collection</string>
     <string name="choose_city">Choose library consortium</string>
     <string name="credits">About this app</string>
-    <string name="search_hint">Search books</string>
+    <string name="search_hint">Search</string>
     <string name="edit_book">Edit book</string>
-    <string name="book_title">Title</string>
-    <string name="book_author">Authors</string>
-    <string name="book_genre">Genre</string>
-    <string name="book_year">Year</string>
-    <string name="book_pages">Pages</string>
-    <string name="book_language">Language</string>
+    <string name="book_image_hint">Add cover image</string>
+    <string name="book_title_label">Title</string>
+    <string name="book_title_hint">Add title</string>
+    <string name="book_author_label">Authors</string>
+    <string name="book_author_hint">Add authors</string>
+    <string name="book_genre_label">Genres</string>
+    <string name="book_genre_hint">Add genres</string>
+    <string name="book_year_label">Year</string>
+    <string name="book_year_hint">Add year</string>
+    <string name="book_pages_label">Pages</string>
+    <string name="book_pages_hint">Add page count</string>
+    <string name="book_language_label">Languages</string>
+    <string name="book_language_hint">Add languages</string>
+    <string name="book_summary_label">Summary</string>
+    <string name="book_summary_hint">Add summary</string>
     <string name="book_img_url">Image URL</string>
     <string name="button_ok">OK</string>
     <string name="button_yes">Yes</string>
     <string name="button_cancel">Cancel</string>
+
 
     <string name="move_to_owned_confirm">Move book to owned books?</string>
     <string name="move_to_owned">Book was moved to owned books.</string>
 
     <string name="library_open">Open</string>
     <string name="library_closed">Closed</string>
+    <string name="title_activity_book_details" translatable="false">BookDetailsActivity</string>
+    <string name="title_activity_create_book" translatable="false"></string>
 </resources>

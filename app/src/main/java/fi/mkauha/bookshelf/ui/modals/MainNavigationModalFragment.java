@@ -1,5 +1,4 @@
-package fi.mkauha.bookshelf.ui.dialogs;
-
+package fi.mkauha.bookshelf.ui.modals;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +14,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.databinding.FragmentAddBookModalBinding;
+import fi.mkauha.bookshelf.databinding.FragmentModalMainNavigationBinding;
 
-public class AddBookModalFragment extends BottomSheetDialogFragment {
+public class MainNavigationModalFragment extends BottomSheetDialogFragment {
 
-    FragmentAddBookModalBinding binding;
+    FragmentModalMainNavigationBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentAddBookModalBinding.inflate(inflater, container, false);
+        binding = FragmentModalMainNavigationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        NavigationView navigationView = root.findViewById(R.id.add_book_modal_navigation_view);
+        NavigationView navigationView = root.findViewById(R.id.main_navigation_view);
         navigationView.setNavigationItemSelectedListener(item -> {
             NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
             NavigationUI.onNavDestinationSelected(item, navController);
@@ -35,4 +34,5 @@ public class AddBookModalFragment extends BottomSheetDialogFragment {
 
         return root;
     }
+
 }
