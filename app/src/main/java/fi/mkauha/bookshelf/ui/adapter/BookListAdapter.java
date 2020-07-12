@@ -52,25 +52,25 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     @Override
     public void onBindViewHolder(BookViewHolder holder, int position) {
         if (mBooks != null) {
-            Book current = mBooks.get(position);
+            Book book = mBooks.get(position);
             holder.binding.itemViewBookBookmarkIcon.setVisibility(View.INVISIBLE);
-            holder.binding.itemViewBookTitle.setText(current.getTitle());
+            holder.binding.itemViewBookTitle.setText(book.getTitle());
 
             Glide.with(holder.binding.getRoot())
-                    .load(current.getImage())
+                    .load(book.getImage())
                     .centerCrop()
                     .placeholder(R.drawable.book_cover_placeholder)
                     .into(holder.binding.itemViewBookImage);
 
 
             holder.binding.getRoot().setOnClickListener(v -> {
-                Log.d("onBindViewHolder", "select: " + current.getImage());
+                Log.d("onBindViewHolder", "select: " + book.getImage());
                 Context context = holder.binding.getRoot().getContext();
-                booksViewModel.select(current);
+                booksViewModel.select(book);
 /*                NavController navController = Navigation.findNavController((AppCompatActivity)context, R.id.nav_host_fragment);
                 navController.navigate(R.id.navigation_book_details);*/
                 Intent intent = new Intent(context, BookDetailsActivity.class);
-                intent.putExtra("CURRENT_BOOK", (Parcelable) current);
+                intent.putExtra("CURRENT_BOOK", (Parcelable) book);
                 context.startActivity(intent);
             });
 
