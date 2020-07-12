@@ -1,10 +1,13 @@
 package fi.mkauha.bookshelf.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Book {
+public class Book implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int uid;
 
@@ -42,6 +45,32 @@ public class Book {
         this.languages = languages;
         this.bookmark = bookmark;
     }
+
+    protected Book(Parcel in) {
+        uid = in.readInt();
+        isbn = in.readString();
+        title = in.readString();
+        author = in.readString();
+        genres = in.readString();
+        year = in.readString();
+        pages = in.readString();
+        image = in.readString();
+        summary = in.readString();
+        languages = in.readString();
+        bookmark = in.readInt();
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
 
     public int getUid() {
         return uid;
@@ -144,6 +173,26 @@ public class Book {
         this.summary = summary;
         this.languages = languages;
         this.bookmark = bookmark;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(uid);
+        parcel.writeString(isbn);
+        parcel.writeString(title);
+        parcel.writeString(author);
+        parcel.writeString(genres);
+        parcel.writeString(year);
+        parcel.writeString(pages);
+        parcel.writeString(image);
+        parcel.writeString(summary);
+        parcel.writeString(languages);
+        parcel.writeInt(bookmark);
     }
 }
 
