@@ -1,5 +1,6 @@
 package fi.mkauha.bookshelf.ui.books;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +18,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 
@@ -42,6 +44,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         View root = binding.getRoot();
         setContentView(root);
 
+        booksViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
         bottomAppBar = binding.bottomAppBar;
         bottomAppBar.setNavigationIcon(null);
         bottomAppBar.replaceMenu(R.menu.menu_bottom_book_details);
@@ -66,22 +69,17 @@ public class BookDetailsActivity extends AppCompatActivity {
             finish();
         });
         CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        toolBarLayout.setTitle(book.getTitle());
+
+        Log.d(TAG, "Title: " + book.getTitle());
+        if(book.getTitle() == null || book.getTitle().equals("")) {
+            toolBarLayout.setTitle(" ");
+        } else {
+            toolBarLayout.setTitle(book.getTitle());
+        }
+
 
         bottomAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.navigation_create_book:
-                    new AlertDialog.Builder(this)
-                            .setTitle("Edit book?")
-                            .setPositiveButton("Yes", (dialog, which) -> {
-                                NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-                                NavigationUI.onNavDestinationSelected(item, navController);
-                            })
-
-                            // A null listener allows the button to dismiss the dialog and take no further action.
-                            .setNegativeButton("No", null)
-                            .show();
-                    break;
                 case R.id.book_details_share:
                     Log.d(TAG, "Share");
                     break;
@@ -99,8 +97,10 @@ public class BookDetailsActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Edit book?")
                     .setPositiveButton(R.string.button_ok, (dialog, which) -> {
-/*                        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-                        navController.navigate(R.id.navigation_create_book);*/
+                        Intent intent = new Intent(this, CreateBookActivity.class);
+                        intent.putExtra("CURRENT_BOOK", (Parcelable) this.book);
+                        this.startActivity(intent);
+                        finish();
                     })
 
                     // A null listener allows the button to dismiss the dialog and take no further action.
@@ -112,7 +112,9 @@ public class BookDetailsActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Delete book?")
                     .setPositiveButton(R.string.button_ok, (dialog, which) -> {
-
+                        booksViewModel.delete(this.book);
+                        finish();
+                        // TODO snackbar
                     })
 
                     // A null listener allows the button to dismiss the dialog and take no further action.

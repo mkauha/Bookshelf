@@ -1,6 +1,8 @@
 package fi.mkauha.bookshelf.ui.modals;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentModalAddBookBinding;
+import fi.mkauha.bookshelf.ui.books.CreateBookActivity;
 
 public class AddBookModalFragment extends BottomSheetDialogFragment {
 
@@ -36,7 +39,9 @@ public class AddBookModalFragment extends BottomSheetDialogFragment {
         });
 
         binding.addBookSheetIcManual.setOnClickListener(v -> {
-            navController.navigate(R.id.navigation_create_book);
+            Intent intent = new Intent(requireActivity(), CreateBookActivity.class);
+            intent.putExtra("CURRENT_BOOK", (Parcelable) null);
+            this.startActivity(intent);
             this.dismiss();
         });
 
