@@ -140,6 +140,7 @@ public class CreateBookActivity extends AppCompatActivity {
                                 this.image,
                                 binding.summary.getText().toString(),
                                 binding.language.getText().toString(),
+                                binding.collection.getText().toString(),
                                 0);
                     } else {
                         book.update(
@@ -152,6 +153,7 @@ public class CreateBookActivity extends AppCompatActivity {
                                 this.image,
                                 binding.summary.getText().toString(),
                                 binding.language.getText().toString(),
+                                binding.collection.getText().toString(),
                                 0);
                     }
 
@@ -174,6 +176,7 @@ public class CreateBookActivity extends AppCompatActivity {
         binding.language.setText(book.getLanguages());
         binding.pages.setText(book.getPages());
         binding.summary.setText(book.getSummary());
+        binding.collection.setText(book.getCollection());
         binding.isbn.setText(book.getIsbn());
 
 

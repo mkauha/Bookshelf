@@ -50,37 +50,49 @@ public abstract class AppDatabase extends RoomDatabase {
                 BookDao dao = INSTANCE.bookDao();
                 dao.deleteAll();
                 Book book0 = new Book(
-                        "ISBN",
+                        "951-1-17407-X",
                         "Moby Dick",
                         "Herman Melville",
                         "Seikkailukirjallisuus",
                         "1995",
                         "300",
                         "https://www.nauticalmind.com/wp-content/uploads/2018/04/Moby-Dick-Illustrated.jpg",
-                        "summary",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
+                                " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+                                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+                                "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         "Suomi",
+                        "Opiskelu",
                         33);
                 Book book1 = new Book(
-                        "ISBN",
+                        "9780547249643",
                         "Vuonna 1984",
                         "George Orwell",
                         "Dystopia",
                         "1995",
                         "400",
                         "https://www.oberonbooks.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/9/7/9781783190614.jpg",
-                        "summary",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
+                                " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+                                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+                                "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         "Suomi",
+                        "Toivelista",
                         11);
                 Book book2 = new Book(
-                        "ISBN",
+                        "978-951-0-45088-8",
                         "Hohto",
                         "Stephen King",
                         "Kauhu",
                         "1995",
                         "500",
                         "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg",
-                        "summary",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
+                                " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+                                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+                                "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         "Suomi",
+                        "Lainatut",
                         22);
                 dao.insertAll(book0, book1, book2);
             });

@@ -67,6 +67,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         binding.year.setText(book.getYear());
         binding.pages.setText(String.valueOf(book.getPages()));
         binding.summary.setText(book.getSummary());
+        binding.collection.setText(book.getCollection());
         binding.isbn.setText(book.getIsbn());
 
         Toolbar toolbar = binding.toolbar;
