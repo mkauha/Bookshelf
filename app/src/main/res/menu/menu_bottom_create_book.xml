@@ -5,17 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/overflowMenu"
+        android:id="@+id/bottom_create_book_ok"
         android:icon="@drawable/ic_outline_check_24"
-        android:title=""
-        app:showAsAction="always">
-
-        <menu>
-            <item
-                android:id="@+id/bottom_create_book_ok"
-                android:title="@string/label_save_book"
-                />
-        </menu>
-    </item>
+        android:title="@string/label_save_book"
+        app:showAsAction="always"/>
 
 </menu>

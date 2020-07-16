@@ -6,9 +6,9 @@
     <string name="label_search">Haku</string>
     <string name="add_book">Lisää</string>
     <string name="edit_book">Muokkaa kirjaa</string>
-    <string name="book_title_label">Nimi</string>
-    <string name="book_author_label">Tekijät</string>
-    <string name="book_genre_label">Lajityyppi</string>
+    <string name="book_title_label">Otsikko</string>
+    <string name="book_author_label">Tekijä</string>
+    <string name="book_genre_label">Genre</string>
     <string name="book_img_url">Kuvan URL</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Peruuta</string>
@@ -30,17 +30,10 @@
     <string name="label_add_barcode">ISBN</string>
     <string name="label_create_book">Luo uusi</string>
     <string name="label_add_search">Haku</string>
-    <string name="book_year_label">Julkaisuvuosi</string>
-    <string name="book_pages_label">Sivut</string>
+    <string name="book_year_label">Vuosi</string>
+    <string name="book_pages_label">Sivumäärä</string>
     <string name="book_language_label">Kieli</string>
-    <string name="book_summary_label">Lyhyt kuvaus</string>
-    <string name="book_title_hint">Lisää nimi</string>
-    <string name="book_author_hint">Lisää tekijät</string>
-    <string name="book_genre_hint">Lisää lajityypit</string>
-    <string name="book_year_hint">Lisää vuosi</string>
-    <string name="book_pages_hint">Lisää sivumäärä</string>
-    <string name="book_language_hint">Lisää kieli</string>
-    <string name="book_summary_hint">Lisää kuvaus</string>
+    <string name="book_summary_label">Kuvaus</string>
     <string name="book_image_hint">Lisää kansikuva</string>
     <string name="label_image_select">Valitse kansikuva</string>
     <string name="label_image_select_file">Tiedosto</string>
@@ -52,4 +45,6 @@
     <string name="label_go_back">Poistu tallentamatta</string>
     <string name="label_edit_book">Muokkaa</string>
     <string name="collection">Kokoelma</string>
+    <string name="book_isbn_label">ISBN</string>
+    <string name="book_collection_label">Kokoelma</string>
 </resources>

@@ -17,6 +17,10 @@ import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.ActivityCreateBookBinding;
@@ -99,6 +103,14 @@ public class CreateBookActivity extends AppCompatActivity {
             return false;
         });
 
+        // TODO Add possibility to create new collections and save them to persistence
+        List<String> items = new ArrayList<>();
+        items.add("Toivelista");
+        items.add("Opiskelu");
+        items.add("Lainatut");
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.dropdown_list_item, items);
+        binding.createBookCollection.setAdapter(adapter);
+
     }
 
     private void showBackDialog() {
@@ -121,8 +133,8 @@ public class CreateBookActivity extends AppCompatActivity {
                         book = new Book(
                                 "ISBN",
                                 binding.createBookTitle.getText().toString(),
-                                binding.createBookAuthors.getText().toString(),
-                                binding.createBookGenres.getText().toString(),
+                                binding.createBookAuthor.getText().toString(),
+                                binding.createBookGenre.getText().toString(),
                                 binding.createBookYear.getText().toString(),
                                 binding.createBookPages.getText().toString(),
                                 this.image,
@@ -133,8 +145,8 @@ public class CreateBookActivity extends AppCompatActivity {
                         book.update(
                                 "ISBN",
                                 binding.createBookTitle.getText().toString(),
-                                binding.createBookAuthors.getText().toString(),
-                                binding.createBookGenres.getText().toString(),
+                                binding.createBookAuthor.getText().toString(),
+                                binding.createBookGenre.getText().toString(),
                                 binding.createBookYear.getText().toString(),
                                 binding.createBookPages.getText().toString(),
                                 this.image,
@@ -156,12 +168,13 @@ public class CreateBookActivity extends AppCompatActivity {
     public void setBookDataToUI() {
         //Book book = booksViewModel.getSelected().getValue();
         binding.createBookTitle.setText(book.getTitle());
-        binding.createBookAuthors.setText(book.getAuthor());
-        binding.createBookGenres.setText(book.getGenres());
+        binding.createBookAuthor.setText(book.getAuthor());
+        binding.createBookGenre.setText(book.getGenres());
         binding.createBookYear.setText(book.getYear());
         binding.createBookLanguage.setText(book.getLanguages());
         binding.createBookPages.setText(book.getPages());
         binding.createBookSummary.setText(book.getSummary());
+        binding.createBookIsbn.setText(book.getIsbn());
 
 
         this.image = book.getImage();
