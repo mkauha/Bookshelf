@@ -64,7 +64,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_book_title_label"
+                android:id="@+id/title_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_book_title"
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences" />
@@ -86,7 +86,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_book_author_label"
+                android:id="@+id/author_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -94,12 +94,12 @@
                 android:layout_marginEnd="8dp"
                 android:hint="@string/book_author_label"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/create_book_author_add"
+                app:layout_constraintEnd_toStartOf="@id/author_add"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/create_book_title_label">
+                app:layout_constraintTop_toBottomOf="@id/title_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_book_author"
+                    android:id="@+id/author"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences" />
@@ -108,18 +108,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
-                android:id="@+id/create_book_author_add"
+                android:id="@+id/author_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/create_book_author_label"
+                app:layout_constraintBottom_toBottomOf="@+id/author_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/create_book_author_label"
-                app:layout_constraintTop_toTopOf="@+id/create_book_author_label"
+                app:layout_constraintStart_toEndOf="@+id/author_label"
+                app:layout_constraintTop_toTopOf="@+id/author_label"
                 app:srcCompat="@drawable/ic_outline_add_24" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_book_genre_label"
+                android:id="@+id/genre_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,10 +129,10 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/create_book_author_label" >
+                app:layout_constraintTop_toBottomOf="@id/author_label" >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_book_genre"
+                    android:id="@+id/genre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences" />
@@ -141,7 +141,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_book_language_label"
+                android:id="@+id/language_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,16 +151,16 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/create_book_genre_label" >
+                app:layout_constraintTop_toBottomOf="@id/genre_label" >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_book_language"
+                    android:id="@+id/language"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_book_year_label"
+                android:id="@+id/year_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -168,19 +168,19 @@
                 android:layout_marginEnd="4dp"
                 android:hint="@string/book_year_label"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/create_book_pages_label"
+                app:layout_constraintEnd_toStartOf="@id/pages_label"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/create_book_language_label">
+                app:layout_constraintTop_toBottomOf="@id/language_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_book_year"
+                    android:id="@+id/year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_book_pages_label"
+                android:id="@+id/pages_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -189,18 +189,18 @@
                 android:hint="@string/book_pages_label"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/create_book_year_label"
-                app:layout_constraintTop_toBottomOf="@id/create_book_language_label">
+                app:layout_constraintStart_toEndOf="@id/year_label"
+                app:layout_constraintTop_toBottomOf="@id/language_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_book_pages"
+                    android:id="@+id/pages"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_book_summary_label"
+                android:id="@+id/summary_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -210,10 +210,10 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/create_book_pages_label" >
+                app:layout_constraintTop_toBottomOf="@id/pages_label" >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_book_summary"
+                    android:id="@+id/summary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences"
@@ -221,7 +221,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_book_isbn_label"
+                android:id="@+id/isbn_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -231,17 +231,17 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/create_book_summary_label" >
+                app:layout_constraintTop_toBottomOf="@id/summary_label" >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_book_isbn"
+                    android:id="@+id/isbn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_book_collection_label"
+                android:id="@+id/collection_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -252,10 +252,10 @@
                 app:startIconDrawable="@drawable/ic_outline_collections_bookmark_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/create_book_isbn_label" >
+                app:layout_constraintTop_toBottomOf="@id/isbn_label" >
 
                 <AutoCompleteTextView
-                    android:id="@+id/create_book_collection"
+                    android:id="@+id/collection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"/>

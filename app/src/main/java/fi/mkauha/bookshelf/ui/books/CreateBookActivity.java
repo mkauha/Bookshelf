@@ -109,7 +109,7 @@ public class CreateBookActivity extends AppCompatActivity {
         items.add("Opiskelu");
         items.add("Lainatut");
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.dropdown_list_item, items);
-        binding.createBookCollection.setAdapter(adapter);
+        binding.collection.setAdapter(adapter);
 
     }
 
@@ -132,26 +132,26 @@ public class CreateBookActivity extends AppCompatActivity {
                     if(book == null) {
                         book = new Book(
                                 "ISBN",
-                                binding.createBookTitle.getText().toString(),
-                                binding.createBookAuthor.getText().toString(),
-                                binding.createBookGenre.getText().toString(),
-                                binding.createBookYear.getText().toString(),
-                                binding.createBookPages.getText().toString(),
+                                binding.title.getText().toString(),
+                                binding.author.getText().toString(),
+                                binding.genre.getText().toString(),
+                                binding.year.getText().toString(),
+                                binding.pages.getText().toString(),
                                 this.image,
-                                binding.createBookSummary.getText().toString(),
-                                binding.createBookLanguage.getText().toString(),
+                                binding.summary.getText().toString(),
+                                binding.language.getText().toString(),
                                 0);
                     } else {
                         book.update(
                                 "ISBN",
-                                binding.createBookTitle.getText().toString(),
-                                binding.createBookAuthor.getText().toString(),
-                                binding.createBookGenre.getText().toString(),
-                                binding.createBookYear.getText().toString(),
-                                binding.createBookPages.getText().toString(),
+                                binding.title.getText().toString(),
+                                binding.author.getText().toString(),
+                                binding.genre.getText().toString(),
+                                binding.year.getText().toString(),
+                                binding.pages.getText().toString(),
                                 this.image,
-                                binding.createBookSummary.getText().toString(),
-                                binding.createBookLanguage.getText().toString(),
+                                binding.summary.getText().toString(),
+                                binding.language.getText().toString(),
                                 0);
                     }
 
@@ -167,14 +167,14 @@ public class CreateBookActivity extends AppCompatActivity {
 
     public void setBookDataToUI() {
         //Book book = booksViewModel.getSelected().getValue();
-        binding.createBookTitle.setText(book.getTitle());
-        binding.createBookAuthor.setText(book.getAuthor());
-        binding.createBookGenre.setText(book.getGenres());
-        binding.createBookYear.setText(book.getYear());
-        binding.createBookLanguage.setText(book.getLanguages());
-        binding.createBookPages.setText(book.getPages());
-        binding.createBookSummary.setText(book.getSummary());
-        binding.createBookIsbn.setText(book.getIsbn());
+        binding.title.setText(book.getTitle());
+        binding.author.setText(book.getAuthor());
+        binding.genre.setText(book.getGenres());
+        binding.year.setText(book.getYear());
+        binding.language.setText(book.getLanguages());
+        binding.pages.setText(book.getPages());
+        binding.summary.setText(book.getSummary());
+        binding.isbn.setText(book.getIsbn());
 
 
         this.image = book.getImage();
