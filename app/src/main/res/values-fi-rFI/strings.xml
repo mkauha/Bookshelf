@@ -47,4 +47,7 @@
     <string name="collection">Kokoelma</string>
     <string name="book_isbn_label">ISBN</string>
     <string name="book_collection_label">Kokoelma</string>
+    <string name="book_genres_label">Genre</string>
+    <string name="label_edit_book_dialog">Muokkaa tietoja</string>
+    <string name="label_delete_book_dialog">Poista kirja</string>
 </resources>

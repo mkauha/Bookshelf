@@ -21,10 +21,13 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.ActivityBookDetailsBinding;
-import fi.mkauha.bookshelf.databinding.FragmentBookDetailsBinding;
 import fi.mkauha.bookshelf.models.Book;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
@@ -57,11 +60,14 @@ public class BookDetailsActivity extends AppCompatActivity {
                 .placeholder(R.drawable.book_cover_placeholder)
                 .into(binding.bookDetailsCoverImage);
 
-        //binding.bookDetailsBookTitle.setText(book.getTitle());
-        binding.bookDetailsBookAuthors.setText(book.getAuthor());
-        binding.bookDetailsBookYear.setText(book.getYear());
-        binding.bookDetailsBookLanguage.setText(book.getLanguages());
-        binding.bookDetailsBookPages.setText(String.valueOf(book.getPages()));
+        binding.title.setText(book.getTitle());
+        binding.author.setText(book.getAuthor());
+        binding.genre.setText(book.getGenres());
+        binding.language.setText(book.getLanguages());
+        binding.year.setText(book.getYear());
+        binding.pages.setText(String.valueOf(book.getPages()));
+        binding.summary.setText(book.getSummary());
+        binding.isbn.setText(book.getIsbn());
 
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
@@ -69,12 +75,13 @@ public class BookDetailsActivity extends AppCompatActivity {
             finish();
         });
         CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        toolBarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorPrimaryTextLight));
 
         Log.d(TAG, "Title: " + book.getTitle());
         if(book.getTitle() == null || book.getTitle().equals("")) {
-            toolBarLayout.setTitle(" ");
+            setTitle(" ");
         } else {
-            toolBarLayout.setTitle(book.getTitle());
+            setTitle(book.getTitle());
         }
 
 
@@ -95,7 +102,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         binding.edit.setOnClickListener(view -> {
             new AlertDialog.Builder(this)
-                    .setTitle("Edit book?")
+                    .setTitle(R.string.label_edit_book_dialog)
                     .setPositiveButton(R.string.button_ok, (dialog, which) -> {
                         Intent intent = new Intent(this, CreateBookActivity.class);
                         intent.putExtra("CURRENT_BOOK", (Parcelable) this.book);
@@ -110,7 +117,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         binding.delete.setOnClickListener(view -> {
             new AlertDialog.Builder(this)
-                    .setTitle("Delete book?")
+                    .setTitle(R.string.label_delete_book_dialog)
                     .setPositiveButton(R.string.button_ok, (dialog, which) -> {
                         booksViewModel.delete(this.book);
                         finish();
@@ -121,6 +128,14 @@ public class BookDetailsActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.button_cancel, null)
                     .show();
         });
+
+        // TODO Add possibility to create new collections and save them to persistence
+        List<String> items = new ArrayList<>();
+        items.add("Toivelista");
+        items.add("Opiskelu");
+        items.add("Lainatut");
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.dropdown_list_item, items);
+        binding.collection.setAdapter(adapter);
 
     }
 }

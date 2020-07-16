@@ -30,6 +30,8 @@
     <string name="label_add_barcode">ISBN</string>
     <string name="label_create_book">Create</string>
     <string name="label_edit_book">Edit</string>
+    <string name="label_edit_book_dialog">Edit book</string>
+    <string name="label_delete_book_dialog">Delete book</string>
     <string name="label_add_search">Search</string>
     <string name="label_image_select">Set cover image</string>
     <string name="label_image_select_file">File</string>
@@ -48,6 +50,7 @@
     <string name="book_title_label">Title</string>
     <string name="book_author_label">Author</string>
     <string name="book_genre_label">Genre</string>
+    <string name="book_genres_label">Genre</string>
     <string name="book_year_label">Year</string>
     <string name="book_pages_label">Pages</string>
     <string name="book_language_label">Language</string>
