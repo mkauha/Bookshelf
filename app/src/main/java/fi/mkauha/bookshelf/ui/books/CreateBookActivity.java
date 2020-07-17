@@ -12,8 +12,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.View;
@@ -108,7 +106,7 @@ public class CreateBookActivity extends AppCompatActivity {
         items.add("Toivelista");
         items.add("Opiskelu");
         items.add("Lainatut");
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.dropdown_list_item, items);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item_dropdown, items);
         binding.collection.setAdapter(adapter);
 
     }

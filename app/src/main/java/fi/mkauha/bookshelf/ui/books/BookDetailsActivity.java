@@ -6,17 +6,11 @@ import android.os.Bundle;
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.imageview.ShapeableImageView;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 import android.os.Parcelable;
 import android.util.Log;
@@ -135,7 +129,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         items.add("Toivelista");
         items.add("Opiskelu");
         items.add("Lainatut");
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.dropdown_list_item, items);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item_dropdown, items);
         binding.collection.setAdapter(adapter);
 
     }
