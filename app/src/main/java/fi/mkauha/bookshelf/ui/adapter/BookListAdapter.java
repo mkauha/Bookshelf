@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.databinding.ItemBookGridBinding;
+import fi.mkauha.bookshelf.databinding.ListItemBookGridBinding;
 import fi.mkauha.bookshelf.models.Book;
 import fi.mkauha.bookshelf.ui.books.BookDetailsActivity;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
@@ -26,9 +26,9 @@ import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookViewHolder> {
 
     class BookViewHolder extends RecyclerView.ViewHolder {
-        ItemBookGridBinding binding;
+        ListItemBookGridBinding binding;
 
-        private BookViewHolder(ItemBookGridBinding binding) {
+        private BookViewHolder(ListItemBookGridBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -45,7 +45,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
     @Override
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemBookGridBinding binding = ItemBookGridBinding.inflate(mInflater, parent, false);
+        ListItemBookGridBinding binding = ListItemBookGridBinding.inflate(mInflater, parent, false);
         return new BookViewHolder(binding);
     }
 
