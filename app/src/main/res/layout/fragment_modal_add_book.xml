@@ -25,7 +25,7 @@
         android:layout_marginEnd="24dp"
         android:background="?android:selectableItemBackground"
         android:contentDescription="@string/label_add_barcode"
-        android:src="@drawable/ic_outline_barcode_24"
+        android:src="@drawable/ic_barcode_scan"
         app:layout_constraintEnd_toStartOf="@+id/add_book_sheet_ic_search"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/add_book_sheet_ic_search" />
