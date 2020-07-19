@@ -19,6 +19,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import fi.mkauha.bookshelf.databinding.ActivityMainBinding;
+import fi.mkauha.bookshelf.databinding.FragmentSearchBinding;
 import fi.mkauha.bookshelf.ui.modals.MainNavigationModalFragment;
 import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
 
@@ -31,6 +33,7 @@ import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
+    ActivityMainBinding binding;
     BottomAppBar bottomAppBar;
     private MaterialToolbar topAppBar;
     FloatingActionButton fab;
@@ -39,16 +42,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        bottomAppBar = (BottomAppBar) findViewById(R.id.bottom_app_bar);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View root = binding.getRoot();
+        setContentView(root);
 
+        bottomAppBar = binding.bottomAppBar;
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
         bottomAppBar.replaceMenu(R.menu.menu_bottom_main);
         bottomAppBar.setNavigationIcon(R.drawable.ic_outline_menu_24);
-        bottomAppBar.setFabAnimationMode(BottomAppBar.FAB_ANIMATION_MODE_SLIDE);
+
         // TODO Change interaction in different fragments
         // bottomAppBar.setOnClickListener(view -> openNavigationDrawer());
         bottomAppBar.setNavigationOnClickListener(v ->  openNavigationDrawer());
+        bottomAppBar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_search:
+                    NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+                    navController.navigate(R.id.navigation_search);
+                    break;
+                case R.id.navigation_collection:
+                    Log.d(TAG, "Collection");
+                    break;
+            }
+            return false;
+        });
 
         topAppBar = (MaterialToolbar) findViewById(R.id.topAppBar);
 
