@@ -5,5 +5,5 @@
     <dimen name="app_bar_height">450dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="top_toolbar_height">40dp</dimen>
+    <dimen name="top_toolbar_height">48dp</dimen>
 </resources>
