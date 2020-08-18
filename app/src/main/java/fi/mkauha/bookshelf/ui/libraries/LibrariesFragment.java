@@ -44,16 +44,6 @@ import fi.mkauha.bookshelf.models.Consortium;
 import fi.mkauha.bookshelf.models.Library;
 
 
-/**
- * Fragment that displays a map with local libraries.
- *
- * Uses MapBox map to display markers based on location data fetched from library API.
- * User can choose one library consortium from which libraries are shown.
- * On marker click displays library data such as name, address and open status.
- *
- * @author  Miko Kauhanen
- * @version 1.0
- */
 public class LibrariesFragment extends Fragment {
     private FragmentLibrariesBinding binding;
     private MapView mapView;
@@ -80,16 +70,6 @@ public class LibrariesFragment extends Fragment {
         gson = new Gson();
     }
 
-    /**
-     * Initializes fields and map.
-     *
-     * Sets map and marker style and settings and sets camera to default location.
-     * Calls LibrariesService to fetch data that is displayed on map.
-     *
-     * @param inflater the LayoutInflater
-     * @param container the ViewGroup
-     * @param savedInstanceState the Bundle
-     */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentLibrariesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -140,12 +120,6 @@ public class LibrariesFragment extends Fragment {
         return root;
     }
 
-    /**
-     * BroadcastReceiver to receive data from LibrariesService.
-     *
-     * Can receive either library consortium data or libraries data.
-     *
-     */
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         String libraryData;
         String consortiumData;
@@ -163,13 +137,6 @@ public class LibrariesFragment extends Fragment {
         }
     };
 
-    /**
-     * Updates library consortium data based on received JSON string.
-     *
-     * Converts JSON string to JSON object and iterates over the consortium array creating new consortium models for each.
-     *
-     * @param consortiumData received consortium data
-     */
     private void updateConsortiumList(String consortiumData) {
         Gson gson = new Gson();
         JsonObject dataJson = gson.fromJson(consortiumData, JsonObject.class);
@@ -187,13 +154,6 @@ public class LibrariesFragment extends Fragment {
 
     }
 
-    /**
-     * Updates library data based on received JSON string.
-     *
-     * Converts JSON string to JSON object and iterates over the library array creating new library models for each.
-     *
-     * @param libraryData received library data
-     */
     private void updateLibraryList(String libraryData) {
         this.libraryList.clear();
 
@@ -280,12 +240,6 @@ public class LibrariesFragment extends Fragment {
     }
 
 
-    /**
-     * Updates map markers on with current library list.
-     *
-     * Clears previous marker list and creates new markers for each new library location.
-     *
-     */
     private void updateMarkers() {
         Activity activity = getActivity();
         if(activity != null) {
@@ -319,13 +273,6 @@ public class LibrariesFragment extends Fragment {
         }
     }
 
-    /**
-     * Creates dialog for library info.
-     *
-     * Displays library title, address and open status.
-     *
-     * @param data the data that is displayed
-     */
     private void openLibraryInfoDialog(JsonElement data) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater factory = LayoutInflater.from(getActivity());
@@ -356,13 +303,6 @@ public class LibrariesFragment extends Fragment {
         alertDialog.show();
     }
 
-    /**
-     * Creates dialog for consortium list.
-     *
-     * Displays every library consortium in list.
-     * When consortium is chosen start new service to fetch library data from that consortium.
-     *
-     */
     private void openChooseConsortiumDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setTitle(getResources().getString(R.string.choose_city));
@@ -382,11 +322,6 @@ public class LibrariesFragment extends Fragment {
         alertDialog.show();
     }
 
-    /**
-     * Add marker icon drawable to style.
-     *
-     * @param style style where drawable is added
-     */
     private void addLibrarySymbolImageToStyle(Style style) {
         style.addImage(ICON_ID, BitmapUtils.getBitmapFromDrawable(getResources().getDrawable(R.drawable.ic_library_point)),true);
     }

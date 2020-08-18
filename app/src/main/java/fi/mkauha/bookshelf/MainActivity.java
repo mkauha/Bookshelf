@@ -24,12 +24,6 @@ import fi.mkauha.bookshelf.databinding.FragmentSearchBinding;
 import fi.mkauha.bookshelf.ui.modals.MainNavigationModalFragment;
 import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
 
-/**
- * MainActivity that initializes Navigation UI with bottom navigation bar and three fragments.
- *
- * @author  Miko Kauhanen
- * @version 1.0
- */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 

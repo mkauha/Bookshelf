@@ -15,33 +15,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Service to fetch library and consortium data from API.
- *
- * Uses free Kirkanta API v4 https://api.kirjastot.fi/ to fetch Finnish library data.
- *
- * @author  Miko Kauhanen
- * @version 1.0
- */
 public class LibrariesService extends IntentService {
 
-    /**
-     * The Consortium id.
-     */
     long consortiumId;
 
-    /**
-     * Instantiates a new Libraries service.
-     *
-     * @param name the name
-     */
     public LibrariesService(String name) {
         super(name);
     }
 
-    /**
-     * Instantiates a new Libraries service.
-     */
     public LibrariesService() {
         super("def");
     }
@@ -53,15 +34,6 @@ public class LibrariesService extends IntentService {
     }
 
 
-    /**
-     * Fetches data when receiving an intent.
-     *
-     * Can fetch every Finnish library consortium from https://api.kirjastot.fi/v4/consortium?limit=50
-     * Can fetch every library in a single consortium from "https://api.kirjastot.fi/v4/library?consortium=2090&with=schedules&limit=100" by changing consortium ID.
-     * Send that data to activities in JSON string format.
-     *
-     * @param intent the intent
-     */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if(intent.hasExtra("consortium_list")) {
@@ -95,15 +67,6 @@ public class LibrariesService extends IntentService {
         }
     }
 
-    /**
-     * Creates HttpURLConnection to given URL and returns fetched data as String.
-     *
-     * Sends a GET request to API and reads received data.
-     *
-     * @param url     the url to fetch data
-     * @param timeout the timeout for connection
-     * @return fetched data
-     */
     public String getJSON(String url, int timeout) {
         HttpURLConnection c = null;
         try {
