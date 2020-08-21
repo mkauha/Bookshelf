@@ -41,7 +41,7 @@ public class BookTabFragment extends Fragment {
         binding = FragmentBooksRecyclerviewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
+        binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
         binding.booksRecyclerView.setHasFixedSize(true);
 /*        binding.booksRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
