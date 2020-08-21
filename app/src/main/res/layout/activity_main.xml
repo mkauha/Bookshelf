@@ -53,6 +53,6 @@
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
         app:layout_anchor="@+id/bottom_app_bar"
-        app:tint="@color/colorPrimaryTextLight" />
+        app:tint="@color/colorPrimaryText" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
