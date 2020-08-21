@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
                     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
                     navController.navigate(R.id.navigation_search);
                     break;
-                case R.id.navigation_collection:
-                    Log.d(TAG, "Collection");
-                    break;
             }
             return false;
         });
