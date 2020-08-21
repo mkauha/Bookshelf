@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="@dimen/app_bar_height_large"
         android:background="#FFFFFF"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -41,6 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/top_toolbar_height"
                 app:layout_collapseMode="pin"
+                app:menu="@menu/menu_bottom_book_details"
                 app:navigationIcon="@drawable/ic_outline_arrow_back_24"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
@@ -69,7 +70,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/title_label"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -78,7 +79,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:boxStrokeWidth="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/bookmark_label"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -89,6 +90,35 @@
                     android:enabled="false"
                     android:focusable="false"
                     android:inputType="textCapSentences"
+                    android:textSize="18sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bookmark_label"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:focusable="false"
+                android:hint="Bookmark"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:boxStrokeWidth="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/title_label"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bookmark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_outline_bookmark_24"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:inputType="textCapSentences"
+                    android:text="50/300"
                     android:textSize="18sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
