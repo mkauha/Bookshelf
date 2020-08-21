@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -45,6 +47,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         bottomAppBar = binding.bottomAppBar;
         bottomAppBar.setNavigationIcon(null);
         bottomAppBar.replaceMenu(R.menu.menu_bottom_book_details);
+        bottomAppBar.setVisibility(View.GONE);
 
         this.book = getIntent().getParcelableExtra("CURRENT_BOOK");
 
@@ -132,5 +135,12 @@ public class BookDetailsActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item_dropdown, items);
         binding.collection.setAdapter(adapter);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bottom_book_details, menu);
+        return true;
     }
 }
