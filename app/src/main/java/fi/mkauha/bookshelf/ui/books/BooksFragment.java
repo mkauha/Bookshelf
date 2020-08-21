@@ -14,20 +14,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.ui.adapter.BookListAdapter;
 import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
+import fi.mkauha.bookshelf.ui.adapter.BookCollectionPagerAdapter;
+import fi.mkauha.bookshelf.ui.adapter.BookListAdapter;
 import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
@@ -38,6 +38,11 @@ public class BooksFragment extends Fragment  {
     FloatingActionButton fab;
     BottomAppBar bottomAppBar;
     private MaterialToolbar topAppBar;
+    private ViewPager2 viewPager;
+    private BookCollectionPagerAdapter bookCollectionPagerAdapter;
+
+    // get titles from local storage
+    private String[] titles = new String[]{"All Books", "Wishlist", "Study"};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,36 +75,14 @@ public class BooksFragment extends Fragment  {
         topAppBar.setTitle("");
         topAppBar.setNavigationIcon(null);
 
+
+
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
         bottomAppBar.setHideOnScroll(true);
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
         bottomAppBar.replaceMenu(R.menu.menu_bottom_main);
         bottomAppBar.setNavigationIcon(R.drawable.ic_outline_menu_24);
         bottomAppBar.setOnClickListener(view -> {});
-        binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
-        binding.booksRecyclerView.setHasFixedSize(true);
-        binding.booksRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && fab.getVisibility() == View.VISIBLE) {
-                    fab.hide();
-                } else if (dy < 0 && fab.getVisibility() != View.VISIBLE) {
-                    fab.show();
-                }
-            }
-        });
-
-        booksViewModel = new ViewModelProvider(getActivity()).get(BooksViewModel.class);
-        booksViewModel.select(null);
-
-        mAdapter = new BookListAdapter(getContext(), booksViewModel);
-        binding.booksRecyclerView.setAdapter(mAdapter);
-
-        booksViewModel.getAllBooks().observe(getActivity(),
-            list -> mAdapter.setBooks(list)
-        );
-
         return root;
     }
 
@@ -116,6 +99,15 @@ public class BooksFragment extends Fragment  {
         NavigationUI.onNavDestinationSelected(item, navController);
 
         return true;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        binding.pager.setAdapter(new BookCollectionPagerAdapter(this));
+        new TabLayoutMediator(binding.booksRecyclerTabs, binding.pager,
+                (tab, position) -> tab.setText(titles[position])
+        ).attach();
+
     }
 
     @Override
