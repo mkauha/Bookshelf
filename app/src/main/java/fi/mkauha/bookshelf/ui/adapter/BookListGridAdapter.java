@@ -8,9 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,7 +20,7 @@ import fi.mkauha.bookshelf.models.Book;
 import fi.mkauha.bookshelf.ui.books.BookDetailsActivity;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
-public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookViewHolder> {
+public class BookListGridAdapter extends RecyclerView.Adapter<BookListGridAdapter.BookViewHolder> {
 
     class BookViewHolder extends RecyclerView.ViewHolder {
         ListItemBookGridBinding binding;
@@ -38,7 +35,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     private final LayoutInflater mInflater;
     private List<Book> mBooks; // Cached copy of words
 
-    public BookListAdapter(Context context, BooksViewModel booksViewModel) {
+    public BookListGridAdapter(Context context, BooksViewModel booksViewModel) {
         this.booksViewModel = booksViewModel;
         mInflater = LayoutInflater.from(context);
     }
@@ -53,14 +50,15 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     public void onBindViewHolder(BookViewHolder holder, int position) {
         if (mBooks != null) {
             Book book = mBooks.get(position);
-            holder.binding.itemViewBookBookmarkIcon.setVisibility(View.INVISIBLE);
-            holder.binding.itemViewBookTitle.setText(book.getTitle());
+            holder.binding.bookmarkIcon.setVisibility(View.INVISIBLE);
+            holder.binding.bookmarkText.setVisibility(View.INVISIBLE);
+            holder.binding.title.setText(book.getTitle());
 
             Glide.with(holder.binding.getRoot())
                     .load(book.getImage())
                     .centerCrop()
                     .placeholder(R.drawable.book_cover_placeholder)
-                    .into(holder.binding.itemViewBookImage);
+                    .into(holder.binding.image);
 
 
             holder.binding.getRoot().setOnClickListener(v -> {
@@ -76,7 +74,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
         } else {
             // Covers the case of data not being ready yet.
-            holder.binding.itemViewBookTitle.setText("No Book");
+            holder.binding.title.setText("Unknown");
         }
     }
 

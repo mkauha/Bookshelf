@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import fi.mkauha.bookshelf.databinding.FragmentBooksRecyclerviewBinding;
-import fi.mkauha.bookshelf.ui.adapter.BookListAdapter;
+import fi.mkauha.bookshelf.ui.adapter.BookListGridAdapter;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 public class BookTabFragment extends Fragment {
     public static final String ARG_OBJECT = "object";
     private FragmentBooksRecyclerviewBinding binding;
     private BooksViewModel booksViewModel;
-    private BookListAdapter mAdapter;
+    private BookListGridAdapter mAdapter;
     private FloatingActionButton fab;
     private static final String ARG_COUNT = "param1";
     private Integer counter;
@@ -41,7 +41,7 @@ public class BookTabFragment extends Fragment {
         binding = FragmentBooksRecyclerviewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        binding.booksRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
         binding.booksRecyclerView.setHasFixedSize(true);
 /*        binding.booksRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -58,7 +58,7 @@ public class BookTabFragment extends Fragment {
         booksViewModel = new ViewModelProvider(requireActivity()).get(BooksViewModel.class);
         booksViewModel.select(null);
 
-        mAdapter = new BookListAdapter(getContext(), booksViewModel);
+        mAdapter = new BookListGridAdapter(getContext(), booksViewModel);
         binding.booksRecyclerView.setAdapter(mAdapter);
 
         booksViewModel.getAllBooks().observe(requireActivity(),

@@ -27,14 +27,14 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
 import fi.mkauha.bookshelf.ui.adapter.BookCollectionPagerAdapter;
-import fi.mkauha.bookshelf.ui.adapter.BookListAdapter;
+import fi.mkauha.bookshelf.ui.adapter.BookListGridAdapter;
 import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 public class BooksFragment extends Fragment  {
     private FragmentBooksBinding binding;
     private BooksViewModel booksViewModel;
-    private BookListAdapter mAdapter;
+    private BookListGridAdapter mAdapter;
     FloatingActionButton fab;
     BottomAppBar bottomAppBar;
     private MaterialToolbar topAppBar;

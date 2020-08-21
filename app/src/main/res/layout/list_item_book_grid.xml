@@ -10,12 +10,13 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/itemView_book_cardView"
-        android:layout_width="110dp"
-        android:layout_height="170dp"
+        android:id="@+id/cardView"
+        android:layout_width="85dp"
+        android:layout_height="130dp"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
-        cardview:cardCornerRadius="4dp">
+        cardview:cardCornerRadius="@dimen/corner_radius"
+        cardview:cardElevation="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/itemView_book_image"
+                android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="#ECECEC"
@@ -35,38 +36,37 @@
                 cardview:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/itemView_book_bookmark_icon"
+                android:id="@+id/bookmark_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="TODO"
                 android:scaleType="center"
-                cardview:layout_constraintEnd_toEndOf="@id/itemView_book_image"
-                cardview:layout_constraintTop_toTopOf="@id/itemView_book_image"
-                cardview:srcCompat="@drawable/ic_bookmark_red"
-                android:contentDescription="TODO" />
+                cardview:layout_constraintEnd_toEndOf="@id/image"
+                cardview:layout_constraintTop_toTopOf="@id/image"
+                cardview:srcCompat="@drawable/ic_filled_bookmark_24" />
 
             <TextView
-                android:id="@+id/itemView_book_bookmark_text"
+                android:id="@+id/bookmark_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="300"
                 android:textColor="@android:color/primary_text_dark"
                 android:textSize="13sp"
-                cardview:layout_constraintEnd_toEndOf="@id/itemView_book_bookmark_icon"
-                cardview:layout_constraintStart_toStartOf="@+id/itemView_book_bookmark_icon"
-                cardview:layout_constraintTop_toTopOf="@id/itemView_book_bookmark_icon" />
+                cardview:layout_constraintBottom_toBottomOf="@+id/bookmark_icon"
+                cardview:layout_constraintEnd_toEndOf="@id/bookmark_icon"
+                cardview:layout_constraintStart_toStartOf="@+id/bookmark_icon"
+                cardview:layout_constraintTop_toTopOf="@id/bookmark_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/itemView_book_title"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#00F4F4F4"
         android:gravity="center_horizontal"
-        android:minHeight="30dp"
-        android:text="Book Title"
-        android:textColor="@android:color/secondary_text_light"
-        android:textSize="13sp"
-        cardview:layout_constraintHeight_percent="0.5" />
+        android:text="Unknown"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="14sp"/>
 </LinearLayout>
