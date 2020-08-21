@@ -37,9 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
+        app:backgroundTint="@color/colorBackgroundLight"
         app:fabAlignmentMode="center"
-        app:fabCradleMargin="2dp"
-        app:fabCradleRoundedCornerRadius="12dp"
+        app:fabCradleMargin="4dp"
+        app:fabCradleRoundedCornerRadius="8dp"
         app:hideOnScroll="true"
         app:navigationIcon="@drawable/ic_outline_menu_24" />
 
@@ -49,9 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_outline_add_24"
-        app:backgroundTint="#FFFFFF"
+        app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
         app:layout_anchor="@+id/bottom_app_bar"
-        app:tint="@color/colorPrimary" />
+        app:tint="@color/colorPrimaryTextLight" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
