@@ -47,7 +47,8 @@
                 android:id="@+id/search_textfield"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_outline_search_24"
+                android:drawableStart="@drawable/ic_outline_search_24"
+                android:imeOptions="actionSearch"
                 android:inputType="textCapSentences" />
 
         </com.google.android.material.textfield.TextInputLayout>
