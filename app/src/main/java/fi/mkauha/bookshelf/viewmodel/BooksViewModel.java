@@ -11,12 +11,14 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import fi.mkauha.bookshelf.models.Book;
+import fi.mkauha.bookshelf.network.Record;
 import fi.mkauha.bookshelf.repository.BookRepository;
 
 public class BooksViewModel extends AndroidViewModel {
 
     private BookRepository mBooksRepository;
     private LiveData<List<Book>> mAllBooks;
+    private MutableLiveData<List<Book>> mSearchResults = new MutableLiveData<>();
     private final MutableLiveData<Book> selected = new MutableLiveData<>();
 
     public BooksViewModel(Application application) {
@@ -30,10 +32,17 @@ public class BooksViewModel extends AndroidViewModel {
         selected.setValue(book);
     }
 
+    public void setSearchResults(List<Book> list) {
+        mSearchResults.setValue(list);
+    }
+
     public MutableLiveData<Book> getSelected() {
         return selected;
     }
 
+    public LiveData<List<Book>> getSearchResults() {
+        return mSearchResults;
+    }
 
     public LiveData<List<Book>> getAllBooks() {
         return mAllBooks;
