@@ -1,7 +1,6 @@
 package fi.mkauha.bookshelf.ui.search;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,22 +17,10 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentSearchBinding;
-import fi.mkauha.bookshelf.models.Book;
-import fi.mkauha.bookshelf.network.BookResponse;
-import fi.mkauha.bookshelf.network.Record;
-import fi.mkauha.bookshelf.remote.ApiService;
-import fi.mkauha.bookshelf.remote.ApiServiceClient;
 import fi.mkauha.bookshelf.ui.adapter.BookListLinearAdapter;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
-import fi.mkauha.bookshelf.viewmodel.SearchViewModel;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SearchFragment  extends Fragment {
     private static final String TAG = "SearchFragment";
@@ -44,18 +31,7 @@ public class SearchFragment  extends Fragment {
     private MaterialToolbar topAppBar;
     FloatingActionButton fab;
     private BooksViewModel booksViewModel;
-    private SearchViewModel searchViewModel;
     private BookListLinearAdapter mAdapter;
-    private final String[] FIELDS = {
-            "cleanIsbn",
-            "title",
-            //"authors",
-            "genres",
-            "year",
-            "images",
-            "summary",
-            "languages"
-    };
 
     @Nullable
     @Override
@@ -85,60 +61,18 @@ public class SearchFragment  extends Fragment {
 
 
         binding.searchTextfield.setOnEditorActionListener((textView, i, keyEvent) -> {
-            Log.d(TAG, "i: " + i);
-            Log.d(TAG, "keyEvent: " + keyEvent);
-            doSearch(textView.getText().toString());
+            booksViewModel.performRemoteSearch(textView.getText().toString());
             return true;
         });
 
+        booksViewModel.getSearchResults().observe(requireActivity(),
+                list -> {
+                    mAdapter.setBooks(list);
+                }
+        );
+
 
         return root;
-    }
-
-    private void doSearch(String query) {
-        ApiService apiService = ApiServiceClient.getClient().create(ApiService.class);
-        Call<BookResponse> call = apiService.getResults(query, "Title", FIELDS);
-        call.enqueue(new Callback<BookResponse>() {
-            @Override
-            public void onResponse(Call<BookResponse>call, Response<BookResponse> response) {
-                //List<Book> movies = response.body().getResults();
-                Log.d(TAG, "RESPONSE: " + response);
-                List<Record> recordList = response.body().getRecords();
-                List<Book> searchResults = new ArrayList<>();
-                Log.d(TAG, "SIZE: " + recordList.size());
-
-                for(Record record : recordList) {
-                    searchResults.add(new Book(
-                            record.getCleanIsbn(),
-                            record.getTitle(),
-                            "AUTHORS",
-                            "GENRES",
-                            record.getYear(),
-                            "PAGES",
-                            "IMAGES",
-                            "SUMMARY",
-                            "LANGUAGES",
-                            "COLLECTION",
-                            0
-                    ));
-                }
-
-                booksViewModel.setSearchResults(searchResults);
-
-                booksViewModel.getSearchResults().observe(requireActivity(),
-                        list -> {
-                            mAdapter.setBooks(list);
-                        }
-                );
-
-            }
-
-            @Override
-            public void onFailure(Call<BookResponse>call, Throwable t) {
-                // Log error here since request failed
-                Log.e(TAG, t.toString());
-            }
-        });
     }
 
 }

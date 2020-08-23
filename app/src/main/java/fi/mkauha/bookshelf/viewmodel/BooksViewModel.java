@@ -2,7 +2,6 @@ package fi.mkauha.bookshelf.viewmodel;
 
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -11,7 +10,6 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import fi.mkauha.bookshelf.models.Book;
-import fi.mkauha.bookshelf.network.Record;
 import fi.mkauha.bookshelf.repository.BookRepository;
 
 public class BooksViewModel extends AndroidViewModel {
@@ -24,7 +22,7 @@ public class BooksViewModel extends AndroidViewModel {
     public BooksViewModel(Application application) {
         super(application);
         this.mBooksRepository = new BookRepository(application);
-        this.mAllBooks = mBooksRepository.getAllBooks();
+        this.mAllBooks = mBooksRepository.getLocalBooks();
 
     }
 
@@ -44,16 +42,20 @@ public class BooksViewModel extends AndroidViewModel {
         return mSearchResults;
     }
 
+    public void performRemoteSearch(String query) {
+        mSearchResults.setValue(mBooksRepository.performRemoteSearch(query));
+    }
+
     public LiveData<List<Book>> getAllBooks() {
         return mAllBooks;
     }
 
     public void insertOrUpdate(Book book) {
-        mBooksRepository.insertOrUpdate(book);
+        mBooksRepository.insertOrUpdateLocalBook(book);
     }
 
-    public void update(Book book) { mBooksRepository.update(book);}
+    public void update(Book book) { mBooksRepository.updateLocalBook(book);}
 
-    public void delete(Book book) { mBooksRepository.delete(book);}
+    public void delete(Book book) { mBooksRepository.deleteLocalBook(book);}
 
 }
