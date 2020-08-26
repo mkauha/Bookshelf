@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +53,17 @@ public class BookRepository {
         return mLocalBooks;
     }
 
+    public Book getLocalBookById(int uid) {
+        Book book = mBookDao.findById(uid);
+        Log.d(TAG, "bookfromdao: " + book);
+        return book;
+    }
+
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
     // that you're not doing any long running operations on the main thread, blocking the UI.
     public void insertOrUpdateLocalBook(Book book) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            if(mBookDao.findById(book.getUid()).getValue() == null) {
+            if(mBookDao.findById(book.getUid()) == null) {
                 mBookDao.insertAll(book);
             } else {
                 mBookDao.update(book);

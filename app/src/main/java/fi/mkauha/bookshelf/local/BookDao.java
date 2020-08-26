@@ -22,7 +22,7 @@ public interface  BookDao {
     LiveData<List<Book>> findByTitle(String title);
 
     @Query("SELECT * FROM book WHERE uid LIKE :uid")
-    LiveData<List<Book>> findById(int uid);
+    Book findById(int uid);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertAll(Book... books);
