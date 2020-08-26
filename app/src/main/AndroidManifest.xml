@@ -16,12 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.books.CreateBookActivity"
+            android:name=".views.createbook.CreateBookActivity"
             android:label="@string/title_activity_create_book"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".ui.books.BookDetailsActivity"
+            android:name=".views.bookdetails.BookDetailsActivity"
             android:label="@string/title_activity_book_details"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".ui.libraries.LibrariesService" />
+        <service android:name=".views.libraries.LibrariesService" />
     </application>
 
 </manifest>

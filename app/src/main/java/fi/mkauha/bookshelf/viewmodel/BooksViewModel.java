@@ -10,8 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-import fi.mkauha.bookshelf.models.Book;
-import fi.mkauha.bookshelf.repository.BookRepository;
+import fi.mkauha.bookshelf.data.local.model.Book;
+import fi.mkauha.bookshelf.data.repository.BookRepository;
 
 public class BooksViewModel extends AndroidViewModel {
     private static final String TAG = "BooksViewModel";

@@ -20,9 +20,7 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import fi.mkauha.bookshelf.databinding.ActivityMainBinding;
-import fi.mkauha.bookshelf.databinding.FragmentSearchBinding;
-import fi.mkauha.bookshelf.ui.modals.MainNavigationModalFragment;
-import fi.mkauha.bookshelf.ui.modals.AddBookModalFragment;
+import fi.mkauha.bookshelf.views.modal.MainNavigationModalFragment;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

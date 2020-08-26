@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/activity_create_book"
-    tools:context=".ui.books.CreateBookActivity">
+    tools:context=".views.createbook.CreateBookActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".ui.books.BookDetailsActivity"
+        tools:context=".views.bookdetails.BookDetailsActivity"
         tools:showIn="@layout/activity_book_details">
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,49 +7,49 @@
 
     <fragment
         android:id="@+id/navigation_books"
-        android:name="fi.mkauha.bookshelf.ui.books.BooksFragment"
+        android:name="fi.mkauha.bookshelf.views.mybooks.BooksFragment"
         android:label="@string/label_books"
         tools:layout="@layout/fragment_books" />
 
     <fragment
         android:id="@+id/navigation_library"
-        android:name="fi.mkauha.bookshelf.ui.library.LibraryFragment"
+        android:name="fi.mkauha.bookshelf.views.library.LibraryFragment"
         android:label="@string/label_library"
         tools:layout="@layout/fragment_library" />
 
     <fragment
         android:id="@+id/navigation_info"
-        android:name="fi.mkauha.bookshelf.ui.info.InfoFragment"
+        android:name="fi.mkauha.bookshelf.views.info.InfoFragment"
         android:label="@string/credits"
         tools:layout="@layout/fragment_info" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="fi.mkauha.bookshelf.ui.settings.SettingsFragment"
+        android:name="fi.mkauha.bookshelf.views.settings.SettingsFragment"
         android:label="@string/label_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="fi.mkauha.bookshelf.ui.search.SearchFragment"
+        android:name="fi.mkauha.bookshelf.views.search.SearchFragment"
         android:label="@string/label_search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_image_select"
-        android:name="fi.mkauha.bookshelf.ui.modals.ImageSelectModalFragment"
+        android:name="fi.mkauha.bookshelf.views.modal.ImageSelectModalFragment"
         android:label="@string/label_image_select"
         tools:layout="@layout/fragment_modal_image_select" />
 
     <fragment
         android:id="@+id/navigation_add_book"
-        android:name="fi.mkauha.bookshelf.ui.modals.AddBookModalFragment"
+        android:name="fi.mkauha.bookshelf.views.modal.AddBookModalFragment"
         android:label="@string/label_add_title"
         tools:layout="@layout/fragment_modal_add_book" />
 
     <fragment
         android:id="@+id/navigation_main_navigation_modal"
-        android:name="fi.mkauha.bookshelf.ui.modals.MainNavigationModalFragment"
+        android:name="fi.mkauha.bookshelf.views.modal.MainNavigationModalFragment"
         android:label=""
         tools:layout="@layout/fragment_modal_main_navigation" />
 

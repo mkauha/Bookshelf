@@ -10,9 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-import fi.mkauha.bookshelf.models.Book;
-import fi.mkauha.bookshelf.network.Record;
-import fi.mkauha.bookshelf.repository.BookRepository;
+import fi.mkauha.bookshelf.data.local.model.Book;
+import fi.mkauha.bookshelf.data.remote.model.Record;
+import fi.mkauha.bookshelf.data.repository.BookRepository;
 
 public class SearchViewModel extends AndroidViewModel {
     private static final String TAG = "SearchViewModel";
