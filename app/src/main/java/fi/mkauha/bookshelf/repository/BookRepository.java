@@ -26,6 +26,7 @@ public class BookRepository {
     private LiveData<List<Book>> mLocalBooks;
     private final ApiService apiService;
     private List<Book> searchResults = new ArrayList<>();
+    private List<Record> recordList;
     private final String[] FILTERS = {
             "format:0/Book/"
     };
@@ -37,7 +38,8 @@ public class BookRepository {
             "year",
             "images",
             "summary",
-            "languages"
+            "languages",
+            "physicalDescriptions"
     };
 
     public BookRepository(Application application) {
@@ -84,14 +86,14 @@ public class BookRepository {
         });
     }
 
-    public List<Book> performRemoteSearch(String query) {
+    public List<Record> performRemoteSearch(String query) {
         Call<BookResponse> call = apiService.getResults(query, "Title", FILTERS, FIELDS);
         call.enqueue(new Callback<BookResponse>() {
             @Override
             public void onResponse(Call<BookResponse>call, Response<BookResponse> response) {
                 //List<Book> movies = response.body().getResults();
-                Log.d(TAG, "RESPONSE: " + response);
-                List<Record> recordList = response.body().getRecords();
+                //Log.d(TAG, "RESPONSE: " + response);
+                recordList = response.body().getRecords();
                 searchResults = new ArrayList<>();
                 Log.d(TAG, "SIZE: " + recordList.size());
 
@@ -101,6 +103,8 @@ public class BookRepository {
                     String language = "-";
                     String summary = "-";
                     String genres = "-";
+                    String pages = "-";
+
                     if(!record.getImages().isEmpty()) {
                         imageURL = "https://api.finna.fi" + record.getImages().get(0);
                         //Log.d(TAG, "IMAGE:" + imageURL);
@@ -126,17 +130,22 @@ public class BookRepository {
                         //Log.d(TAG, "SUMMARY:" + genres);
                     }
 
+                    if(!record.getPhysicalDescriptions().isEmpty()) {
+                        pages = record.getPhysicalDescriptions().get(0);
+                        //Log.d(TAG, "SUMMARY:" + genres);
+                    }
+
                     searchResults.add(new Book(
                             record.getCleanIsbn(),
                             record.getTitle(),
                             author,
                             genres,
                             record.getYear(),
-                            "PAGES",
+                            pages,
                             imageURL,
                             summary,
                             language,
-                            "COLLECTION",
+                            "-",
                             0
                     ));
                 }
@@ -149,6 +158,6 @@ public class BookRepository {
                 Log.e(TAG, t.toString());
             }
         });
-        return searchResults;
+        return recordList;
     }
 }

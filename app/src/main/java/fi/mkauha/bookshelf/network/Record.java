@@ -79,6 +79,10 @@ public class Record {
     @Expose
     private List<String> summary = null;
 
+    @SerializedName("physicalDescriptions")
+    @Expose
+    private List<String> physicalDescriptions = null;
+
     public List<Building> getBuildings() {
         return buildings;
     }
@@ -221,5 +225,13 @@ public class Record {
 
     public void setSummary(List<String> summary) {
         this.summary = summary;
+    }
+
+    public void setPhysicalDescriptions(List<String> physicalDescriptions) {
+        this.physicalDescriptions = physicalDescriptions;
+    }
+
+    public List<String> getPhysicalDescriptions() {
+        return physicalDescriptions;
     }
 }
