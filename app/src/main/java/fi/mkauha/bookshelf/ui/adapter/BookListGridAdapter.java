@@ -33,7 +33,7 @@ public class BookListGridAdapter extends RecyclerView.Adapter<BookListGridAdapte
 
     private BooksViewModel booksViewModel;
     private final LayoutInflater mInflater;
-    private List<Book> mBooks; // Cached copy of words
+    private List<Book> mBooks; // Cached copy of books
 
     public BookListGridAdapter(Context context, BooksViewModel booksViewModel) {
         this.booksViewModel = booksViewModel;
@@ -54,26 +54,22 @@ public class BookListGridAdapter extends RecyclerView.Adapter<BookListGridAdapte
             holder.binding.bookmarkText.setVisibility(View.INVISIBLE);
             holder.binding.title.setText(book.getTitle());
 
-            Glide.with(holder.binding.getRoot())
+/*            Glide.with(holder.binding.getRoot())
                     .load(book.getImage())
                     .centerCrop()
                     .placeholder(R.drawable.book_cover_placeholder)
-                    .into(holder.binding.image);
+                    .into(holder.binding.image);*/
 
 
             holder.binding.getRoot().setOnClickListener(v -> {
-                Log.d("onBindViewHolder", "select: " + book.getImage());
                 Context context = holder.binding.getRoot().getContext();
-                booksViewModel.select(book);
-/*                NavController navController = Navigation.findNavController((AppCompatActivity)context, R.id.nav_host_fragment);
-                navController.navigate(R.id.navigation_book_details);*/
                 Intent intent = new Intent(context, BookDetailsActivity.class);
-                intent.putExtra("CURRENT_BOOK", (Parcelable) book);
+                intent.putExtra("BOOK_UID", book.getUid());
                 context.startActivity(intent);
             });
 
         } else {
-            // Covers the case of data not being ready yet.
+            // TODO Covers the case of data not being ready yet.
             holder.binding.title.setText("Unknown");
         }
     }

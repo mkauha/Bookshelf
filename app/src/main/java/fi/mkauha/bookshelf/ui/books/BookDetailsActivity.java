@@ -3,7 +3,6 @@ package fi.mkauha.bookshelf.ui.books;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 
@@ -49,39 +48,53 @@ public class BookDetailsActivity extends AppCompatActivity {
         bottomAppBar.replaceMenu(R.menu.menu_bottom_book_details);
         bottomAppBar.setVisibility(View.GONE);
 
-        this.book = getIntent().getParcelableExtra("CURRENT_BOOK");
-
-        Glide.with(this)
-                .load(book.getImage())
-                .centerCrop()
-                .placeholder(R.drawable.book_cover_placeholder)
-                .into(binding.bookDetailsCoverImage);
-
-        binding.title.setText(book.getTitle());
-        binding.author.setText(book.getAuthor());
-        binding.genre.setText(book.getGenres());
-        binding.language.setText(book.getLanguages());
-        binding.year.setText(book.getYear());
-        binding.pages.setText(String.valueOf(book.getPages()));
-        binding.summary.setText(book.getSummary());
-        binding.collection.setText(book.getCollection());
-        binding.isbn.setText(book.getIsbn());
-
-        Toolbar toolbar = binding.toolbar;
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(event -> {
-            finish();
-        });
-        CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        toolBarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorPrimaryTextLight));
-
-        Log.d(TAG, "Title: " + book.getTitle());
-        if(book.getTitle() == null || book.getTitle().equals("")) {
-            setTitle(" ");
-        } else {
-            setTitle(book.getTitle());
+        // TODO Maybe some checks
+        // TODO When selecting from search
+        int uid = 0;
+        if(getIntent().hasExtra("BOOK_UID")) {
+            uid = getIntent().getIntExtra("BOOK_UID", 0);
+            Log.d(TAG, "uid: " + uid);
+            booksViewModel.findBookById(uid);
         }
 
+        booksViewModel.getBookEntity().observe(this, book -> {
+            Log.d(TAG, "observe: " + book);
+            if(null != book) {
+                // binding.loadingProgress.setVisibility(View.GONE);
+
+/*                Glide.with(this)
+                        .load(book.getImage())
+                        .centerCrop()
+                        .placeholder(R.drawable.book_cover_placeholder)
+                        .into(binding.bookDetailsCoverImage);*/
+
+                binding.title.setText(book.getTitle());
+                binding.author.setText(book.getAuthor());
+                binding.genre.setText(book.getGenres());
+                binding.language.setText(book.getLanguages());
+                binding.year.setText(book.getYear());
+                binding.pages.setText(String.valueOf(book.getPages()));
+                binding.summary.setText(book.getSummary());
+                binding.collection.setText(book.getCollection());
+                binding.isbn.setText(book.getIsbn());
+
+                Toolbar toolbar = binding.toolbar;
+                setSupportActionBar(toolbar);
+                toolbar.setNavigationOnClickListener(event -> {
+                    finish();
+                });
+                CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+                toolBarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorPrimaryTextLight));
+
+                Log.d(TAG, "Title: " + book.getTitle());
+                if(book.getTitle() == null || book.getTitle().equals("")) {
+                    setTitle(" ");
+                } else {
+                    setTitle(book.getTitle());
+                }
+
+            }
+        });
 
         bottomAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {

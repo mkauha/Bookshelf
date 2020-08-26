@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +14,6 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.databinding.ListItemBookGridBinding;
 import fi.mkauha.bookshelf.databinding.ListItemBookLinearBinding;
 import fi.mkauha.bookshelf.models.Book;
 import fi.mkauha.bookshelf.ui.books.BookDetailsActivity;
@@ -56,21 +54,17 @@ public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAd
             holder.binding.language.setText(book.getLanguages());
             holder.binding.year.setText(book.getYear());
 
-            Glide.with(holder.binding.getRoot())
+/*            Glide.with(holder.binding.getRoot())
                     .load(book.getImage())
                     .centerCrop()
                     .placeholder(R.drawable.book_cover_placeholder)
-                    .into(holder.binding.image);
+                    .into(holder.binding.image);*/
 
 
             holder.binding.getRoot().setOnClickListener(v -> {
-                Log.d("onBindViewHolder", "select: " + book.getImage());
                 Context context = holder.binding.getRoot().getContext();
-                booksViewModel.select(book);
-/*                NavController navController = Navigation.findNavController((AppCompatActivity)context, R.id.nav_host_fragment);
-                navController.navigate(R.id.navigation_book_details);*/
                 Intent intent = new Intent(context, BookDetailsActivity.class);
-                intent.putExtra("CURRENT_BOOK", (Parcelable) book);
+                intent.putExtra("BOOK_URL", book.getUid());
                 context.startActivity(intent);
             });
 
