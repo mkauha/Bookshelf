@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import fi.mkauha.bookshelf.network.Record;
+
 @Entity
 public class Book {
     @PrimaryKey(autoGenerate = true)
@@ -32,6 +34,8 @@ public class Book {
     private String collection;
 
     private int bookmark;
+
+    public Book() {}
 
     public Book(String isbn, String title, String author,
                 String genres, String year, String pages, String image,
