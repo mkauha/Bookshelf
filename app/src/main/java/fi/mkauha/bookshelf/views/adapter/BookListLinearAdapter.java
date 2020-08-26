@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
+import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.ListItemBookLinearBinding;
 import fi.mkauha.bookshelf.data.remote.model.Record;
 import fi.mkauha.bookshelf.views.bookdetails.BookDetailsActivity;
@@ -49,11 +52,16 @@ public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAd
             holder.binding.language.setText(book.getLanguages().get(0));
             holder.binding.year.setText(book.getYear());
 
-/*            Glide.with(holder.binding.getRoot())
-                    .load(book.getImage())
+            String imageURL = "https://sociology.indiana.edu/images/publications/book-cover-placeholder.jpg";
+            if(book.getImages().size() > 0) {
+                imageURL = "https://api.finna.fi" + book.getImages().get(0);
+            }
+
+            Glide.with(holder.binding.getRoot())
+                    .load(imageURL)
                     .centerCrop()
                     .placeholder(R.drawable.book_cover_placeholder)
-                    .into(holder.binding.image);*/
+                    .into(holder.binding.image);
 
 
             holder.binding.getRoot().setOnClickListener(v -> {
