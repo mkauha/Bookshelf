@@ -18,7 +18,6 @@ public class BooksViewModel extends AndroidViewModel {
 
     private BookRepository mBooksRepository;
     private LiveData<List<Book>> mAllBooks;
-    private MutableLiveData<List<Book>> mSearchResults = new MutableLiveData<>();
     private final MutableLiveData<Book> selected = new MutableLiveData<>();
     private MutableLiveData<Book> mBookEntity = new MutableLiveData<>();
 
@@ -35,10 +34,6 @@ public class BooksViewModel extends AndroidViewModel {
         Log.d(TAG, "select: " + selected.getValue());
     }
 
-    public void setSearchResults(List<Book> list) {
-        mSearchResults.setValue(list);
-    }
-
     public MutableLiveData<Book> getSelected() {
         return selected;
     }
@@ -51,15 +46,6 @@ public class BooksViewModel extends AndroidViewModel {
 
     public MutableLiveData<Book> getBookEntity() {
         return mBookEntity;
-    }
-
-    public LiveData<List<Book>> getSearchResults() {
-        return mSearchResults;
-    }
-
-    public void performRemoteSearch(String query) {
-        Log.d(TAG, "performRemoteSearch");
-        mSearchResults.setValue(mBooksRepository.performRemoteSearch(query));
     }
 
     public LiveData<List<Book>> getAllBooks() {
