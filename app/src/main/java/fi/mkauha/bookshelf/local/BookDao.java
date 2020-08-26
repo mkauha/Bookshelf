@@ -1,4 +1,4 @@
-package fi.mkauha.bookshelf.persistence;
+package fi.mkauha.bookshelf.local;
 
 
 import androidx.lifecycle.LiveData;
