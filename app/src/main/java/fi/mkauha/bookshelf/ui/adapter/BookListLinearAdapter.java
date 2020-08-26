@@ -16,8 +16,10 @@ import java.util.List;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.ListItemBookLinearBinding;
 import fi.mkauha.bookshelf.models.Book;
+import fi.mkauha.bookshelf.network.Record;
 import fi.mkauha.bookshelf.ui.books.BookDetailsActivity;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+import fi.mkauha.bookshelf.viewmodel.SearchViewModel;
 
 public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAdapter.BookViewHolder> {
 
@@ -30,12 +32,12 @@ public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAd
         }
     }
 
-    private BooksViewModel booksViewModel;
+    private SearchViewModel searchViewModel;
     private final LayoutInflater mInflater;
-    private List<Book> mBooks; // Cached copy of words
+    private List<Record> mBooks;
 
-    public BookListLinearAdapter(Context context, BooksViewModel booksViewModel) {
-        this.booksViewModel = booksViewModel;
+    public BookListLinearAdapter(Context context, SearchViewModel searchViewModel) {
+        this.searchViewModel = searchViewModel;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -48,10 +50,10 @@ public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAd
     @Override
     public void onBindViewHolder(BookViewHolder holder, int position) {
         if (mBooks != null) {
-            Book book = mBooks.get(position);
+            Record book = mBooks.get(position);
             holder.binding.title.setText(book.getTitle());
-            holder.binding.author.setText(book.getAuthor());
-            holder.binding.language.setText(book.getLanguages());
+            holder.binding.author.setText(book.getNonPresenterAuthors().get(0).getName());
+            holder.binding.language.setText(book.getLanguages().get(0));
             holder.binding.year.setText(book.getYear());
 
 /*            Glide.with(holder.binding.getRoot())
@@ -64,7 +66,7 @@ public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAd
             holder.binding.getRoot().setOnClickListener(v -> {
                 Context context = holder.binding.getRoot().getContext();
                 Intent intent = new Intent(context, BookDetailsActivity.class);
-                intent.putExtra("BOOK_URL", book.getUid());
+                intent.putExtra("BOOK_URL", book.getId());
                 context.startActivity(intent);
             });
 
@@ -74,7 +76,7 @@ public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAd
         }
     }
 
-    public void setBooks(List<Book> books){
+    public void setBooks(List<Record> books){
         mBooks = books;
         notifyDataSetChanged();
     }

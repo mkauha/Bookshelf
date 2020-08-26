@@ -1,6 +1,7 @@
 package fi.mkauha.bookshelf.ui.search;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentSearchBinding;
 import fi.mkauha.bookshelf.ui.adapter.BookListLinearAdapter;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+import fi.mkauha.bookshelf.viewmodel.SearchViewModel;
 
 public class SearchFragment  extends Fragment {
     private static final String TAG = "SearchFragment";
@@ -30,7 +32,7 @@ public class SearchFragment  extends Fragment {
     BottomAppBar bottomAppBar;
     private MaterialToolbar topAppBar;
     FloatingActionButton fab;
-    private BooksViewModel booksViewModel;
+    private SearchViewModel searchViewModel;
     private BookListLinearAdapter mAdapter;
 
     @Nullable
@@ -53,20 +55,22 @@ public class SearchFragment  extends Fragment {
 
         binding.booksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.booksRecyclerView.setHasFixedSize(true);
-        booksViewModel = new ViewModelProvider(requireActivity()).get(BooksViewModel.class);
-        booksViewModel.select(null);
+        searchViewModel = new ViewModelProvider(requireActivity()).get(SearchViewModel.class);
+        searchViewModel.select(null);
 
-        mAdapter = new BookListLinearAdapter(getContext(), booksViewModel);
+        mAdapter = new BookListLinearAdapter(getContext(), searchViewModel);
         binding.booksRecyclerView.setAdapter(mAdapter);
 
 
         binding.searchTextfield.setOnEditorActionListener((textView, i, keyEvent) -> {
-            booksViewModel.performRemoteSearch(textView.getText().toString());
+            Log.d(TAG, "query: " + textView.getText().toString());
+            searchViewModel.performRemoteSearch(textView.getText().toString());
             return true;
         });
 
-        booksViewModel.getSearchResults().observe(requireActivity(),
+        searchViewModel.getSearchResults().observe(requireActivity(),
                 list -> {
+                    //Log.d(TAG, "mAdapter.setBooks " + list);
                     mAdapter.setBooks(list);
                 }
         );
