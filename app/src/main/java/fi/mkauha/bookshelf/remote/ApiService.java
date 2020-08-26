@@ -12,7 +12,9 @@ public interface ApiService {
     public Call<BookResponse> getResults(
             @Query("lookfor") String lookfor,
             @Query("type") String type,
+            @Query("filter[]") String[] filters,
             @Query("field[]") String[] fields
+
     );
 
 
