@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
+import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.ListItemBookGridBinding;
 import fi.mkauha.bookshelf.data.local.model.Book;
 import fi.mkauha.bookshelf.views.bookdetails.BookDetailsActivity;
@@ -49,11 +52,11 @@ public class BookListGridAdapter extends RecyclerView.Adapter<BookListGridAdapte
             holder.binding.bookmarkText.setVisibility(View.INVISIBLE);
             holder.binding.title.setText(book.getTitle());
 
-/*            Glide.with(holder.binding.getRoot())
+            Glide.with(holder.binding.getRoot())
                     .load(book.getImage())
                     .centerCrop()
                     .placeholder(R.drawable.book_cover_placeholder)
-                    .into(holder.binding.image);*/
+                    .into(holder.binding.image);
 
 
             holder.binding.getRoot().setOnClickListener(v -> {
