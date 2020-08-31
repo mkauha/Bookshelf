@@ -72,7 +72,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         "Dystopia",
                         "1995",
                         "400",
-                        "https://www.oberonbooks.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/9/7/9781783190614.jpg",
+                        "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimage.anobii.com%2Fanobi%2Fimage_book.php%3Fitem_id%3D0105e5bbc6522d7840&f=1&nofb=1",
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
                                 " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
                                 "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
@@ -82,17 +82,17 @@ public abstract class AppDatabase extends RoomDatabase {
                         11);
                 Book book2 = new Book(
                         "978-951-0-45088-8",
-                        "Hohto",
-                        "Stephen King",
-                        "Kauhu",
+                        "Dune",
+                        "Frank Herbert",
+                        "Scifi",
                         "1995",
                         "500",
-                        "http://profspevack.com/wp-content/uploads/2009/09/ADV2360_swilliams_book.jpg",
+                        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.thr.com%2Fsites%2Fdefault%2Ffiles%2Fimagecache%2FNFE_portrait%2F2019%2F04%2Fdune_hc-p_2019.jpg&f=1&nofb=1",
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
                                 " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
                                 "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
                                 "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        "Suomi",
+                        "English",
                         "Lainatut",
                         22);
                 dao.insertAll(book0, book1, book2);
