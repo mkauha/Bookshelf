@@ -24,6 +24,9 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
 import fi.mkauha.bookshelf.views.adapter.BookCollectionPagerAdapter;
@@ -42,7 +45,7 @@ public class BooksFragment extends Fragment  {
     private BookCollectionPagerAdapter bookCollectionPagerAdapter;
 
     // get titles from local storage
-    private String[] titles = new String[]{"All Books", "Wishlist", "Study"};
+    private List<String> collections = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +58,10 @@ public class BooksFragment extends Fragment  {
         binding = FragmentBooksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+        collections.add(this.getResources().getString(R.string.collection_all_books));
+        collections.add(this.getResources().getString(R.string.collection_wishlist));
+        collections.add(this.getResources().getString(R.string.collection_study));
 
 
         fab = getActivity().findViewById(R.id.fab);
@@ -105,7 +112,7 @@ public class BooksFragment extends Fragment  {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         binding.pager.setAdapter(new BookCollectionPagerAdapter(this));
         new TabLayoutMediator(binding.booksRecyclerTabs, binding.pager,
-                (tab, position) -> tab.setText(titles[position])
+                (tab, position) -> tab.setText(collections.get(position))
         ).attach();
 
     }

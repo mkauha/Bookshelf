@@ -23,7 +23,7 @@ tools:context=".views.bookdetails.BookDetailsActivity">
         app:expandedTitleGravity="top|center"
         app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
         app:statusBarScrim="@color/colorBackgroundLight"
-        app:title="My Bookshelf"
+        app:title="@string/label_mybooks"
         app:titleEnabled="true"
         app:toolbarId="@+id/toolbar">
 

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_books"
         android:name="fi.mkauha.bookshelf.views.mybooks.BooksFragment"
-        android:label="@string/label_books"
+        android:label="@string/label_mybooks"
         tools:layout="@layout/fragment_books" />
 
     <fragment

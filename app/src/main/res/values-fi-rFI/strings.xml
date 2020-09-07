@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Kirjahylly</string>
     <string name="label_library">Kirjasto</string>
-    <string name="label_books">Omat kirjat</string>
+    <string name="label_mybooks">Omat kirjat</string>
     <string name="label_search">Haku</string>
     <string name="add_book">Lisää</string>
     <string name="edit_book">Muokkaa kirjaa</string>
@@ -50,4 +50,11 @@
     <string name="book_genres_label">Genre</string>
     <string name="label_edit_book_dialog">Muokkaa tietoja</string>
     <string name="label_delete_book_dialog">Poista kirja</string>
+    <string name="collection_all_books">Kaikki</string>
+    <string name="collection_wishlist">Toivelista</string>
+    <string name="collection_study">Opiskelu</string>
+    <string name="label_bookmark">Kirjanmerkki</string>
+    <string name="add_bookmark">Lisää Kirjanmerkki</string>
+    <string name="share">Jaa</string>
+    <string name="add_wishlist">Lisää Toivelistalle</string>
 </resources>
