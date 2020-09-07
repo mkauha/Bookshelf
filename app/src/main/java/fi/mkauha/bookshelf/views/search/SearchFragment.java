@@ -1,10 +1,12 @@
 package fi.mkauha.bookshelf.views.search;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,6 +67,7 @@ public class SearchFragment  extends Fragment {
             Log.d(TAG, "query: " + textView.getText().toString());
             searchViewModel.searchAllRecords(textView.getText().toString());
             mAdapter.setBooks(searchViewModel.getSearchResults().getValue());
+            closeKeyboard();
             return true;
         });
 
@@ -77,6 +80,15 @@ public class SearchFragment  extends Fragment {
 
 
         return root;
+    }
+
+    public void closeKeyboard(){
+        try {
+            InputMethodManager editTextInput = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            editTextInput.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }catch (Exception e){
+            Log.e("AndroidView", "closeKeyboard: "+e);
+        }
     }
 
 }
