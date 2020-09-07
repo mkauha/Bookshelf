@@ -153,8 +153,10 @@ public class BookDetailsActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.label_delete_book_dialog)
                     .setPositiveButton(R.string.button_ok, (dialog, which) -> {
-                        bookDetailsViewModel.deleteLocalBook(this.book);
-                        finish();
+                        if(this.book != null) {
+                            bookDetailsViewModel.deleteLocalBook(this.book);
+                            finish();
+                        }
                         // TODO snackbar
                     })
 
