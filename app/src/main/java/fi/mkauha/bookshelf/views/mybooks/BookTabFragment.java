@@ -56,7 +56,6 @@ public class BookTabFragment extends Fragment {
         });*/
 
         booksViewModel = new ViewModelProvider(requireActivity()).get(BooksViewModel.class);
-        booksViewModel.select(null);
 
         mAdapter = new BookListGridAdapter(getContext(), booksViewModel);
         binding.booksRecyclerView.setAdapter(mAdapter);

@@ -1,10 +1,9 @@
 package fi.mkauha.bookshelf.views.createbook;
 
 import android.os.Bundle;
-
-import com.bumptech.glide.Glide;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.bottomappbar.BottomAppBar;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,19 +12,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
+import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomappbar.BottomAppBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.databinding.ActivityCreateBookBinding;
 import fi.mkauha.bookshelf.data.local.model.Book;
-import fi.mkauha.bookshelf.views.modal.ImageSelectModalFragment;
-import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+import fi.mkauha.bookshelf.databinding.ActivityCreateBookBinding;
+import fi.mkauha.bookshelf.viewmodel.CreateBookViewModel;
 import fi.mkauha.bookshelf.viewmodel.ImageSelectViewModel;
+import fi.mkauha.bookshelf.views.modal.ImageSelectModalFragment;
 
 public class CreateBookActivity extends AppCompatActivity {
     private static final String TAG = "CreateBookActivity";
@@ -34,7 +33,7 @@ public class CreateBookActivity extends AppCompatActivity {
     private BottomAppBar bottomAppBar;
     private Book book;
     private String image;
-    private BooksViewModel booksViewModel;
+    private CreateBookViewModel createBookViewModel;
     private ImageSelectViewModel imageSelectViewModel;
 
     @Override
@@ -45,6 +44,7 @@ public class CreateBookActivity extends AppCompatActivity {
         View root = binding.getRoot();
         setContentView(root);
 
+        createBookViewModel = new ViewModelProvider(this).get(CreateBookViewModel.class);
 
         bottomAppBar = binding.bottomAppBar;
         bottomAppBar.setNavigationIcon(null);
@@ -59,15 +59,20 @@ public class CreateBookActivity extends AppCompatActivity {
             showBackDialog();
         });
 
-        this.book = getIntent().getParcelableExtra("CURRENT_BOOK");
-        if(this.book != null) {
-            setBookDataToUI();
-            setTitle(getString(R.string.label_edit_book));
-        } else {
-            setTitle(getString(R.string.label_create_book));
-        }
+        int uid = getIntent().getIntExtra("BOOK_UID", 0);
+        createBookViewModel.findLocalBookById(uid);
 
-        booksViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
+        createBookViewModel.getBookEntity().observe(this, book -> {
+                Log.d(TAG, "observe: " + book);
+                if (book != null) {
+                    this.book = book;
+                    setBookDataToUI();
+                    setTitle(getString(R.string.label_edit_book));
+                } else {
+                    setTitle(getString(R.string.label_create_book));
+                }
+        });
+
         imageSelectViewModel = new ViewModelProvider(this).get(ImageSelectViewModel.class);
         imageSelectViewModel.getSelectedImageFile().observe(this, image -> {
             Log.d(TAG, "selected: " + image);
@@ -155,7 +160,7 @@ public class CreateBookActivity extends AppCompatActivity {
                                 0);
                     }
 
-                    booksViewModel.insertOrUpdate(book);
+                    createBookViewModel.insertOrUpdate(book);
                     // TODO snackbar
                     finish();
                 })

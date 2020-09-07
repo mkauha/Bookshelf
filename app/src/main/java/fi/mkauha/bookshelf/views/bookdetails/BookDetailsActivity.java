@@ -2,39 +2,35 @@ package fi.mkauha.bookshelf.views.bookdetails;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.bumptech.glide.Glide;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.bottomappbar.BottomAppBar;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomappbar.BottomAppBar;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import fi.mkauha.bookshelf.R;
+import fi.mkauha.bookshelf.data.local.model.Book;
 import fi.mkauha.bookshelf.data.remote.model.Record;
 import fi.mkauha.bookshelf.databinding.ActivityBookDetailsBinding;
-import fi.mkauha.bookshelf.data.local.model.Book;
 import fi.mkauha.bookshelf.viewmodel.BookDetailsViewModel;
-import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.views.createbook.CreateBookActivity;
 
 public class BookDetailsActivity extends AppCompatActivity {
     private static final String TAG = "BookDetailsActivity";
 
     private ActivityBookDetailsBinding binding;
-    private BooksViewModel booksViewModel;
     private BookDetailsViewModel bookDetailsViewModel;
     private Book book;
     private BottomAppBar bottomAppBar;
@@ -47,7 +43,6 @@ public class BookDetailsActivity extends AppCompatActivity {
         View root = binding.getRoot();
         setContentView(root);
 
-        booksViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
         bookDetailsViewModel = new ViewModelProvider(this).get(BookDetailsViewModel.class);
         bookDetailsViewModel.init();
 
@@ -59,13 +54,13 @@ public class BookDetailsActivity extends AppCompatActivity {
         if(getIntent().hasExtra("BOOK_UID")) {
             int uid = getIntent().getIntExtra("BOOK_UID", 0);
             Log.d(TAG, "uid: " + uid);
-            booksViewModel.findBookById(uid);
+            bookDetailsViewModel.findLocalBookById(uid);
 
-            booksViewModel.getBookEntity().observe(this, book -> {
+            bookDetailsViewModel.getBookEntity().observe(this, book -> {
                 Log.d(TAG, "observe: " + book);
                 if(null != book) {
                     // binding.loadingProgress.setVisibility(View.GONE);
-
+                this.book = book;
                 Glide.with(this)
                         .load(book.getImage())
                         .centerCrop()
@@ -140,7 +135,7 @@ public class BookDetailsActivity extends AppCompatActivity {
                     .setTitle(R.string.label_edit_book_dialog)
                     .setPositiveButton(R.string.button_ok, (dialog, which) -> {
                         Intent intent = new Intent(this, CreateBookActivity.class);
-                        intent.putExtra("CURRENT_BOOK", (Parcelable) this.book);
+                        intent.putExtra("BOOK_UID", this.book.getUid());
                         this.startActivity(intent);
                         finish();
                     })
@@ -154,7 +149,7 @@ public class BookDetailsActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.label_delete_book_dialog)
                     .setPositiveButton(R.string.button_ok, (dialog, which) -> {
-                        booksViewModel.delete(this.book);
+                        bookDetailsViewModel.deleteLocalBook(this.book);
                         finish();
                         // TODO snackbar
                     })
