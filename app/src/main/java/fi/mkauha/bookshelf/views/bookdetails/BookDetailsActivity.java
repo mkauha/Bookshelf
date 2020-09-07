@@ -3,6 +3,7 @@ package fi.mkauha.bookshelf.views.bookdetails;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 
@@ -22,8 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fi.mkauha.bookshelf.R;
+import fi.mkauha.bookshelf.data.remote.model.Record;
 import fi.mkauha.bookshelf.databinding.ActivityBookDetailsBinding;
 import fi.mkauha.bookshelf.data.local.model.Book;
+import fi.mkauha.bookshelf.viewmodel.BookDetailsViewModel;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 import fi.mkauha.bookshelf.views.createbook.CreateBookActivity;
 
@@ -32,6 +35,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 
     private ActivityBookDetailsBinding binding;
     private BooksViewModel booksViewModel;
+    private BookDetailsViewModel bookDetailsViewModel;
     private Book book;
     private BottomAppBar bottomAppBar;
 
@@ -44,58 +48,77 @@ public class BookDetailsActivity extends AppCompatActivity {
         setContentView(root);
 
         booksViewModel = new ViewModelProvider(this).get(BooksViewModel.class);
+        bookDetailsViewModel = new ViewModelProvider(this).get(BookDetailsViewModel.class);
+        bookDetailsViewModel.init();
+
         bottomAppBar = binding.bottomAppBar;
         bottomAppBar.setNavigationIcon(null);
         bottomAppBar.replaceMenu(R.menu.menu_bottom_book_details);
         bottomAppBar.setVisibility(View.GONE);
 
-        // TODO Maybe some checks
-        // TODO When selecting from search
-        int uid = 0;
         if(getIntent().hasExtra("BOOK_UID")) {
-            uid = getIntent().getIntExtra("BOOK_UID", 0);
+            int uid = getIntent().getIntExtra("BOOK_UID", 0);
             Log.d(TAG, "uid: " + uid);
             booksViewModel.findBookById(uid);
-        }
 
-        booksViewModel.getBookEntity().observe(this, book -> {
-            Log.d(TAG, "observe: " + book);
-            if(null != book) {
-                // binding.loadingProgress.setVisibility(View.GONE);
+            booksViewModel.getBookEntity().observe(this, book -> {
+                Log.d(TAG, "observe: " + book);
+                if(null != book) {
+                    // binding.loadingProgress.setVisibility(View.GONE);
 
-/*                Glide.with(this)
+                Glide.with(this)
                         .load(book.getImage())
                         .centerCrop()
                         .placeholder(R.drawable.book_cover_placeholder)
-                        .into(binding.bookDetailsCoverImage);*/
+                        .into(binding.bookDetailsCoverImage);
 
-                binding.title.setText(book.getTitle());
-                binding.author.setText(book.getAuthor());
-                binding.genre.setText(book.getGenres());
-                binding.language.setText(book.getLanguages());
-                binding.year.setText(book.getYear());
-                binding.pages.setText(String.valueOf(book.getPages()));
-                binding.summary.setText(book.getSummary());
-                binding.collection.setText(book.getCollection());
-                binding.isbn.setText(book.getIsbn());
+                    binding.title.setText(book.getTitle());
+                    binding.author.setText(book.getAuthor());
+                    binding.genre.setText(book.getGenres());
+                    binding.language.setText(book.getLanguages());
+                    binding.year.setText(book.getYear());
+                    binding.pages.setText(String.valueOf(book.getPages()));
+                    binding.summary.setText(book.getSummary());
+                    binding.collection.setText(book.getCollection());
+                    binding.isbn.setText(book.getIsbn());
 
-                Toolbar toolbar = binding.toolbar;
-                setSupportActionBar(toolbar);
-                toolbar.setNavigationOnClickListener(event -> {
-                    finish();
-                });
-                CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-                toolBarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorPrimaryTextLight));
+                    Toolbar toolbar = binding.toolbar;
+                    setSupportActionBar(toolbar);
+                    toolbar.setNavigationOnClickListener(event -> {
+                        finish();
+                    });
+                    CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+                    toolBarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorPrimaryTextLight));
 
-                Log.d(TAG, "Title: " + book.getTitle());
-                if(book.getTitle() == null || book.getTitle().equals("")) {
-                    setTitle(" ");
-                } else {
-                    setTitle(book.getTitle());
+                    if(book.getTitle() == null || book.getTitle().equals("")) {
+                        setTitle(" ");
+                    } else {
+                        setTitle(book.getTitle());
+                    }
+
                 }
+            });
+        } else if(getIntent().hasExtra("RECORD_ID")) {
+            String id = getIntent().getStringExtra("RECORD_ID");
+            Log.d(TAG, "ID: " + id);
+            bookDetailsViewModel.searchRecordById(id);
+            bookDetailsViewModel.getSearchResults().observe(this,
+                    record -> {
+                        Log.d(TAG, "mAdapter.setBooks " + record);
+                        setBookDataToUi(record);
+                    }
+            );
 
-            }
-        });
+            Toolbar toolbar = binding.toolbar;
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationOnClickListener(event -> {
+                finish();
+            });
+            CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+            toolBarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorPrimaryTextLight));
+
+
+        }
 
         bottomAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -149,6 +172,39 @@ public class BookDetailsActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item_dropdown, items);
         binding.collection.setAdapter(adapter);
 
+    }
+
+    private void setBookDataToUi(Record record) {
+        Log.d(TAG, "observe: " + record);
+        if(null != record) {
+            // binding.loadingProgress.setVisibility(View.GONE);
+            String imageURL = "https://sociology.indiana.edu/images/publications/book-cover-placeholder.jpg";
+            if (record.getImages().size() > 0) {
+                imageURL = "https://api.finna.fi" + record.getImages().get(0);
+            }
+
+            Glide.with(this)
+                    .load(imageURL)
+                    .centerCrop()
+                    .placeholder(R.drawable.book_cover_placeholder)
+                    .into(binding.bookDetailsCoverImage);
+
+            binding.title.setText(record.getTitle());
+            binding.author.setText(record.getNonPresenterAuthors().get(0).getName());
+            binding.genre.setText(record.getGenres().get(0));
+            binding.language.setText(record.getLanguages().get(0));
+            binding.year.setText(record.getYear());
+            binding.pages.setText(record.getPhysicalDescriptions().get(0));
+            binding.summary.setText(record.getSummary().get(0));
+            binding.collection.setVisibility(View.GONE);
+            binding.isbn.setText(record.getCleanIsbn());
+
+            if(record.getTitle() == null || record.getTitle().equals("")) {
+                setTitle(" ");
+            } else {
+                setTitle(record.getTitle());
+            }
+        }
     }
 
     @Override

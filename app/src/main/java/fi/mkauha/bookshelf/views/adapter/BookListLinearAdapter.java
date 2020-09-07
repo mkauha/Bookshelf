@@ -2,6 +2,7 @@ package fi.mkauha.bookshelf.views.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -31,6 +32,7 @@ public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAd
     private SearchViewModel searchViewModel;
     private final LayoutInflater mInflater;
     private List<Record> mBooks;
+    private static final String TAG = "BookListLinearAdapter";
 
     public BookListLinearAdapter(Context context, SearchViewModel searchViewModel) {
         this.searchViewModel = searchViewModel;
@@ -67,13 +69,14 @@ public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAd
             holder.binding.getRoot().setOnClickListener(v -> {
                 Context context = holder.binding.getRoot().getContext();
                 Intent intent = new Intent(context, BookDetailsActivity.class);
-                intent.putExtra("BOOK_URL", book.getId());
+                Log.d(TAG, "RECORD_ID: " + book.getId());
+                intent.putExtra("RECORD_ID", book.getId());
                 context.startActivity(intent);
             });
 
         } else {
             // Covers the case of data not being ready yet.
-            holder.binding.title.setText("Unknown");
+            holder.binding.title.setText(" ");
         }
     }
 
@@ -82,8 +85,6 @@ public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAd
         notifyDataSetChanged();
     }
 
-    // getItemCount() is called many times, and when it is first called,
-    // mWords has not been updated (means initially, it's null, and we can't return null).
     @Override
     public int getItemCount() {
         if (mBooks != null)

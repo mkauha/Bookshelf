@@ -8,35 +8,33 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
-
-import fi.mkauha.bookshelf.data.local.model.Book;
 import fi.mkauha.bookshelf.data.remote.model.Record;
 import fi.mkauha.bookshelf.data.repository.BookRepository;
 
-public class SearchViewModel extends AndroidViewModel {
-    private static final String TAG = "SearchViewModel";
+public class BookDetailsViewModel extends AndroidViewModel {
+    private static final String TAG = "BookDetailsViewModel";
 
     private BookRepository mBooksRepository;
-    private LiveData<List<Record>> mSearchResults = new MutableLiveData<>();
+    private LiveData<Record> mSearchResults = new MutableLiveData<>();
     private Application application;
 
-    public SearchViewModel(Application application) {
+    public BookDetailsViewModel(Application application) {
         super(application);
         this.application = application;
     }
 
     public void init() {
         this.mBooksRepository = new BookRepository(application);
-        mSearchResults = mBooksRepository.getBooksResponseLiveData();
+        mSearchResults = mBooksRepository.getBooksIdResponseLiveData();
     }
 
-    public LiveData<List<Record>> getSearchResults() {
+    public void searchRecordById(String id) {
+        mBooksRepository.performRemoteSearchById(id);
+        Log.d(TAG, "mSearchResults: " + mSearchResults.getValue());
+    }
+
+    public LiveData<Record> getSearchResults() {
         return mSearchResults;
-    }
-
-    public void searchAllRecords(String query) {
-        mBooksRepository.performRemoteSearch(query);
     }
 
 }

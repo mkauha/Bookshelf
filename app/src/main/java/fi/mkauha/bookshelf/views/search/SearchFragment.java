@@ -55,7 +55,7 @@ public class SearchFragment  extends Fragment {
         binding.booksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.booksRecyclerView.setHasFixedSize(true);
         searchViewModel = new ViewModelProvider(requireActivity()).get(SearchViewModel.class);
-        searchViewModel.select(null);
+        searchViewModel.init();
 
         mAdapter = new BookListLinearAdapter(getContext(), searchViewModel);
         binding.booksRecyclerView.setAdapter(mAdapter);
@@ -63,13 +63,14 @@ public class SearchFragment  extends Fragment {
 
         binding.searchTextfield.setOnEditorActionListener((textView, i, keyEvent) -> {
             Log.d(TAG, "query: " + textView.getText().toString());
-            searchViewModel.performRemoteSearch(textView.getText().toString());
+            searchViewModel.searchAllRecords(textView.getText().toString());
+            mAdapter.setBooks(searchViewModel.getSearchResults().getValue());
             return true;
         });
 
         searchViewModel.getSearchResults().observe(requireActivity(),
                 list -> {
-                    //Log.d(TAG, "mAdapter.setBooks " + list);
+                    Log.d(TAG, "mAdapter.setBooks " + list);
                     mAdapter.setBooks(list);
                 }
         );

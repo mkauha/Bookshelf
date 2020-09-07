@@ -4,12 +4,14 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fi.mkauha.bookshelf.data.local.model.Book;
 import fi.mkauha.bookshelf.data.remote.model.BookResponse;
+import fi.mkauha.bookshelf.data.remote.model.NonPresenterAuthor;
 import fi.mkauha.bookshelf.data.remote.model.Record;
 import fi.mkauha.bookshelf.data.local.AppDatabase;
 import fi.mkauha.bookshelf.data.local.BookDao;
@@ -24,12 +26,14 @@ public class BookRepository {
     private BookDao mBookDao;
     private LiveData<List<Book>> mLocalBooks;
     private final ApiService apiService;
-    private List<Book> searchResults = new ArrayList<>();
+    private MutableLiveData<List<Record>> booksResponseLiveData = new MutableLiveData<>();
+    private MutableLiveData<Record> booksIdResponseLiveData = new MutableLiveData<>();
     private List<Record> recordList;
     private final String[] FILTERS = {
             "format:0/Book/"
     };
     private final String[] FIELDS = {
+            "id",
             "cleanIsbn",
             "title",
             "nonPresenterAuthors",
@@ -85,78 +89,160 @@ public class BookRepository {
         });
     }
 
-    public List<Record> performRemoteSearch(String query) {
-        Call<BookResponse> call = apiService.getResults(query, "Title", FILTERS, FIELDS);
+    public void performRemoteSearch(String query) {
+        Call<BookResponse> call = apiService.getAllRecords(query, "Title", FILTERS, FIELDS);
         call.enqueue(new Callback<BookResponse>() {
             @Override
             public void onResponse(Call<BookResponse>call, Response<BookResponse> response) {
-                //List<Book> movies = response.body().getResults();
-                //Log.d(TAG, "RESPONSE: " + response);
-                recordList = response.body().getRecords();
-                searchResults = new ArrayList<>();
-                Log.d(TAG, "SIZE: " + recordList.size());
 
-                for(Record record : recordList) {
-                    String imageURL = " ";
-                    String author = "-";
-                    String language = "-";
-                    String summary = "-";
-                    String genres = "-";
-                    String pages = "-";
+                if(response.body() != null) {
+                    //Log.d(TAG, "RESPONSE: " + response);
+                    recordList = response.body().getRecords();
+                    Log.d(TAG, "SIZE: " + recordList.size());
 
-                    if(!record.getImages().isEmpty()) {
-                        imageURL = "https://api.finna.fi" + record.getImages().get(0);
-                        //Log.d(TAG, "IMAGE:" + imageURL);
+                    for (Record record : recordList) {
+                        String imageURL = " ";
+                        String author = "-";
+                        String language = "-";
+                        String summary = "-";
+                        String genres = "-";
+                        String physicalDescriptions = "-";
+
+                        if (!record.getImages().isEmpty()) {
+                            imageURL = "https://api.finna.fi" + record.getImages().get(0);
+                            //Log.d(TAG, "IMAGE:" + imageURL);
+                        }
+                        record.getImages().add(imageURL);
+
+                        if (!record.getNonPresenterAuthors().isEmpty()) {
+                            author = record.getNonPresenterAuthors().get(0).getName();
+                        }
+                        NonPresenterAuthor nonPresenterAuthor = new NonPresenterAuthor();
+                        nonPresenterAuthor.setName(author);
+                        record.getNonPresenterAuthors().add(nonPresenterAuthor);
+
+                        if (!record.getLanguages().isEmpty()) {
+                            language = record.getLanguages().get(0);
+                            // Log.d(TAG, "LANG:" + language);
+                        }
+                        record.getLanguages().add(language);
+
+
+                        if (!record.getSummary().isEmpty()) {
+                            summary = record.getSummary().get(0);
+                            //Log.d(TAG, "SUMMARY:" + summary);
+                        }
+                        record.getSummary().add(summary);
+
+
+                        if (!record.getGenres().isEmpty()) {
+                            genres = record.getGenres().get(0);
+                            //Log.d(TAG, "SUMMARY:" + genres);
+                        }
+                        record.getGenres().add(genres);
+
+
+                        if (!record.getPhysicalDescriptions().isEmpty()) {
+                            physicalDescriptions = record.getPhysicalDescriptions().get(0);
+                            //Log.d(TAG, "SUMMARY:" + genres);
+                        }
+                        record.getPhysicalDescriptions().add(physicalDescriptions);
+
+
                     }
 
-                    if(!record.getNonPresenterAuthors().isEmpty()) {
-                        author = record.getNonPresenterAuthors().get(0).getName();
-                        //Log.d(TAG, "AUTHOR:" + author);
-                    }
-
-                    if(!record.getLanguages().isEmpty()) {
-                        language = record.getLanguages().get(0);
-                       // Log.d(TAG, "LANG:" + language);
-                    }
-
-                    if(!record.getSummary().isEmpty()) {
-                        summary = record.getSummary().get(0);
-                        //Log.d(TAG, "SUMMARY:" + summary);
-                    }
-
-                    if(!record.getGenres().isEmpty()) {
-                        genres = record.getGenres().get(0);
-                        //Log.d(TAG, "SUMMARY:" + genres);
-                    }
-
-                    if(!record.getPhysicalDescriptions().isEmpty()) {
-                        pages = record.getPhysicalDescriptions().get(0);
-                        //Log.d(TAG, "SUMMARY:" + genres);
-                    }
-
-                    searchResults.add(new Book(
-                            record.getCleanIsbn(),
-                            record.getTitle(),
-                            author,
-                            genres,
-                            record.getYear(),
-                            pages,
-                            imageURL,
-                            summary,
-                            language,
-                            "-",
-                            0
-                    ));
+                    booksResponseLiveData.postValue(recordList);
                 }
-
             }
 
             @Override
             public void onFailure(Call<BookResponse>call, Throwable t) {
                 // Log error here since request failed
+                booksResponseLiveData.postValue(null);
                 Log.e(TAG, t.toString());
             }
         });
-        return recordList;
+    }
+
+    public void performRemoteSearchById(String id) {
+        Log.d(TAG, "performRemoteSearchById: " + id);
+        Call<BookResponse> call = apiService.getRecordById(id, FILTERS, FIELDS);
+        call.enqueue(new Callback<BookResponse>() {
+            @Override
+            public void onResponse(Call<BookResponse>call, Response<BookResponse> response) {
+                if(response.body() != null) {
+                    Log.d(TAG, "RESPONSE: " + response);
+                    recordList = response.body().getRecords();
+                    Log.d(TAG, "SIZE: " + recordList.size());
+
+                    for (Record record : recordList) {
+                        String imageURL = " ";
+                        String author = "-";
+                        String language = "-";
+                        String summary = "-";
+                        String genres = "-";
+                        String physicalDescriptions = "-";
+
+                        if (!record.getImages().isEmpty()) {
+                            imageURL = "https://api.finna.fi" + record.getImages().get(0);
+                            //Log.d(TAG, "IMAGE:" + imageURL);
+                        }
+                        record.getImages().add(imageURL);
+
+                        if (!record.getNonPresenterAuthors().isEmpty()) {
+                            author = record.getNonPresenterAuthors().get(0).getName();
+                        }
+                        NonPresenterAuthor nonPresenterAuthor = new NonPresenterAuthor();
+                        nonPresenterAuthor.setName(author);
+                        record.getNonPresenterAuthors().add(nonPresenterAuthor);
+
+                        if (!record.getLanguages().isEmpty()) {
+                            language = record.getLanguages().get(0);
+                            // Log.d(TAG, "LANG:" + language);
+                        }
+                        record.getLanguages().add(language);
+
+
+                    if(!record.getSummary().isEmpty() || record.getSummary() == null) {
+                        summary = record.getSummary().get(0);
+                        //Log.d(TAG, "SUMMARY:" + summary);
+                    }
+                        record.setSummary(new ArrayList<>());
+                        record.getSummary().add(summary);
+
+
+                        if (!record.getGenres().isEmpty()) {
+                            genres = record.getGenres().get(0);
+                            //Log.d(TAG, "SUMMARY:" + genres);
+                        }
+                        record.getGenres().add(genres);
+
+
+                        if (!record.getPhysicalDescriptions().isEmpty()) {
+                            physicalDescriptions = record.getPhysicalDescriptions().get(0);
+                            //Log.d(TAG, "SUMMARY:" + genres);
+                        }
+                        record.getPhysicalDescriptions().add(physicalDescriptions);
+
+                    }
+
+                    booksIdResponseLiveData.setValue(recordList.get(0));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookResponse>call, Throwable t) {
+                booksResponseLiveData.setValue(null);
+                Log.e(TAG, t.toString());
+            }
+        });
+    }
+
+    public LiveData<List<Record>> getBooksResponseLiveData() {
+        return booksResponseLiveData;
+    }
+
+    public LiveData<Record> getBooksIdResponseLiveData() {
+        return booksIdResponseLiveData;
     }
 }
