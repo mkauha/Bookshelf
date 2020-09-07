@@ -134,10 +134,14 @@ public class BookDetailsActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.label_edit_book_dialog)
                     .setPositiveButton(R.string.button_ok, (dialog, which) -> {
-                        Intent intent = new Intent(this, CreateBookActivity.class);
-                        intent.putExtra("BOOK_UID", this.book.getUid());
-                        this.startActivity(intent);
-                        finish();
+
+                        if(this.book != null) {
+                            Intent intent = new Intent(this, CreateBookActivity.class);
+                            intent.putExtra("BOOK_UID", this.book.getUid());
+                            this.startActivity(intent);
+                            finish();
+                        }
+
                     })
 
                     // A null listener allows the button to dismiss the dialog and take no further action.
