@@ -57,4 +57,5 @@
     <string name="add_bookmark">Lisää Kirjanmerkki</string>
     <string name="share">Jaa</string>
     <string name="add_wishlist">Lisää Toivelistalle</string>
+    <string name="label_collections">Kokoelmat</string>
 </resources>
