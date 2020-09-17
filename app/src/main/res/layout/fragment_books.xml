@@ -35,17 +35,45 @@ tools:context=".views.bookdetails.BookDetailsActivity">
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/books_recycler_tabs"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="bottom"
-        app:layout_collapseMode="pin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabMode="scrollable">
-    </com.google.android.material.tabs.TabLayout>
+        android:layout_height="match_parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/books_recycler_tabs"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            app:layout_collapseMode="pin"
+            app:layout_constraintEnd_toStartOf="@+id/guideline8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabMode="scrollable">
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <ImageView
+            android:id="@+id/edit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/books_recycler_tabs"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_outline_keyboard_arrow_down_24" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="29dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,16 +86,26 @@ tools:context=".views.bookdetails.BookDetailsActivity">
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
+        <include
+            android:id="@+id/include_collections"
+            layout="@layout/dialog_collection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginBottom="48dp"
             android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/include_collections">
 
         </androidx.viewpager2.widget.ViewPager2>
     </androidx.constraintlayout.widget.ConstraintLayout>

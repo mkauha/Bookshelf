@@ -36,6 +36,12 @@
         tools:layout="@layout/fragment_search" />
 
     <fragment
+        android:id="@+id/navigation_collections"
+        android:name="fi.mkauha.bookshelf.views.collections.CollectionsFragment"
+        android:label="@string/label_collections"
+        tools:layout="@layout/fragment_collections" />
+
+    <fragment
         android:id="@+id/navigation_image_select"
         android:name="fi.mkauha.bookshelf.views.modal.ImageSelectModalFragment"
         android:label="@string/label_image_select"

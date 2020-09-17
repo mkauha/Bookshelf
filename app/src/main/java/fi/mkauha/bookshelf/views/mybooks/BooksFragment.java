@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -30,21 +30,21 @@ import java.util.List;
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
 import fi.mkauha.bookshelf.views.adapter.BookCollectionPagerAdapter;
-import fi.mkauha.bookshelf.views.adapter.BookListGridAdapter;
+import fi.mkauha.bookshelf.views.adapter.CollectionListLinearAdapter;
 import fi.mkauha.bookshelf.views.modal.AddBookModalFragment;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+
+import static android.content.ContentValues.TAG;
 
 public class BooksFragment extends Fragment  {
     private FragmentBooksBinding binding;
     private BooksViewModel booksViewModel;
-    private BookListGridAdapter mAdapter;
     FloatingActionButton fab;
     BottomAppBar bottomAppBar;
     private MaterialToolbar topAppBar;
-    private ViewPager2 viewPager;
-    private BookCollectionPagerAdapter bookCollectionPagerAdapter;
 
-    // get titles from local storage
+    private CollectionListLinearAdapter mCollectionsAdapter;
+    // TODO get titles from local storage
     private List<String> collections = new ArrayList<>();
 
     @Override
@@ -53,7 +53,7 @@ public class BooksFragment extends Fragment  {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("BooksFragment", "onCreateView " + this);
+        Log.d(TAG, "onCreateView " + this);
 
         binding = FragmentBooksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -62,6 +62,13 @@ public class BooksFragment extends Fragment  {
         collections.add(this.getResources().getString(R.string.collection_all_books));
         collections.add(this.getResources().getString(R.string.collection_wishlist));
         collections.add(this.getResources().getString(R.string.collection_study));
+
+        mCollectionsAdapter = new CollectionListLinearAdapter(getContext());
+        binding.includeCollections.collectionRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.includeCollections.collectionRecyclerview.setHasFixedSize(true);
+        binding.includeCollections.collectionRecyclerview.setAdapter(mCollectionsAdapter);
+        mCollectionsAdapter.setCollections(collections);
+        Log.d(TAG, "mCollectionsAdapter "+ mCollectionsAdapter.getItemCount());
 
 
         fab = getActivity().findViewById(R.id.fab);
@@ -82,7 +89,26 @@ public class BooksFragment extends Fragment  {
         topAppBar.setTitle("");
         topAppBar.setNavigationIcon(null);
 
+        binding.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.navigation_collections);
+                if(binding.includeCollections.collections.getVisibility() == View.VISIBLE) {
+/*                    binding.pager.setVisibility(View.VISIBLE);
+                    binding.includeCollections.collections.setVisibility(View.GONE);
+                    binding.booksRecyclerTabs.setVisibility(View.VISIBLE);
+                    binding.edit.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_outline_keyboard_arrow_down_24, null));*/
 
+
+                } else {
+/*                    //binding.pager.setVisibility(View.GONE);
+                    binding.includeCollections.collections.setVisibility(View.VISIBLE);
+                    binding.booksRecyclerTabs.setVisibility(View.INVISIBLE);
+                    binding.edit.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_outline_keyboard_arrow_up_24, null));*/
+                }
+            }
+        });
 
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
         bottomAppBar.setHideOnScroll(true);
