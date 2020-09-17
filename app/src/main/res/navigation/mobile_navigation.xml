@@ -3,23 +3,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_books">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="fi.mkauha.bookshelf.ui.mybooks.MyBooksFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_mybooks" />
+        android:id="@+id/navigation_books"
+        android:name="fi.mkauha.bookshelf.views.mybooks.BooksFragment"
+        android:label="@string/label_mybooks"
+        tools:layout="@layout/fragment_books" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="fi.mkauha.bookshelf.ui.wishlist.WishListFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_wishlist" />
+        android:id="@+id/navigation_library"
+        android:name="fi.mkauha.bookshelf.views.library.LibraryFragment"
+        android:label="@string/label_library"
+        tools:layout="@layout/fragment_library" />
 
     <fragment
-        android:id="@+id/navigation_libraries"
-        android:name="fi.mkauha.bookshelf.ui.libraries.LibrariesFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_libraries" />
+        android:id="@+id/navigation_info"
+        android:name="fi.mkauha.bookshelf.views.info.InfoFragment"
+        android:label="@string/credits"
+        tools:layout="@layout/fragment_info" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="fi.mkauha.bookshelf.views.settings.SettingsFragment"
+        android:label="@string/label_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="fi.mkauha.bookshelf.views.search.SearchFragment"
+        android:label="@string/label_search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_collections"
+        android:name="fi.mkauha.bookshelf.views.collections.CollectionsFragment"
+        android:label="@string/label_collections"
+        tools:layout="@layout/fragment_collections" />
+
+    <fragment
+        android:id="@+id/navigation_image_select"
+        android:name="fi.mkauha.bookshelf.views.modal.ImageSelectModalFragment"
+        android:label="@string/label_image_select"
+        tools:layout="@layout/fragment_modal_image_select" />
+
+    <fragment
+        android:id="@+id/navigation_add_book"
+        android:name="fi.mkauha.bookshelf.views.modal.AddBookModalFragment"
+        android:label="@string/label_add_title"
+        tools:layout="@layout/fragment_modal_add_book" />
+
+    <fragment
+        android:id="@+id/navigation_main_navigation_modal"
+        android:name="fi.mkauha.bookshelf.views.modal.MainNavigationModalFragment"
+        android:label=""
+        tools:layout="@layout/fragment_modal_main_navigation" />
+
 </navigation>
