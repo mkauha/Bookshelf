@@ -3,12 +3,16 @@ package fi.mkauha.bookshelf.views.collections;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +68,23 @@ public class CollectionsFragment extends Fragment {
         collections.add(this.getResources().getString(R.string.collection_wishlist));
         collections.add(this.getResources().getString(R.string.collection_study));
 
+        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        fab.hide();
+
         mCollectionsAdapter = new CollectionListLinearAdapter(getContext());
         binding.collectionRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.collectionRecyclerview.setHasFixedSize(true);
         binding.collectionRecyclerview.setAdapter(mCollectionsAdapter);
         mCollectionsAdapter.setCollections(collections);
         Log.d(TAG, "mCollectionsAdapter "+ mCollectionsAdapter.getItemCount());
+
+        binding.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.navigation_books);
+            }
+        });
 
         return root;
     }
