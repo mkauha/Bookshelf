@@ -12,9 +12,11 @@ import androidx.room.Update;
 import java.util.List;
 
 import fi.mkauha.bookshelf.data.local.model.Book;
+import fi.mkauha.bookshelf.data.local.model.Collection;
 
 @Dao
 public interface  BookDao {
+    // BOOKS
     @Query("SELECT * FROM book")
     LiveData<List<Book>> getAll();
 
@@ -35,4 +37,20 @@ public interface  BookDao {
 
     @Query("DELETE FROM book")
     public void deleteAll();
+
+    // COLLECTIONS
+    @Query("SELECT * FROM collection")
+    LiveData<List<Collection>> getAllCollections();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertAllCollections(Collection... collections);
+
+    @Update(entity = Collection.class, onConflict = OnConflictStrategy.REPLACE)
+    public int updateCollection(Collection... collections);
+
+    @Delete
+    public void deleteCollection(Collection... collections);
+
+    @Query("DELETE FROM collection")
+    public void deleteAllCollections();
 }
