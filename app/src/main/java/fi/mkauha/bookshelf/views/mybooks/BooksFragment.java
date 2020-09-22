@@ -71,11 +71,11 @@ public class BooksFragment extends Fragment  {
         Log.d(TAG, "mCollectionsAdapter "+ mCollectionsAdapter.getItemCount());
 
 
-        fab = getActivity().findViewById(R.id.fab);
+        fab = requireActivity().findViewById(R.id.fab);
         fab.show();
-        fab.setImageDrawable(getActivity().getDrawable(R.drawable.ic_outline_add_24));
+        fab.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_outline_add_24));
         fab.setOnClickListener(view -> {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             AddBookModalFragment fragment = new AddBookModalFragment();
             fragmentTransaction.add(fragment, "BottomSheetFragment");
@@ -92,7 +92,7 @@ public class BooksFragment extends Fragment  {
         binding.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
                 navController.navigate(R.id.navigation_collections);
                 if(binding.includeCollections.collections.getVisibility() == View.VISIBLE) {
 /*                    binding.pager.setVisibility(View.VISIBLE);
