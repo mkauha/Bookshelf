@@ -1,6 +1,7 @@
 package fi.mkauha.bookshelf.data.repository;
 
 import android.app.Application;
+import android.app.TaskInfo;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fi.mkauha.bookshelf.data.local.model.Book;
+import fi.mkauha.bookshelf.data.local.model.Collection;
 import fi.mkauha.bookshelf.data.remote.model.BookResponse;
 import fi.mkauha.bookshelf.data.remote.model.NonPresenterAuthor;
 import fi.mkauha.bookshelf.data.remote.model.Record;
@@ -25,6 +27,7 @@ public class BookRepository {
     private static final String TAG = "BookRepository";
     private BookDao mBookDao;
     private LiveData<List<Book>> mLocalBooks;
+    private LiveData<List<Collection>> mLocalCollections;
     private final ApiService apiService;
     private MutableLiveData<List<Record>> booksResponseLiveData = new MutableLiveData<>();
     private MutableLiveData<Record> booksIdResponseLiveData = new MutableLiveData<>();
@@ -50,6 +53,8 @@ public class BookRepository {
         apiService = ApiServiceClient.getClient().create(ApiService.class);
         mBookDao = db.bookDao();
         mLocalBooks = mBookDao.getAll();
+        mLocalCollections = mBookDao.getAllCollections();
+        Log.d(TAG, "mLocalCollections: " + mLocalCollections.getValue());
     }
 
     // Room executes all queries on a separate thread.
@@ -57,6 +62,8 @@ public class BookRepository {
     public LiveData<List<Book>> getLocalBooks() {
         return mLocalBooks;
     }
+
+    public LiveData<List<Collection>> getLocalCollections() { return mLocalCollections; }
 
     public Book getLocalBookById(int uid) {
         Book book = mBookDao.findById(uid);
@@ -86,6 +93,29 @@ public class BookRepository {
     public void deleteLocalBook(Book book) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mBookDao.delete(book);
+        });
+    }
+
+    public void insertOrUpdateLocalCollection(Collection collection) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            if(mBookDao.findById(collection.getUid()) == null) {
+                mBookDao.insertAllCollections(collection);
+            } else {
+                mBookDao.updateCollection(collection);
+            }
+        });
+    }
+
+    public void updateLocalCollection(Collection collection) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mBookDao.updateCollection(collection);
+        });
+
+    }
+
+    public void deleteLocalCollection(Collection collection) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mBookDao.deleteCollection(collection);
         });
     }
 
