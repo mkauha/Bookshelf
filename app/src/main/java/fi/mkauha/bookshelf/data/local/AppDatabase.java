@@ -1,6 +1,7 @@
 package fi.mkauha.bookshelf.data.local;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -11,9 +12,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.data.local.model.Book;
+import fi.mkauha.bookshelf.data.local.model.Collection;
 
-@Database(entities = {Book.class}, version = 1)
+@Database(entities = {Book.class, Collection.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract BookDao bookDao();
 
@@ -96,6 +99,27 @@ public abstract class AppDatabase extends RoomDatabase {
                         "Lainatut",
                         22);
                 dao.insertAll(book0, book1, book2);
+
+                dao.deleteAllCollections();
+
+
+                Collection collection0 = new Collection("All", 0);
+                Collection collection1 = new Collection("Wishlist", 1);
+                Collection collection2 = new Collection("Study", 2);
+
+                // ALL
+                collection0.add(book0);
+                collection0.add(book1);
+                collection0.add(book2);
+                // Wishlist
+                collection1.add(book2);
+                // Study
+                collection2.add(book1);
+
+                Log.d("AppDatabase", "collection0: " + collection0.toString());
+
+                dao.insertAllCollections(collection0, collection1, collection2);
+
             });
         }
     };
