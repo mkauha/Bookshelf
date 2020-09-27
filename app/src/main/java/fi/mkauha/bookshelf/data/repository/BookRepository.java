@@ -1,7 +1,6 @@
 package fi.mkauha.bookshelf.data.repository;
 
 import android.app.Application;
-import android.app.TaskInfo;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -10,15 +9,15 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
+import fi.mkauha.bookshelf.data.local.AppDatabase;
+import fi.mkauha.bookshelf.data.local.BookDao;
 import fi.mkauha.bookshelf.data.local.model.Book;
 import fi.mkauha.bookshelf.data.local.model.Collection;
+import fi.mkauha.bookshelf.data.remote.ApiService;
+import fi.mkauha.bookshelf.data.remote.ApiServiceClient;
 import fi.mkauha.bookshelf.data.remote.model.BookResponse;
 import fi.mkauha.bookshelf.data.remote.model.NonPresenterAuthor;
 import fi.mkauha.bookshelf.data.remote.model.Record;
-import fi.mkauha.bookshelf.data.local.AppDatabase;
-import fi.mkauha.bookshelf.data.local.BookDao;
-import fi.mkauha.bookshelf.data.remote.ApiService;
-import fi.mkauha.bookshelf.data.remote.ApiServiceClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

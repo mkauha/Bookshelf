@@ -12,7 +12,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.data.local.model.Book;
 import fi.mkauha.bookshelf.data.local.model.Collection;
 

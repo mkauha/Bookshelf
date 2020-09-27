@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import fi.mkauha.bookshelf.databinding.FragmentBooksRecyclerviewBinding;
-import fi.mkauha.bookshelf.views.adapter.BookListGridAdapter;
 import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+import fi.mkauha.bookshelf.views.adapter.BookListGridAdapter;
 
 public class BookTabFragment extends Fragment {
     public static final String ARG_OBJECT = "object";

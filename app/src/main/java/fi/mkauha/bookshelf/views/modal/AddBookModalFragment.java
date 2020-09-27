@@ -34,7 +34,7 @@ public class AddBookModalFragment extends BottomSheetDialogFragment {
         });
 
         binding.addBookSheetIcSearch.setOnClickListener(v -> {
-            navController.navigate(R.id.navigation_search);
+            navController.navigate(R.id.search);
             this.dismiss();
         });
 

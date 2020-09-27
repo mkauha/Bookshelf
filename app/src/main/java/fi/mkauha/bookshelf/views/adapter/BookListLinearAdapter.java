@@ -13,10 +13,10 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import fi.mkauha.bookshelf.R;
-import fi.mkauha.bookshelf.databinding.ListItemBookLinearBinding;
 import fi.mkauha.bookshelf.data.remote.model.Record;
-import fi.mkauha.bookshelf.views.bookdetails.BookDetailsActivity;
+import fi.mkauha.bookshelf.databinding.ListItemBookLinearBinding;
 import fi.mkauha.bookshelf.viewmodel.SearchViewModel;
+import fi.mkauha.bookshelf.views.bookdetails.BookDetailsActivity;
 
 public class BookListLinearAdapter extends RecyclerView.Adapter<BookListLinearAdapter.BookViewHolder> {
 
