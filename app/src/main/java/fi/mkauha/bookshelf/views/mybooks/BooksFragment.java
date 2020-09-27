@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,14 +69,19 @@ public class BooksFragment extends Fragment  {
         mCollectionsAdapter = new CollectionListLinearAdapter(getContext(), collectionsViewModel);
         binding.includeCollections.collectionRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.includeCollections.collectionRecyclerview.setHasFixedSize(true);
+        binding.booksRecyclerTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-
-
-        binding.pager.setAdapter(new BookCollectionPagerAdapter(this));
+        BookCollectionPagerAdapter bookCollectionPagerAdapter = new BookCollectionPagerAdapter(this);
+        binding.pager.setAdapter(bookCollectionPagerAdapter);
         booksViewModel.getAllCollections().observe(requireActivity(),
                 list -> {
                     this.collections = list;
+                    bookCollectionPagerAdapter.setItemCount(this.collections.size());
                     mCollectionsAdapter.setCollections(this.collections);
+                    TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(binding.booksRecyclerTabs, binding.pager,
+                            (tab, position) -> tab.setText(collections.get(position).getTitle())
+                    );
+                    tabLayoutMediator.attach();
                     Log.d(TAG, "mCollectionsAdapter "+ mCollectionsAdapter.getItemCount());
                 }
         );
@@ -106,7 +113,6 @@ public class BooksFragment extends Fragment  {
         });
 
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
-        //bottomAppBar.setHideOnScroll(true);
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
         bottomAppBar.replaceMenu(R.menu.menu_bottom_main);
         bottomAppBar.setNavigationIcon(R.drawable.ic_outline_menu_24);
@@ -132,17 +138,12 @@ public class BooksFragment extends Fragment  {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         binding.includeCollections.collectionRecyclerview.setAdapter(mCollectionsAdapter);
-        // TODO FIX TABS WITH ROOM COLLECTIONS
-/*        if(this.collections.size() <= 0) {
-            new TabLayoutMediator(binding.booksRecyclerTabs, binding.pager,
-                    (tab, position) -> tab.setText(collections.get(position).getTitle())
-            ).attach();
-        }*/
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+        //binding = null;
+        //booksViewModel.getAllCollections().removeObservers(this);
     }
 }
