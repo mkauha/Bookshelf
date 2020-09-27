@@ -63,7 +63,7 @@ tools:context=".views.bookdetails.BookDetailsActivity">
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/books_recycler_tabs"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_outline_keyboard_arrow_down_24" />
+            app:srcCompat="@drawable/ic_outline_bookmarks_24" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline8"
@@ -88,7 +88,7 @@ tools:context=".views.bookdetails.BookDetailsActivity">
 
         <include
             android:id="@+id/include_collections"
-            layout="@layout/dialog_collection"
+            layout="@layout/fragment_collections"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
