@@ -26,8 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentSearchBinding;
-import fi.mkauha.bookshelf.views.adapter.BookListLinearAdapter;
 import fi.mkauha.bookshelf.viewmodel.SearchViewModel;
+import fi.mkauha.bookshelf.views.adapter.BookListLinearAdapter;
 
 public class SearchFragment  extends Fragment implements OnKeyboardVisibilityListener {
     private static final String TAG = "SearchFragment";
@@ -57,7 +57,7 @@ public class SearchFragment  extends Fragment implements OnKeyboardVisibilityLis
         binding.toolbar.setNavigationOnClickListener(v -> {
             closeKeyboard();
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-            navController.navigate(R.id.navigation_books);
+            navController.navigate(R.id.my_books);
         });
 
         binding.booksRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
