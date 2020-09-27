@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         bottomAppBar.setNavigationOnClickListener(v ->  openNavigationDrawer());
         bottomAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.navigation_search:
+                case R.id.search:
                     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-                    navController.navigate(R.id.navigation_search);
+                    navController.navigate(R.id.search);
                     break;
             }
             return false;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setImageDrawable(getDrawable(R.drawable.ic_outline_add_24));
         fab.setOnClickListener(view -> {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-            navController.navigate(R.id.navigation_add_book);
+            navController.navigate(R.id.add_book);
         });
 
     }
