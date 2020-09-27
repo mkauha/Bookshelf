@@ -96,6 +96,11 @@ public class BookRepository {
         });
     }
 
+    public Collection getLocalCollectionById(int uid) {
+        Collection collection = mBookDao.findCollectionById(uid);
+        return collection;
+    }
+
     public void insertOrUpdateLocalCollection(Collection collection) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             if(mBookDao.findById(collection.getUid()) == null) {
