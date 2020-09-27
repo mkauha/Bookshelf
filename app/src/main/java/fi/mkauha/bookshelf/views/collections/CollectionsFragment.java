@@ -1,16 +1,15 @@
 package fi.mkauha.bookshelf.views.collections;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -19,9 +18,9 @@ import java.util.List;
 
 import fi.mkauha.bookshelf.R;
 import fi.mkauha.bookshelf.databinding.FragmentCollectionsBinding;
+import fi.mkauha.bookshelf.viewmodel.CollectionsViewModel;
 import fi.mkauha.bookshelf.views.adapter.CollectionListLinearAdapter;
-
-import static android.content.ContentValues.TAG;
+import fi.mkauha.bookshelf.views.modal.CreateCollectionFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +30,7 @@ import static android.content.ContentValues.TAG;
 public class CollectionsFragment extends Fragment {
     private FragmentCollectionsBinding binding;
     private CollectionListLinearAdapter mCollectionsAdapter;
+    private CollectionsViewModel viewModel;
     private List<String> collections = new ArrayList<>();
 
     public CollectionsFragment() {
@@ -64,6 +64,8 @@ public class CollectionsFragment extends Fragment {
         binding = FragmentCollectionsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        viewModel = new ViewModelProvider(requireActivity()).get(CollectionsViewModel.class);
+
         collections.add(this.getResources().getString(R.string.collection_all_books));
         collections.add(this.getResources().getString(R.string.collection_wishlist));
         collections.add(this.getResources().getString(R.string.collection_study));
@@ -71,18 +73,35 @@ public class CollectionsFragment extends Fragment {
         FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
         fab.hide();
 
-        mCollectionsAdapter = new CollectionListLinearAdapter(getContext());
+        mCollectionsAdapter = new CollectionListLinearAdapter(getContext(), viewModel);
         binding.collectionRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.collectionRecyclerview.setHasFixedSize(true);
         binding.collectionRecyclerview.setAdapter(mCollectionsAdapter);
-        mCollectionsAdapter.setCollections(collections);
-        Log.d(TAG, "mCollectionsAdapter "+ mCollectionsAdapter.getItemCount());
 
-        binding.edit.setOnClickListener(new View.OnClickListener() {
+        viewModel.getAllCollections().observe(requireActivity(),
+                list -> {
+                    if(list != null) {
+                        mCollectionsAdapter.setCollections(list);
+                    }
+                }
+        );
+
+        binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                navController.navigate(R.id.navigation_books);
+                navController.popBackStack();
+            }
+        });
+
+        binding.addCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int collectionId = -1;
+                Bundle bundle = new Bundle();
+                bundle.putInt("ID", collectionId);
+                CreateCollectionFragment createCollectionFragment = new CreateCollectionFragment();
+                createCollectionFragment.show(requireActivity().getSupportFragmentManager(), createCollectionFragment.getTag());
             }
         });
 
