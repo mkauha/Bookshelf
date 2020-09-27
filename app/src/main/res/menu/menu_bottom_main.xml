@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_search"
+        android:id="@+id/search"
         android:icon="@drawable/ic_outline_search_24"
         android:title="@string/search"
         app:showAsAction="always" />

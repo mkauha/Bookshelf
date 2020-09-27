@@ -6,7 +6,7 @@
         android:checkableBehavior="none">
 
     <item
-        android:id="@+id/navigation_settings"
+        android:id="@+id/settings"
         android:icon="@drawable/ic_outline_settings_24"
         android:title="@string/label_settings" />
     </group>
@@ -15,15 +15,15 @@
         android:id="@+id/navigationItemsMid"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/navigation_books"
+            android:id="@+id/my_books"
             android:icon="@drawable/ic_outline_book_24"
             android:title="@string/label_mybooks" />
         <item
-            android:id="@+id/navigation_library"
+            android:id="@+id/library"
             android:icon="@drawable/ic_outline_library_24"
             android:title="@string/label_library" />
         <item
-            android:id="@+id/navigation_search"
+            android:id="@+id/search"
             android:icon="@drawable/ic_outline_search_24"
             android:title="@string/label_search" />
     </group>

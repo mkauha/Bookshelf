@@ -3,60 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_books">
+    app:startDestination="@+id/my_books">
 
     <fragment
-        android:id="@+id/navigation_books"
+        android:id="@+id/my_books"
         android:name="fi.mkauha.bookshelf.views.mybooks.BooksFragment"
-        android:label="@string/label_mybooks"
+        android:label="BooksFragment"
         tools:layout="@layout/fragment_books" />
 
     <fragment
-        android:id="@+id/navigation_library"
+        android:id="@+id/library"
         android:name="fi.mkauha.bookshelf.views.library.LibraryFragment"
-        android:label="@string/label_library"
+        android:label="LibraryFragment"
         tools:layout="@layout/fragment_library" />
 
     <fragment
-        android:id="@+id/navigation_info"
+        android:id="@+id/info"
         android:name="fi.mkauha.bookshelf.views.info.InfoFragment"
-        android:label="@string/credits"
+        android:label="InfoFragment"
         tools:layout="@layout/fragment_info" />
 
     <fragment
-        android:id="@+id/navigation_settings"
+        android:id="@+id/settings"
         android:name="fi.mkauha.bookshelf.views.settings.SettingsFragment"
-        android:label="@string/label_settings"
+        android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/navigation_search"
+        android:id="@+id/search"
         android:name="fi.mkauha.bookshelf.views.search.SearchFragment"
-        android:label="@string/label_search"
+        android:label="SearchFragment"
         tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/navigation_collections"
+        android:id="@+id/collections"
         android:name="fi.mkauha.bookshelf.views.collections.CollectionsFragment"
-        android:label="@string/label_collections"
-        tools:layout="@layout/fragment_collections" />
+        android:label="CollectionsFragment"
+        tools:layout="@layout/fragment_collections" >
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_image_select"
+        android:id="@+id/image_select"
         android:name="fi.mkauha.bookshelf.views.modal.ImageSelectModalFragment"
-        android:label="@string/label_image_select"
+        android:label="ImageSelectModalFragment"
         tools:layout="@layout/fragment_modal_image_select" />
 
     <fragment
-        android:id="@+id/navigation_add_book"
+        android:id="@+id/add_book"
         android:name="fi.mkauha.bookshelf.views.modal.AddBookModalFragment"
-        android:label="@string/label_add_title"
+        android:label="AddBookModalFragment"
         tools:layout="@layout/fragment_modal_add_book" />
 
     <fragment
-        android:id="@+id/navigation_main_navigation_modal"
+        android:id="@+id/main_navigation"
         android:name="fi.mkauha.bookshelf.views.modal.MainNavigationModalFragment"
-        android:label=""
+        android:label="MainNavigationModalFragment"
         tools:layout="@layout/fragment_modal_main_navigation" />
+    <fragment
+        android:id="@+id/createCollection"
+        android:name="fi.mkauha.bookshelf.views.modal.CreateCollectionFragment"
+        android:label="CreateCollectionFragment"
+        tools:layout="@layout/fragment_modal_collection" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
