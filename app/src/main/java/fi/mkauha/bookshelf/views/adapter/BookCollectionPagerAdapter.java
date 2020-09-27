@@ -8,6 +8,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import fi.mkauha.bookshelf.views.mybooks.BookTabFragment;
 
 public class BookCollectionPagerAdapter extends FragmentStateAdapter {
+    private int itemCount = 2;
+
     public BookCollectionPagerAdapter(Fragment fragment) {
         super(fragment);
     }
@@ -23,7 +25,11 @@ public class BookCollectionPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return this.itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
     }
 
 }
