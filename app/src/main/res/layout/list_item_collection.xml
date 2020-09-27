@@ -5,10 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <EditText
         android:id="@+id/collection_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:enabled="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
         android:text="collection"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
@@ -28,32 +35,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="62dp" />
+        app:layout_constraintGuide_end="129dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="59dp" />
+        app:layout_constraintGuide_begin="40dp" />
 
     <ImageView
         android:id="@+id/edit"
-        android:layout_width="17dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
+        app:layout_constraintEnd_toStartOf="@+id/remove"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_outline_edit_24" />
 
     <ImageView
+        android:id="@+id/confirm"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline14"
+        app:layout_constraintEnd_toStartOf="@+id/remove"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_outline_check_24" />
+
+    <ImageView
         android:id="@+id/remove"
-        android:layout_width="17dp"
-        android:layout_height="20dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edit"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_outline_delete_outline_24" />
+        app:srcCompat="@drawable/ic_icons8_delete" />
 </androidx.constraintlayout.widget.ConstraintLayout>
