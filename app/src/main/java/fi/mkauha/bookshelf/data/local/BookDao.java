@@ -42,6 +42,9 @@ public interface  BookDao {
     @Query("SELECT * FROM collection")
     LiveData<List<Collection>> getAllCollections();
 
+    @Query("SELECT * FROM collection WHERE uid LIKE :uid")
+    Collection findCollectionById(int uid);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertAllCollections(Collection... collections);
 
