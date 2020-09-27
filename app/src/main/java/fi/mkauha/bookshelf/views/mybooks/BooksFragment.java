@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -22,30 +23,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fi.mkauha.bookshelf.R;
+import fi.mkauha.bookshelf.data.local.model.Collection;
 import fi.mkauha.bookshelf.databinding.FragmentBooksBinding;
+import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
+import fi.mkauha.bookshelf.viewmodel.CollectionsViewModel;
 import fi.mkauha.bookshelf.views.adapter.BookCollectionPagerAdapter;
 import fi.mkauha.bookshelf.views.adapter.CollectionListLinearAdapter;
 import fi.mkauha.bookshelf.views.modal.AddBookModalFragment;
-import fi.mkauha.bookshelf.viewmodel.BooksViewModel;
 
 import static android.content.ContentValues.TAG;
 
 public class BooksFragment extends Fragment  {
     private FragmentBooksBinding binding;
     private BooksViewModel booksViewModel;
+    private CollectionsViewModel collectionsViewModel;
     FloatingActionButton fab;
     BottomAppBar bottomAppBar;
     private MaterialToolbar topAppBar;
 
     private CollectionListLinearAdapter mCollectionsAdapter;
     // TODO get titles from local storage
-    private List<String> collections = new ArrayList<>();
+    private List<Collection> collections = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,18 +61,23 @@ public class BooksFragment extends Fragment  {
         binding = FragmentBooksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        booksViewModel = new ViewModelProvider(requireActivity()).get(BooksViewModel.class);
+        collectionsViewModel = new ViewModelProvider(requireActivity()).get(CollectionsViewModel.class);
 
-        collections.add(this.getResources().getString(R.string.collection_all_books));
-        collections.add(this.getResources().getString(R.string.collection_wishlist));
-        collections.add(this.getResources().getString(R.string.collection_study));
-
-        mCollectionsAdapter = new CollectionListLinearAdapter(getContext());
+        mCollectionsAdapter = new CollectionListLinearAdapter(getContext(), collectionsViewModel);
         binding.includeCollections.collectionRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.includeCollections.collectionRecyclerview.setHasFixedSize(true);
-        binding.includeCollections.collectionRecyclerview.setAdapter(mCollectionsAdapter);
-        mCollectionsAdapter.setCollections(collections);
-        Log.d(TAG, "mCollectionsAdapter "+ mCollectionsAdapter.getItemCount());
 
+
+
+        binding.pager.setAdapter(new BookCollectionPagerAdapter(this));
+        booksViewModel.getAllCollections().observe(requireActivity(),
+                list -> {
+                    this.collections = list;
+                    mCollectionsAdapter.setCollections(this.collections);
+                    Log.d(TAG, "mCollectionsAdapter "+ mCollectionsAdapter.getItemCount());
+                }
+        );
 
         fab = requireActivity().findViewById(R.id.fab);
         fab.show();
@@ -93,25 +101,12 @@ public class BooksFragment extends Fragment  {
             @Override
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                navController.navigate(R.id.navigation_collections);
-                if(binding.includeCollections.collections.getVisibility() == View.VISIBLE) {
-/*                    binding.pager.setVisibility(View.VISIBLE);
-                    binding.includeCollections.collections.setVisibility(View.GONE);
-                    binding.booksRecyclerTabs.setVisibility(View.VISIBLE);
-                    binding.edit.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_outline_keyboard_arrow_down_24, null));*/
-
-
-                } else {
-/*                    //binding.pager.setVisibility(View.GONE);
-                    binding.includeCollections.collections.setVisibility(View.VISIBLE);
-                    binding.booksRecyclerTabs.setVisibility(View.INVISIBLE);
-                    binding.edit.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_outline_keyboard_arrow_up_24, null));*/
-                }
+                navController.navigate(R.id.collections);
             }
         });
 
         bottomAppBar = (BottomAppBar) getActivity().findViewById(R.id.bottom_app_bar);
-        bottomAppBar.setHideOnScroll(true);
+        //bottomAppBar.setHideOnScroll(true);
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
         bottomAppBar.replaceMenu(R.menu.menu_bottom_main);
         bottomAppBar.setNavigationIcon(R.drawable.ic_outline_menu_24);
@@ -136,11 +131,13 @@ public class BooksFragment extends Fragment  {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        binding.pager.setAdapter(new BookCollectionPagerAdapter(this));
-        new TabLayoutMediator(binding.booksRecyclerTabs, binding.pager,
-                (tab, position) -> tab.setText(collections.get(position))
-        ).attach();
-
+        binding.includeCollections.collectionRecyclerview.setAdapter(mCollectionsAdapter);
+        // TODO FIX TABS WITH ROOM COLLECTIONS
+/*        if(this.collections.size() <= 0) {
+            new TabLayoutMediator(binding.booksRecyclerTabs, binding.pager,
+                    (tab, position) -> tab.setText(collections.get(position).getTitle())
+            ).attach();
+        }*/
     }
 
     @Override
