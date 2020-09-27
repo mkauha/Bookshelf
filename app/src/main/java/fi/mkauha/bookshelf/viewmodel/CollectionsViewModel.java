@@ -5,6 +5,7 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class CollectionsViewModel extends AndroidViewModel {
 
     private BookRepository mBooksRepository;
     private LiveData<List<Collection>> mAllCollections;
+    private MutableLiveData<Collection> mCollection = new MutableLiveData<>();
 
     public CollectionsViewModel(Application application) {
         super(application);
@@ -23,8 +25,19 @@ public class CollectionsViewModel extends AndroidViewModel {
         this.mAllCollections = mBooksRepository.getLocalCollections();
     }
 
+    public void setCollection(Collection collection) {
+        this.mCollection.setValue(collection);
+    }
+
+    public MutableLiveData<Collection> getCollection() {return mCollection;}
+
     public LiveData<List<Collection>> getAllCollections() {
         return mAllCollections;
+    }
+
+    public void findCollectionById(int uid) {
+        Collection collection = mBooksRepository.getLocalCollectionById(uid);
+        mCollection.setValue(collection);
     }
 
     public void insertCollection(Collection collection) {
