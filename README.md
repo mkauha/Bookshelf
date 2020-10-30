@@ -20,8 +20,10 @@ In future:
 
 
 WORK IN PROGRESS.
+
 Project plan: https://github.com/mkauha/Bookshelf/projects/1
-Figma prototype: https://www.figma.com/proto/yHwKFNqjx5eyQUBg8VCTSN/Bookshelf?node-id=1%3A2&scaling=min-zoom
+
+Figma prototype: https://bit.ly/37WUitw
 
 Current features:
 1. Add owned books to collections
